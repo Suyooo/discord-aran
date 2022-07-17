@@ -35,6 +35,18 @@ module.exports = (bot) => ({
             await interaction.reply({content: "You added the <@&" + rid + "> role!", ephemeral: true});
         }
     },
+    async deleteAllMessages(group_id) {
+        let group = db.groups_get(group_id);
+        await bot.guilds.fetch(group.guild_id).then(guild => guild.channels.fetch(group.channel_id)).then(channel => {
+            const p = []
+            for (let message of db.messages_list(group_id)) {
+                if (message.posted_msg_id) {
+                    p.push(channel.messages.fetch(message.posted_msg_id).then(postMsg => postMsg ? postMsg.delete() : 0));
+                }
+            }
+            return Promise.all(p);
+        });
+    },
     async postGroup(group_id, deleteMessages) {
         let group = db.groups_get(group_id);
         bot.guilds.fetch(group.guild_id).then(guild => {

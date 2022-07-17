@@ -48,7 +48,7 @@ $(function () {
             }).done((res) => {
                 alert("Saved.");
                 changed = false;
-                window.location.href = "/vendor/" + res.id;
+                window.location.href = "../" + res.id + "/";
                 window.location.reload();
             }).fail((jqxhr, textStatus, error) => {
                 alert("Error while saving: " + error);
@@ -59,6 +59,7 @@ $(function () {
     });
     $("#rolebuttons-post").on("click", () => callBotPost(true));
     $("#rolebuttons-update").on("click", () => callBotPost(false));
+    $("#rolebuttons-delete").on("click", () => deleteGroup());
 
     $("ol.rolebuttons-messagelist").sortable({
         group: 'nested',
@@ -308,6 +309,29 @@ function callBotPost(deleteMessages) {
         blockButtons = false;
     }).fail((jqxhr, textStatus, error) => {
         alert("Error while posting: " + error);
+        bb.addClass("button-primary");
+        blockButtons = false;
+    });
+}
+
+function deleteGroup() {
+    if (blockButtons) return;
+    if (!confirm("Do you really want to to delete this entire group? (OK for Yes, Cancel for No)")) return;
+    if (!confirm("Actually really seriously? This group can not be recovered. All messages will be deleted. One final time, do you want to delete this role button group? (OK for Yes, Cancel for No)")) return;
+    blockButtons = true;
+
+    let bb = $(".blockbutton");
+    bb.removeClass("button-primary");
+
+    $.ajax({
+        type: "DELETE",
+        url: "/rolebuttons/delete/",
+        contentType: "application/json",
+        data: JSON.stringify({id: group_id})
+    }).done((res) => {
+        window.location.href = "..";
+    }).fail((jqxhr, textStatus, error) => {
+        alert("Error while deleting: " + error);
         bb.addClass("button-primary");
         blockButtons = false;
     });

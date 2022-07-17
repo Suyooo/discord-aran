@@ -5,12 +5,11 @@ const log = require("./logger");
 
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]});
 
-client.modules = new Collection();
+client.modules = {};
 const moduleNames = fs.readdirSync("./modules");
 
 for (const moduleName of moduleNames) {
-    const module = require("./modules/" + moduleName + "/bot")(client);
-    client.modules.set(moduleName, module);
+    client.modules[moduleName] = require("./modules/" + moduleName + "/bot")(client);
 }
 
 client.once("ready", async () => {
@@ -19,24 +18,24 @@ client.once("ready", async () => {
 
 client.on("interactionCreate", async interaction => {
     if (interaction.isSelectMenu()) {
-        const command = client.modules.get(interaction.customId.split("-")[0]);
-        if (!command) return;
+        const module = client.modules[interaction.customId.split("-")[0]];
+        if (!module) return;
 
         try {
-            await command.selection(interaction);
+            await module.selection(interaction);
         } catch (error) {
-            log.error("INTERACTION", "Uncaught Error in selection of command " + command + ": " + error.stack);
+            log.error("INTERACTION", "Uncaught Error in selection for module " + module + ": " + error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
     } else if (interaction.isButton()) {
-        const command = client.modules.get(interaction.customId.split("-")[0]);
-        if (!command) return;
+        const module = client.modules.get(interaction.customId.split("-")[0]);
+        if (!module) return;
 
         try {
-            await command.button(interaction);
+            await module.button(interaction);
         } catch (error) {
-            log.error("INTERACTION", "Uncaught Error in button of command " + command + ": " + error.stack);
+            log.error("INTERACTION", "Uncaught Error in button for module " + module + ": " + error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
