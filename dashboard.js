@@ -1,0 +1,86 @@
+const config = require("./config");
+const log = require("./logger");
+const express = require("express");
+const body = require("body-parser");
+const passport = require("passport");
+const DiscordStrategy = require("passport-discord").Strategy;
+const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
+const bot = require("./bot");
+const fs = require("fs");
+
+const app = express();
+const port = 8944;
+
+app.set("view engine", "ejs");
+app.use(body.json());
+app.use(session({
+    cookie: {maxAge: 86400000},
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    saveUninitialized: false,
+    resave: false,
+    secret: config.storageSecret
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/vendor", express.static("static/vendor"));
+app.use("/style", express.static("static/style"));
+app.use("/vendor/jquery", express.static("node_modules/jquery/dist"));
+
+/*
+ * AUTHENTICATION
+ */
+
+passport.use(new DiscordStrategy({
+    clientID: config.clientId,
+    clientSecret: config.clientSecret,
+    callbackURL: "/auth/callback",
+    scope: ["identify"],
+    state: true
+}, function (accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+        return done(null, profile);
+    });
+}));
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
+passport.deserializeUser(function (obj, done) {
+    done(null, obj);
+});
+
+app.get("/auth", passport.authenticate("discord", {prompt: "none"}));
+app.get("/auth/callback",
+    passport.authenticate("discord", {failureRedirect: "/"}), function (req, res) {
+        res.redirect("/");
+    }
+);
+
+const moduleNames = fs.readdirSync("./modules");
+const loadedModules = {};
+
+for (const moduleName of moduleNames) {
+    const module = require("./modules/" + moduleName + "/router");
+    const moduleInfo = require("./modules/" + moduleName + "/info");
+    app.use("/" + moduleName, module);
+    app.use("/js/" + moduleName, express.static("modules/" + moduleName + "/static/js"));
+    app.use("/style/" + moduleName, express.static("modules/" + moduleName + "/static/style"));
+    app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
+    loadedModules[moduleName] = moduleInfo.title;
+}
+
+app.get("/", function (req, res) {
+    if (req.isAuthenticated()) {
+        res.render("index", {"modules": loadedModules});
+    } else {
+        res.redirect("/auth");
+    }
+});
+
+app.listen(port, () => {
+    log.info("DASHBOARD", "Listening at http://localhost:" + port);
+});

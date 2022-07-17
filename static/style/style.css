@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #222233;
+    color: white;
+}
+
+input, input[type="number"], textarea, select {
+    background-color: #222233;
+    border: 1px white solid;
+    padding-top: .2em;
+    border-radius: 0;
+}
+
+input:invalid {
+    border: 1px red solid;
+}
+
+.tooltip {
+    border-bottom: 1px white dotted;
+}
+
+.button, button, input[type="submit"], input[type="reset"], input[type="button"] {
+    color: #ccc;
+    margin: 0;
+}
+
+.button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover, .button:focus, button:focus, input[type="submit"]:focus, input[type="reset"]:focus, input[type="button"]:focus {
+    color: #fff;
+    border-color: #fff;
+}

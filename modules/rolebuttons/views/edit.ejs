@@ -1,0 +1,61 @@
+<%- include("../../../views/header", {title: "Role Buttons", scripts: ["/vendor/jquery-sortable-min.js", "/vendor/emoji-name-map.js", "/js/rolebuttons/edit.js", "/js/rolebuttons/edit-html.js"], styles: ["/style/rolebuttons/edit.css"]}); %>
+<script>const group_id = <%= group.id %>;</script>
+<div id="rolebuttons-header">
+    <div class="row">
+        <div class="six columns">
+            <label for="rolebuttons-groupname">Group Name</label>
+            <input id="rolebuttons-groupname" value="<%= group.name %>" placeholder="Group #<%= group.id %>"
+                   maxlength='256'
+                   class='rolebuttons-groupname'>
+        </div>
+        <div class="three columns">
+            <label for="rolebuttons-guild">Server ID</label>
+            <input id="rolebuttons-guild" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>
+        </div>
+        <div class="three columns">
+            <label for="rolebuttons-channel">Channel ID</label>
+            <input id="rolebuttons-channel" value="<%= group.channel_id %>" maxlength='256' class='rolebuttons-channel'>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">&nbsp;</div>
+        <div class="six columns">
+            <label for="rolebuttons-require">Required Role ID <span class='tooltip' title='ID of the role required to use the buttons in this group. You can specify multiple IDs, seperated by commas, and the buttons will work if the user has at least one of the roles.'>🛈</span></label>
+            <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256' class='rolebuttons-require'>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<h5>Messages in This Group</h5>
+<ol class="rolebuttons-messagelist draglist">
+    <%- group.messages.map(modules.rolebuttons_edit.makeMessage).join(""); %>
+</ol>
+<a id="rolebuttons-messageadd" class="button button-primary">Add Message</a><br><br>
+<a id="rolebuttons-save" class="button button-primary blockbutton">Save</a>
+<a id="rolebuttons-back" href=".." class="button">Back</a>
+<br><br>
+<div id="rolebuttons-botcontrol">
+    <div class="row">
+        <div class="three columns">
+            <a id="rolebuttons-post" class="button button-primary blockbutton">Post Messages</a>
+        </div>
+        <div class="nine columns">
+            This will delete all messages previously posted from this group, and repost them all in the given channel.
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="three columns">
+            <a id="rolebuttons-update" class="button button-primary blockbutton">Update Messages</a>
+        </div>
+        <div class="nine columns">
+            If you didn't add or remove any messages, you can also only update the existing messages. This will not
+            delete or post anything, but only edit. This means the channel will not be marked as unread, but every
+            message will gain the "(edited)" marker. Also, any messages deleted manually will not be updated and will
+            stay removed. If you added new messages or want to recover deleted messages, use "Post Messages" instead.
+        </div>
+    </div>
+</div>
+<%- include("../../../views/footer"); -%>
