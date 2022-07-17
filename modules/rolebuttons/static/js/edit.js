@@ -48,8 +48,8 @@ $(function () {
             }).done((res) => {
                 alert("Saved.");
                 changed = false;
-                window.location.href = "../" + res.id + "/";
-                window.location.reload();
+                if (group_id === null) window.location.href = "../" + res.id + "/";
+                else window.location.reload();
             }).fail((jqxhr, textStatus, error) => {
                 alert("Error while saving: " + error);
                 bb.addClass("button-primary");

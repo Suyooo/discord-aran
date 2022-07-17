@@ -1,3 +1,5 @@
 <%- include("../../../views/header", {title: "Role Buttons"}); %>
 <%- groups.map(g => "<a href='./" + g.id + "/'>" + (g.name || "Group #" + g.id) + "</a>").join("<br>"); %>
+<br><br>
+<a href="./new/">Add New Group</a>
 <%- include("../../../views/footer"); -%>

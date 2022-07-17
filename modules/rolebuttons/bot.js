@@ -45,7 +45,7 @@ module.exports = (bot) => ({
                 }
             }
             return Promise.all(p);
-        });
+        }).catch(() => null);
     },
     async postGroup(group_id, deleteMessages) {
         let group = db.groups_get(group_id);

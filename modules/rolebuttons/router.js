@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("./db");
 const emoji = require("emoji-name-map");
 const rolebuttons_edit = require("./static/js/edit-html");
+const config = require("../../config");
 const bot = require("../../bot");
 const auth = require("../../auth");
 
@@ -14,6 +15,13 @@ router.use(auth.mustBeStaff);
 
 router.get("/", (req, res, next) => {
     res.render("../modules/rolebuttons/views/list", {"groups": db.groups_list()});
+});
+
+router.get("/new/", (req, res, next) => {
+    res.render("../modules/rolebuttons/views/edit", {
+        "group": {id: "null", guild_id: config.SIFCORD, messages: []},
+        "modules": {emoji, rolebuttons_edit}
+    });
 });
 
 router.get("/:id/", (req, res, next) => {

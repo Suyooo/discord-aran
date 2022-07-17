@@ -4,26 +4,20 @@
     <div class="row">
         <div class="six columns">
             <label for="rolebuttons-groupname">Group Name</label>
-            <input id="rolebuttons-groupname" value="<%= group.name %>" placeholder="Group #<%= group.id %>"
+            <input id="rolebuttons-groupname" value="<%= group.name %>" placeholder="Group #<%= group.id !== "null" ? group.id : "??" %>"
                    maxlength='256'
                    class='rolebuttons-groupname'>
-        </div>
-        <div class="three columns">
-            <label for="rolebuttons-guild">Server ID</label>
-            <input id="rolebuttons-guild" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>
         </div>
         <div class="three columns">
             <label for="rolebuttons-channel">Channel ID</label>
             <input id="rolebuttons-channel" value="<%= group.channel_id %>" maxlength='256' class='rolebuttons-channel'>
         </div>
-    </div>
-    <div class="row">
-        <div class="six columns">&nbsp;</div>
-        <div class="six columns">
+        <div class="three columns">
             <label for="rolebuttons-require">Required Role ID <span class='tooltip' title='ID of the role required to use the buttons in this group. You can specify multiple IDs, seperated by commas, and the buttons will work if the user has at least one of the roles.'>🛈</span></label>
             <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256' class='rolebuttons-require'>
         </div>
     </div>
+    <input id="rolebuttons-guild" type="hidden" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>
 </div>
 <br>
 <br>
@@ -35,6 +29,7 @@
 <a id="rolebuttons-messageadd" class="button button-primary">Add Message</a><br><br>
 <a id="rolebuttons-save" class="button button-primary blockbutton">Save</a>
 <a id="rolebuttons-back" href=".." class="button">Back</a>
+<% if (group.id !== "null") { %>
 <br><br>
 <div id="rolebuttons-botcontrol">
     <div class="row">
@@ -67,4 +62,5 @@
         </div>
     </div>
 </div>
+<% } %>
 <%- include("../../../views/footer"); -%>
