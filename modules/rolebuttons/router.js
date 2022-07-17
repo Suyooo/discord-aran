@@ -33,33 +33,35 @@ router.get("/:id/", (req, res, next) => {
 router.put("/save/", (req, res, next) => {
     let group_json;
     let new_group = false;
-    if (req.body.id) {
-        group_json = db.groups_update(req.body);
-    } else {
-        new_group = true;
-        group_json = db.groups_new(req.body);
-    }
-    req.body.messages.forEach(msg => {
-        if (new_group) msg.group_id = group_json.id;
-        let msg_json;
-        let new_msg = false;
-        if (msg.id) {
-            msg_json = db.messages_update(msg);
+    db.transaction(() => {
+        if (req.body.id) {
+            group_json = db.groups_update(req.body);
         } else {
-            new_msg = true;
-            msg_json = db.messages_new(msg);
+            new_group = true;
+            group_json = db.groups_new(req.body);
         }
-        msg.buttons.forEach(btn => {
-            if (new_msg) btn.message_id = msg_json.id;
-            if (btn.id) {
-                db.buttons_update(btn);
+        req.body.messages.forEach(msg => {
+            if (new_group) msg.group_id = group_json.id;
+            let msg_json;
+            let new_msg = false;
+            if (msg.id) {
+                msg_json = db.messages_update(msg);
             } else {
-                db.buttons_new(btn);
+                new_msg = true;
+                msg_json = db.messages_new(msg);
             }
+            msg.buttons.forEach(btn => {
+                if (new_msg) btn.message_id = msg_json.id;
+                if (btn.id) {
+                    db.buttons_update(btn);
+                } else {
+                    db.buttons_new(btn);
+                }
+            });
         });
-    });
-    req.body.delete_buttons.forEach(db.buttons_delete);
-    req.body.delete_messages.forEach(db.messages_delete);
+        req.body.delete_buttons.forEach(db.buttons_delete);
+        req.body.delete_messages.forEach(db.messages_delete);
+    })();
     res.json(group_json);
 });
 

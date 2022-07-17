@@ -134,6 +134,7 @@ function buttons_delete(id) {
 }
 
 module.exports = {
+    "transaction": db.transaction.bind(db),
     groups_list, groups_get, groups_new, groups_update, groups_delete,
     messages_list, messages_get, messages_new, messages_update, messages_delete,
     buttons_list, buttons_get, buttons_new, buttons_update, buttons_delete
