@@ -18,6 +18,10 @@ input:invalid {
     border: 1px red solid;
 }
 
+.header {
+    padding: 2em;
+}
+
 .tooltip {
     border-bottom: 1px white dotted;
 }

@@ -212,6 +212,10 @@ function setUpEvents(parent) {
         let i = $(e.currentTarget);
         i.next().css("background-color", "#" + i.val());
     });
+    $(".rolebuttons-label", parent).on("change", e => {
+        let i = $(e.currentTarget);
+        $(".rolebuttons-emoji-show", i.parent().parent()).html(getEmojiShowHTML($(".rolebuttons-emoji", i.parent().parent()).val(), i.val()));
+    });
     $(".rolebuttons-emoji", parent).on("change", e => {
         let i = $(e.currentTarget);
         $(".rolebuttons-emoji-show", i.parent().parent()).html(getEmojiShowHTML(i.val(), $(".rolebuttons-label", i.parent().parent()).val()));

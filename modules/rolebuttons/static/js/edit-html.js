@@ -5,6 +5,25 @@ if (typeof module !== "undefined") {
 
 let counter = 0;
 
+// https://stackoverflow.com/a/9756789
+function quoteattr(s, preserveCR) {
+    preserveCR = preserveCR ? '&#13;' : '\n';
+    return ('' + s) /* Forces the conversion to string. */
+        .replace(/&/g, '&amp;') /* This MUST be the 1st replacement. */
+        .replace(/'/g, '&apos;') /* The 4 other predefined entities, required. */
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        /*
+        You may add other replacements here for HTML only
+        (but it's not necessary).
+        Or for XML, only if the named entities are defined in its DTD.
+        */
+        .replace(/\r\n/g, preserveCR) /* Must be before the next replacement. */
+        .replace(/[\r\n]/g, preserveCR);
+    ;
+}
+
 function makeMessage(message) {
     let widths = [0, 0, 0, 0, 0];
     message.buttons.forEach(b => {
@@ -18,17 +37,17 @@ function makeMessage(message) {
     widths[i] = "";
 
     counter++;
-    return "<li class='rolebuttons-message collapsed' data-id='" + message.id + "' data-posted_msg_id='!" + message.posted_msg_id + "'>" +
+    return "<li class='rolebuttons-message collapsed' data-id='" + quoteattr(message.id) + "' data-posted_msg_id='" + quoteattr(message.posted_msg_id) + "'>" +
         "<label for='title" + counter + "'>Embed Title</label>" +
-        "<input id='title" + counter + "' maxlength='256' class='rolebuttons-title' placeholder='(no embed)' value='" + (message.title || "") + "'>" +
+        "<input id='title" + counter + "' maxlength='256' class='rolebuttons-title' placeholder='(no embed)' value='" + quoteattr(message.title || "") + "'>" +
         "<div class='rolebuttons-toggle'></div>" +
         "<div class='row rolebuttons-embedinfo'><div class='two-thirds column'>" +
         "<label for='desc" + counter + "'>Embed Text</label>" +
-        "<textarea id='desc" + counter + "' maxlength='4096' class='rolebuttons-description'>" + (message.description || "") + "</textarea>" +
+        "<textarea id='desc" + counter + "' maxlength='4096' class='rolebuttons-description'>" + quoteattr(message.description || "") + "</textarea>" +
         "</div><div class='one-third column'>" +
         "<label for='color" + counter + "'>Embed Color (Hex Code)</label>" +
-        "<input id='color" + counter + "' maxlength='6' class='rolebuttons-color' placeholder='none' value='" + (message.color || "") + "'>" +
-        "<div id='colorshow" + counter + "' class='rolebuttons-color-show' style='background-color: #" + message.color + "'></div>" +
+        "<input id='color" + counter + "' maxlength='6' class='rolebuttons-color' placeholder='none' value='" + quoteattr(message.color || "") + "'>" +
+        "<div id='colorshow" + counter + "' class='rolebuttons-color-show' style='background-color: #" + quoteattr(message.color) + "'></div>" +
         "<label for='row1" + counter + "' style='margin-top: 1em'>Limit Buttons Per Row</label>" +
         "<input type='number' class='rolebuttons-rownum' id='row1" + counter + "' min='1' max='5' placeholder='5' value='" + widths[0] + "'>" +
         "<input type='number' class='rolebuttons-rownum' id='row2" + counter + "' min='1' max='5' placeholder='5' value='" + widths[1] + "'>" +
@@ -46,17 +65,17 @@ function makeMessage(message) {
 function makeButton(button) {
     let em = getEmojiShowHTML(button.emoji, button.label);
     counter++;
-    return "<li class='rolebuttons-button row' data-id='" + button.id + "'>" +
+    return "<li class='rolebuttons-button row' data-id='" + quoteattr(button.id) + "'>" +
         "<div class='rolebuttons-emoji-show one column'>" + em + "</div>" +
         "<div class='three columns'>" +
         "<label for='label" + counter + "'>Button Label</label>" +
-        "<input id='label" + counter + "' maxlength='80' class='rolebuttons-label' placeholder='(no label)' value='" + (button.label || "") + "'>" +
+        "<input id='label" + counter + "' maxlength='80' class='rolebuttons-label' placeholder='(no label)' value='" + quoteattr(button.label || "") + "'>" +
         "</div><div class='three columns'>" +
         "<label for='emoji" + counter + "'>Button Emoji <span class='tooltip' title='Either the name of a Discord default emoji (without the :) or a custom emoji in the form of <:Name:ID> (easiest way to get this is to send the emoji with a \\ before it and copy the resulting code)'>🛈</span></label>" +
-        "<input id='emoji" + counter + "' class='rolebuttons-emoji' placeholder='(no emoji)' value='" + (button.emoji || "") + "'>" +
+        "<input id='emoji" + counter + "' class='rolebuttons-emoji' placeholder='(no emoji)' value='" + quoteattr(button.emoji || "") + "'>" +
         "</div><div class='three columns'>" +
         "<label for='role" + counter + "'>Role ID</label>" +
-        "<input id='role" + counter + "' maxlength='88' class='rolebuttons-role' placeholder='Role ID' value='" + (button.role_id || "") + "'>" +
+        "<input id='role" + counter + "' maxlength='88' class='rolebuttons-role' placeholder='Role ID' value='" + quoteattr(button.role_id || "") + "'>" +
         "</div><div class='two columns'>" +
         "<a class='button rolebuttons-buttoncopy'>Copy</a><br><a class='button rolebuttons-buttondelete'>Delete</a>" +
         "</div></li>";
