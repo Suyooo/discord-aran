@@ -74,8 +74,8 @@ for (const moduleName of moduleNames) {
     app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
 
     const moduleInfo = require("./modules/" + moduleName + "/info");
-    if (moduleInfo.showDashboardInIndex) {
-        dashboardModules[moduleName] = moduleInfo.title;
+    if (moduleInfo.dashboardTitle) {
+        dashboardModules[moduleName] = moduleInfo.dashboardTitle;
     }
 }
 
