@@ -8,6 +8,7 @@ const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
 const bot = require("./bot");
 const fs = require("fs");
+const crypto = require("crypto");
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use(session({
     }),
     saveUninitialized: false,
     resave: false,
-    secret: config.storageSecret
+    secret: require('crypto').randomBytes(64).toString('hex')
 }))
 app.use(passport.initialize());
 app.use(passport.session());
