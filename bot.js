@@ -9,11 +9,14 @@ client.modules = {};
 const moduleNames = fs.readdirSync("./modules");
 
 for (const moduleName of moduleNames) {
-    client.modules[moduleName] = require("./modules/" + moduleName + "/bot")(client);
+    if (fs.existsSync("./modules/" + moduleName + "/bot.js")) {
+        client.modules[moduleName] = require("./modules/" + moduleName + "/bot")(client);
+        log.info("BOT", "Loaded module " + moduleName);
+    }
 }
 
 client.once("ready", async () => {
-    log.info("BOT", "Ready!");
+    log.info("BOT", "Logged in and ready");
 });
 
 client.on("interactionCreate", async interaction => {
@@ -29,7 +32,7 @@ client.on("interactionCreate", async interaction => {
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
     } else if (interaction.isButton()) {
-        const module = client.modules.get(interaction.customId.split("-")[0]);
+        const module = client.modules[interaction.customId.split("-")[0]];
         if (!module) return;
 
         try {

@@ -60,26 +60,32 @@ app.get("/auth/callback",
 );
 
 const moduleNames = fs.readdirSync("./modules");
-const loadedModules = {};
+const dashboardModules = {};
 
 for (const moduleName of moduleNames) {
-    const module = require("./modules/" + moduleName + "/router");
-    const moduleInfo = require("./modules/" + moduleName + "/info");
-    app.use("/" + moduleName, module);
+    if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {
+        const module = require("./modules/" + moduleName + "/dashboard");
+        app.use("/" + moduleName, module);
+        log.info("DASHBOARD", "Loaded module " + moduleName);
+    }
     app.use("/js/" + moduleName, express.static("modules/" + moduleName + "/static/js"));
     app.use("/style/" + moduleName, express.static("modules/" + moduleName + "/static/style"));
     app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
-    loadedModules[moduleName] = moduleInfo.title;
+
+    const moduleInfo = require("./modules/" + moduleName + "/info");
+    if (moduleInfo.showDashboardInIndex) {
+        dashboardModules[moduleName] = moduleInfo.title;
+    }
 }
 
 app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("index", {"modules": loadedModules});
+        res.render("index", {"modules": dashboardModules});
     } else {
         res.redirect("/auth");
     }
 });
 
 app.listen(config.dashboardPort, () => {
-    log.info("DASHBOARD", "Listening at http://localhost:" + port);
+    log.info("DASHBOARD", "Listening on port " + config.dashboardPort);
 });

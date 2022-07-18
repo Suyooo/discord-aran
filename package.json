@@ -19,8 +19,5 @@
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
     "winston": "^3.3.3"
-  },
-  "devDependencies": {
-    "browserify": "^17.0.0"
   }
 }
