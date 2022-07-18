@@ -10,7 +10,6 @@ const bot = require("./bot");
 const fs = require("fs");
 
 const app = express();
-const port = 8944;
 
 app.set("view engine", "ejs");
 app.use(body.json());
@@ -81,6 +80,6 @@ app.get("/", function (req, res) {
     }
 });
 
-app.listen(port, () => {
+app.listen(config.dashboardPort, () => {
     log.info("DASHBOARD", "Listening at http://localhost:" + port);
 });
