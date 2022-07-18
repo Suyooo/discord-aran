@@ -21,6 +21,7 @@ client.once("ready", async () => {
 
 client.on("interactionCreate", async interaction => {
     if (interaction.isSelectMenu()) {
+        log.info("BOT","Recieved select menu interaction " + interaction.customId);
         const module = client.modules[interaction.customId.split("-")[0]];
         if (!module) return;
 
@@ -32,6 +33,7 @@ client.on("interactionCreate", async interaction => {
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
     } else if (interaction.isButton()) {
+        log.info("BOT","Recieved button interaction " + interaction.customId);
         const module = client.modules[interaction.customId.split("-")[0]];
         if (!module) return;
 

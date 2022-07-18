@@ -131,7 +131,7 @@ $(function () {
 
                     return {
                         id: Number($parent.data("id")) || null,
-                        posted_msg_id: $parent.data("posted_msg_id").substr(1) || null,
+                        posted_msg_id: $parent.data("posted_msg_id") || null,
                         title: title,
                         description: description,
                         color: col,

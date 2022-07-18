@@ -76,7 +76,7 @@ module.exports = (bot) => ({
                             rows.push(new MessageActionRow());
                         }
                         let b = new MessageButton()
-                            .setCustomId("vendor-" + button.id)
+                            .setCustomId("rolebuttons-" + button.id)
                             .setStyle('SECONDARY');
                         if (button.label) b.setLabel(button.label);
                         if (button.emoji) b.setEmoji(button.emoji.indexOf(":") === -1 ? emoji.get(button.emoji) : button.emoji);
