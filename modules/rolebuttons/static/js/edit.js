@@ -42,7 +42,7 @@ $(function () {
         } else {
             $.ajax({
                 type: "PUT",
-                url: "/rolebuttons/save/",
+                url: "../save/",
                 contentType: "application/json",
                 data: JSON.stringify(res)
             }).done((res) => {
@@ -304,7 +304,7 @@ function callBotPost(deleteMessages) {
 
     $.ajax({
         type: "PUT",
-        url: "/rolebuttons/" + (deleteMessages ? "post" : "update") + "/",
+        url: "../" + (deleteMessages ? "post" : "update") + "/",
         contentType: "application/json",
         data: JSON.stringify({id: group_id})
     }).done((res) => {
@@ -329,7 +329,7 @@ function deleteGroup() {
 
     $.ajax({
         type: "DELETE",
-        url: "/rolebuttons/delete/",
+        url: "../delete/",
         contentType: "application/json",
         data: JSON.stringify({id: group_id})
     }).done((res) => {

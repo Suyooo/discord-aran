@@ -13,7 +13,7 @@ async function mustBeStaff(req, res, next) {
             res.status(403);
             res.send("This module's dashboard can only be accessed by Staff");
         } else {
-            res.redirect('/auth');
+            res.redirect(config.dashboardRootPath + "/auth");
         }
     } catch (e) {
         next(e);

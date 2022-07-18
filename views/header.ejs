@@ -2,20 +2,20 @@
 <html>
 <head>
     <title><%= title %> &bull; Aran Dashboard</title>
-    <link rel="stylesheet" href="/style/skeleton.css">
-    <link rel="stylesheet" href="/style/normalize.css">
-    <link rel="stylesheet" href="/style/style.css">
-    <script src="/vendor/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/skeleton.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/normalize.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/style.css">
+    <script src="<%- dashboardRootPath %>/vendor/jquery/jquery.min.js"></script>
 
     <% if (locals.scripts) { %>
-        <%- scripts.map(s => "<script src='" + s + "'></script>").join("\n"); %>
+        <%- scripts.map(s => "<script src='" + dashboardRootPath + s + "'></script>").join("\n"); %>
     <% } %>
     <% if (locals.styles) { %>
-        <%- styles.map(s => "<link rel='stylesheet' href='" + s + "'>").join("\n"); %>
+        <%- styles.map(s => "<link rel='stylesheet' href='" + dashboardRootPath + s + "'>").join("\n"); %>
     <% } %>
 </head>
 <body>
 <div class="header">
-    <a href="/" class="button">Go to Index</a>
+    <a href="<%- dashboardRootPath %>/" class="button">Go to Index</a>
 </div>
 <div class="container">

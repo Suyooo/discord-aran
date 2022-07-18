@@ -37,7 +37,7 @@ app.use("/vendor/jquery", express.static("node_modules/jquery/dist"));
 passport.use(new DiscordStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: "/auth/callback",
+    callbackURL: config.dashboardFullPath + "/auth/callback",
     scope: ["identify"],
     state: true
 }, function (accessToken, refreshToken, profile, done) {
@@ -55,10 +55,11 @@ passport.deserializeUser(function (obj, done) {
 
 app.get("/auth", passport.authenticate("discord", {prompt: "none"}));
 app.get("/auth/callback",
-    passport.authenticate("discord", {failureRedirect: "/"}), function (req, res) {
-        res.redirect("/");
+    passport.authenticate("discord", {failureRedirect: config.dashboardRootPath + "/"}), function (req, res) {
+        res.redirect(config.dashboardRootPath + "/");
     }
 );
+app.locals.dashboardRootPath = config.dashboardRootPath;
 
 const moduleNames = fs.readdirSync("./modules");
 const dashboardModules = {};
@@ -83,7 +84,7 @@ app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
         res.render("index", {"modules": dashboardModules});
     } else {
-        res.redirect("/auth");
+        res.redirect(config.dashboardRootPath + "/auth");
     }
 });
 

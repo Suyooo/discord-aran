@@ -15,7 +15,7 @@ If you want to run this yourself you need to:
 * Create a `config.secret.json` file with three keys, `clientId`, `clientSecret` and `botToken`,
   being your app's client ID, client secret and bot token
 * You probably want to change the `SIFCORD` constant in `config.js` to a test server's ID
-* If you want to, change the port the dashboard runs on in `config.local.json`
+* If you want to, change the port the dashboard runs on in `config.local.json` 
 * Start the bot and dashboard with `npm start` or `node server.js`
 
 ## Implementing Modules
