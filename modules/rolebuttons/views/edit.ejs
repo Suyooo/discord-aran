@@ -4,7 +4,8 @@
     <div class="row">
         <div class="six columns">
             <label for="rolebuttons-groupname">Group Name</label>
-            <input id="rolebuttons-groupname" value="<%= group.name %>" placeholder="Group #<%= group.id !== "null" ? group.id : "??" %>"
+            <input id="rolebuttons-groupname" value="<%= group.name %>"
+                   placeholder="Group #<%= group.id !== "null" ? group.id : "??" %>"
                    maxlength='256'
                    class='rolebuttons-groupname'>
         </div>
@@ -13,8 +14,10 @@
             <input id="rolebuttons-channel" value="<%= group.channel_id %>" maxlength='256' class='rolebuttons-channel'>
         </div>
         <div class="three columns">
-            <label for="rolebuttons-require">Required Role ID <span class='tooltip' title='ID of the role required to use the buttons in this group. You can specify multiple IDs, seperated by commas, and the buttons will work if the user has at least one of the roles.'>🛈</span></label>
-            <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256' class='rolebuttons-require'>
+            <label for="rolebuttons-require">Required Role ID <span class='tooltip'
+                                                                    title='ID of the role required to use the buttons in this group. You can specify multiple IDs, seperated by commas, and the buttons will work if the user has at least one of the roles.'>🛈</span></label>
+            <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256'
+                   class='rolebuttons-require'>
         </div>
     </div>
     <input id="rolebuttons-guild" type="hidden" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>
@@ -30,37 +33,39 @@
 <a id="rolebuttons-save" class="button button-primary blockbutton">Save</a>
 <a id="rolebuttons-back" href=".." class="button">Back</a>
 <% if (group.id !== "null") { %>
-<br><br>
-<div id="rolebuttons-botcontrol">
-    <div class="row">
-        <div class="three columns">
-            <a id="rolebuttons-post" class="button button-primary blockbutton">Post Messages</a>
+    <br><br>
+    <div id="rolebuttons-botcontrol">
+        <div class="row">
+            <div class="three columns">
+                <a id="rolebuttons-post" class="button button-primary blockbutton">Post Messages</a>
+            </div>
+            <div class="nine columns">
+                After changes to the configuration above, click this button to delete all messages previously posted
+                from this group, and repost them all with the new data.
+            </div>
         </div>
-        <div class="nine columns">
-            This will delete all messages previously posted from this group, and repost them all in the given channel.
+        <br>
+        <div class="row">
+            <div class="three columns">
+                <a id="rolebuttons-update" class="button button-primary blockbutton">Update Messages</a>
+            </div>
+            <div class="nine columns">
+                If you didn't add or remove any messages, only buttons, you can also simply update the existing
+                messages. This will not delete or post anything, but just edit everything. This means the channel will
+                not be marked as unread, however every message will gain the "(edited)" marker which looks pretty
+                stupid, but it's fine for testing. You probably want to end with a "Post Messages" though, to get rid of
+                the "(edited)" markers.
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="three columns">
+                <a id="rolebuttons-delete" class="button">Delete Group</a>
+            </div>
+            <div class="nine columns">
+                This will delete this role button group. Messages will also be removed.
+            </div>
         </div>
     </div>
-    <!--<br>
-    <div class="row">
-        <div class="three columns">
-            <a id="rolebuttons-update" class="button button-primary blockbutton">Update Messages</a>
-        </div>
-        <div class="nine columns">
-            If you didn't add or remove any messages, you can also only update the existing messages. This will not
-            delete or post anything, but only edit. This means the channel will not be marked as unread, but every
-            message will gain the "(edited)" marker. Also, any messages deleted manually will not be updated and will
-            stay removed. If you added new messages or want to recover deleted messages, use "Post Messages" instead.
-        </div>
-    </div>-->
-    <br>
-    <div class="row">
-        <div class="three columns">
-            <a id="rolebuttons-delete" class="button">Delete Group</a>
-        </div>
-        <div class="nine columns">
-            This will delete this role button group. Messages will also be removed.
-        </div>
-    </div>
-</div>
 <% } %>
 <%- include("../../../views/footer"); -%>

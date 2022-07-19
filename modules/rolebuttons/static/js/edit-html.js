@@ -90,8 +90,9 @@ function getEmojiShowHTML(emoji, label) {
         return "<span>" + em + "</span>";
     } else {
         let id = emoji.split(":");
+        let ext = (id[0] === "a" || id[0] === "<a") ? "gif" : "png";
         id = id[id.length - 1];
         if (id.endsWith(">")) id = id.substr(0, id.length - 1);
-        return "<img src='https://cdn.discordapp.com/emojis/" + id + ".png' alt='" + label + "'>";
+        return "<img src='https://cdn.discordapp.com/emojis/" + id + "." + ext + "' alt='" + label + "'>";
     }
 }
