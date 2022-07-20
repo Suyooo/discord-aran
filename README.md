@@ -12,11 +12,40 @@ in here. For info about that and the invite link, [check out the discord-sifaslo
 If you want to run this yourself you need to:
 
 * Run `npm install` to grab packages
-* Create a `config.secret.json` file with three keys, `clientId`, `clientSecret` and `botToken`,
-  being your app's client ID, client secret and bot token
-* You probably want to change the `SIFCORD` constant in `config.js` to a test server's ID
-* If you want to, change the port the dashboard runs on in `config.local.json` 
+* Set up configuration (see next section)
 * Start the bot and dashboard with `npm start` or `node server.js`
+
+### Configuration
+
+#### Secret (`config.secret.json`)
+
+Application keys and tokens from the Discord Developer Portal.
+
+* `clientId`
+* `clientSecret`
+* `botToken`
+
+#### Global (`config.global.json`)
+
+Configuring bot behaviour.
+
+* `textCommandPrefix`: Messages must start with this prefix to be recognized as text commands.
+* `sifcordGuildId`: Server ID for which server this bot should be running on. You probably want
+  to change this to a test server's ID.
+* `staffRoleId`: Role ID for the role that should be used for dashboard access control.
+
+#### Local (`config.local.json`)
+
+File that sets per-environment configuration (so I can deploy every other file from my local
+environment directly to the server environment)
+
+* `dashboardPort`: Which port the dashboard should run on.
+* `dashboardRootPath` *(optional)*: If proxying through a webserver running on another port,
+  this option allows you to set a subfolder so link URLs are set correctly, without a trailing
+  slash (for example: `/dashboard`). If not set, it will be set to the root (empty string).
+* `dashboardDomain` *(optional)*: If Express.JS resolves the domain name incorrectly (or the
+  dashboard is proxied), this allows you to override it. Again, no trailing slash, and do not 
+  include the root path if `dashboardRootPath` is set (for example: `https://example.com`).
 
 ## Implementing Modules
 

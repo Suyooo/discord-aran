@@ -1,14 +1,14 @@
 const configsecret = require("./config.secret.json");
+const configglobal = require("./config.global.json");
 const configlocal = require("./config.local.json");
 
 if (!configlocal.dashboardRootPath) {
     configlocal.dashboardRootPath = "";
 }
-if (!configlocal.dashboardFullPath) {
-    configlocal.dashboardFullPath = "";
+if (!configlocal.dashboardDomain) {
+    configlocal.dashboardDomain = "";
 }
 
 module.exports = {
-    SIFCORD: "207972536393138177",
-    ...configsecret, ...configlocal
+    ...configsecret, ...configglobal, ...configlocal
 };

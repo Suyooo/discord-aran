@@ -4,7 +4,7 @@ const config = require("./config");
 async function mustBeStaff(req, res, next) {
     try {
         if (req.isAuthenticated()) {
-            let guild = await bot.guilds.fetch(config.SIFCORD);
+            let guild = await bot.guilds.fetch(config.sifcordGuildId);
             // do not cache: role changes should be reflected immediately
             let member = await guild.members.fetch({user: req.user.id, force: true});
             if (member.roles.cache.some(role => role.id === "207972968901509120")) { // "Staff" Role

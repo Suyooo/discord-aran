@@ -19,7 +19,7 @@ router.get("/", (req, res, next) => {
 
 router.get("/new/", (req, res, next) => {
     res.render("../modules/rolebuttons/views/edit", {
-        "group": {id: "null", guild_id: config.SIFCORD, messages: []},
+        "group": {id: "null", guild_id: config.sifcordGuildId, messages: []},
         "modules": {emoji, rolebuttons_edit}
     });
 });

@@ -37,7 +37,7 @@ app.use("/vendor/jquery", express.static("node_modules/jquery/dist"));
 passport.use(new DiscordStrategy({
     clientID: config.clientId,
     clientSecret: config.clientSecret,
-    callbackURL: config.dashboardFullPath + "/auth/callback",
+    callbackURL: config.dashboardDomain + config.dashboardRootPath + "/auth/callback",
     scope: ["identify"],
     state: true
 }, function (accessToken, refreshToken, profile, done) {
@@ -65,19 +65,20 @@ const moduleNames = fs.readdirSync("./modules");
 const dashboardModules = {};
 
 for (const moduleName of moduleNames) {
+    log.info("DASHBOARD", "Loading module " + moduleName);
+    const moduleInfo = require("./modules/" + moduleName + "/info");
     if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {
         const module = require("./modules/" + moduleName + "/dashboard");
         app.use("/" + moduleName, module);
-        log.info("DASHBOARD", "Loaded module " + moduleName);
+
+        if (moduleInfo.hasOwnProperty("dashboardTitle")) {
+            dashboardModules[moduleName] = moduleInfo.dashboardTitle;
+        }
+        log.info("DASHBOARD", "Module dashboard component for " + moduleName + " registered");
     }
     app.use("/js/" + moduleName, express.static("modules/" + moduleName + "/static/js"));
     app.use("/style/" + moduleName, express.static("modules/" + moduleName + "/static/style"));
     app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
-
-    const moduleInfo = require("./modules/" + moduleName + "/info");
-    if (moduleInfo.dashboardTitle) {
-        dashboardModules[moduleName] = moduleInfo.dashboardTitle;
-    }
 }
 
 app.get("/", function (req, res) {
