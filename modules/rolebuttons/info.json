@@ -1,3 +1,4 @@
 {
+  "description": "Allow server users to manage their own roles via a bot message with buttons.",
   "dashboardTitle": "Role Buttons"
 }

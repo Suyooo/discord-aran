@@ -54,10 +54,16 @@ Generally, feel free to check the `rolebuttons` module as an example of how to i
 following components.
 
 To create a new module, make a new subfolder in the `modules` folder with an `info.json` file in
-it and the following required keys:
+it with the following keys:
 
-* `dashboardTitle`: Label for the link to the module's dashboard on the index, or `null` if
-  it shouldn't be linked on the dashboard (for utility modules, or modules without dashboards)
+* `description`: A human-readable description of what this module is or does.
+* `textCommands` *(optional)*: An array of strings which the bot implements. The text commands
+  will be registered so the bot component can be called for them (see below). Should not include
+  a command prefix symbol, as that is defined in the configuration. If this key is not defined,
+  no text commands are registered.
+* `dashboardTitle` *(optional)*: String for the link to the module's dashboard on the index. If
+  this key is not defined, it will not be linked on the dashboard (for utility modules, or
+  modules without dashboards)
 
 ### Bot Component
 
@@ -68,13 +74,17 @@ The bot component is implemented in the `bot.js` file in the module folder's roo
 export a function that takes the Discord.JS client object as a parameter, and returns an object
 with any number of the following methods:
 
+* `async textCommand(message, args)`: Is called if a registered text command with the command
+  prefix from the configuration is sent in a channel the bot is in. `args` is the message
+  content split at spaces.
 * `async button(interaction)`: Receives a button message component interaction from Discord.JS
 * `async selection(interaction)`: Receives a select menu message component interaction from
   Discord.JS
 * Any number of utility methods that can be used by the bot or other components as you like
 
-(TODO: some system to register for events like receiving messages, or to create "regular"
-commands you can type in chat)
+If you want to add a listener to general events (like `messageCreate` for all messages), you can
+do so by using the regular event listening methods on the Discord.JS client object (for example:
+`client.on("messageCreate", async message => {...})`)
 
 If you want to use a database to store configuration, you should make sure it gets automatically
 created if the database file does not exist yet
