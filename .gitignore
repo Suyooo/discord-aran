@@ -2,6 +2,6 @@ package-lock.json
 log
 *.iml
 .idea
-config.secret.json
+config.*.json
 node_modules
 *.db
