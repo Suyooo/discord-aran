@@ -1,0 +1,3 @@
+{
+  "description": "Handles some Scheduled Event duties: If the Location field contains text channels (strings that start with #, might be split by , or /), add a 🟢 to their names while the event is active. If the event name contains 'SIFcord Party' and 'Birthday', count down the final four hours in the event name."
+}

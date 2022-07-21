@@ -4,8 +4,13 @@ const config = require("./config");
 const log = require("./logger");
 
 const client = new Client({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
-    partials: ['CHANNEL']
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGES,
+        Intents.FLAGS.GUILD_SCHEDULED_EVENTS
+    ],
+    partials: ['CHANNEL'] // required for DMs
 });
 
 client.modules = {};
