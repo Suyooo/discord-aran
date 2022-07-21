@@ -13,6 +13,10 @@ client.textCommands = {};
 const moduleNames = fs.readdirSync("./modules");
 
 for (const moduleName of moduleNames) {
+    if (config.hasOwnProperty("moduleWhitelist") && config.moduleWhitelist.indexOf(moduleName) === -1) {
+        log.info("BOT", "Module " + moduleName + " not whitelisted, skipping");
+        continue;
+    }
     log.info("BOT", "Loading module " + moduleName);
     const moduleInfo = require("./modules/" + moduleName + "/info");
     if (fs.existsSync("./modules/" + moduleName + "/bot.js")) {

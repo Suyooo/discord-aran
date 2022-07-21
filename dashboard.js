@@ -65,6 +65,10 @@ const moduleNames = fs.readdirSync("./modules");
 const dashboardModules = {};
 
 for (const moduleName of moduleNames) {
+    if (config.hasOwnProperty("moduleWhitelist") && config.moduleWhitelist.indexOf(moduleName) === -1) {
+        log.info("DASHBOARD", "Module " + moduleName + " not whitelisted, skipping");
+        continue;
+    }
     log.info("DASHBOARD", "Loading module " + moduleName);
     const moduleInfo = require("./modules/" + moduleName + "/info");
     if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {

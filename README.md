@@ -46,6 +46,10 @@ environment directly to the server environment)
 * `dashboardDomain` *(optional)*: If Express.JS resolves the domain name incorrectly (or the
   dashboard is proxied), this allows you to override it. Again, no trailing slash, and do not 
   include the root path if `dashboardRootPath` is set (for example: `https://example.com`).
+* `m̀oduleWhitelist` *(optional)*: An array of strings that only allows those modules to be
+  loaded. This allows you to run only one single module you are working on in your dev
+  environment, while the rest of the bot can still run the rest without any conflicts. If not
+  set, all modules in the `modules` folder will be loaded.
 
 ## Implementing Modules
 

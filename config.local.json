@@ -1,3 +1,4 @@
 {
-  "dashboardPort": 8944
+  "dashboardPort": 8944,
+  "moduleWhitelist": ["images"]
 }
