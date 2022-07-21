@@ -3,7 +3,10 @@ const {Client, Collection, Intents} = require("discord.js");
 const config = require("./config");
 const log = require("./logger");
 
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]});
+const client = new Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
+    partials: ['CHANNEL']
+});
 
 client.modules = {};
 client.textCommands = {};
@@ -29,6 +32,7 @@ client.once("ready", async () => {
 });
 
 client.on("messageCreate", async message => {
+    if (message.author.bot) return;
     if (message.content.startsWith(config.textCommandPrefix)) {
         let args = message.content.substr(config.textCommandPrefix.length).split(" ");
         if (client.textCommands.hasOwnProperty(args[0])) {
@@ -39,7 +43,7 @@ client.on("messageCreate", async message => {
 
 client.on("interactionCreate", async interaction => {
     if (interaction.isSelectMenu()) {
-        log.info("BOT","Recieved select menu interaction " + interaction.customId);
+        log.info("BOT", "Recieved select menu interaction " + interaction.customId);
         const module = client.modules[interaction.customId.split("-")[0]];
         if (!module) return;
 
@@ -51,7 +55,7 @@ client.on("interactionCreate", async interaction => {
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
     } else if (interaction.isButton()) {
-        log.info("BOT","Recieved button interaction " + interaction.customId);
+        log.info("BOT", "Recieved button interaction " + interaction.customId);
         const module = client.modules[interaction.customId.split("-")[0]];
         if (!module) return;
 
