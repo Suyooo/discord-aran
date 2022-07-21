@@ -1,0 +1,4 @@
+{
+  "description": "Get server icon/banner.",
+  "textCommands": ["images"]
+}
