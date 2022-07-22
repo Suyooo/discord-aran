@@ -26,20 +26,22 @@ function checkCountdownNameUpdate(bot, event, hours) {
         event.setName(newName);
     } catch (e) {
         log.error("PARTYEVENT", "Failed to set event name: " + e);
-        // Usually the next name update would be scheduled in the event handler below, but if the name change fails...
-        nameUpdateTimeouts[event.id] = setTimeout(checkCountdownNameUpdate.bind(this, bot, event, hours - 1),
-            event.scheduledEndTimestamp - (3600000 * (hours - 1)) - now + 100);
+        if (hours > 1) {
+            // Usually the next name update would be scheduled in the event handler below, but if the name change fails...
+            nameUpdateTimeouts[event.id] = setTimeout(checkCountdownNameUpdate.bind(this, bot, event, hours - 1),
+                event.scheduledEndTimestamp - (3600000 * (hours - 1)) - now + 100);
+        }
     }
 }
 
 async function handleEvent(bot, oldEvent, newEvent) {
-    const location = newEvent.entityMetadata?.location;
+    const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
     if (location) {
         const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
         if (!oldEvent?.isActive() && newEvent.isActive()) {
             for (let channelName in channelNames) {
                 const channel = bot.channels.cache.find(channel => channel.name === channelName);
-                if (channel && channel.type === ChannelType.GUILD_TEXT) {
+                if (channel && channel.type === ChannelType.GuildText) {
                     try {
                         log.info("PARTYEVENT", "Adding marker for " + channelName);
                         channel.setName(channelName + "🟢");
@@ -48,11 +50,11 @@ async function handleEvent(bot, oldEvent, newEvent) {
                     }
                 }
             }
-        } else if (oldEvent?.isActive() && !newEvent.isActive()) {
+        } else if (oldEvent?.isActive() && (newEvent === undefined || !newEvent.isActive())) {
             for (let channelName in channelNames) {
                 const searchName = channelName + "🟢";
                 const channel = bot.channels.cache.find(channel => channel.name === searchName);
-                if (channel && channel.type === ChannelType.GUILD_TEXT) {
+                if (channel && channel.type === ChannelType.GuildText) {
                     try {
                         log.info("PARTYEVENT", "Removing marker for " + channelName);
                         channel.setName(channelName);
@@ -70,11 +72,11 @@ async function handleEvent(bot, oldEvent, newEvent) {
         const now = Date.now();
         let hours = 4;
         let target = newEvent.scheduledEndTimestamp - (3600000 * hours);
-        while (target < now && hours >= 0) {
+        while (target < now && hours > 0) {
             hours--;
             target += 3600000;
         }
-        if (hours >= 0) {
+        if (hours > 0) {
             log.info("PARTYEVENT", "Scheduled " + hours + "-hour countdown change for " + newEvent.name + " in " + ((target - now) / 1000) + "s");
             nameUpdateTimeouts[newEvent.id] = setTimeout(checkCountdownNameUpdate.bind(this, bot, newEvent, hours), target - now + 100);
         }
@@ -83,6 +85,7 @@ async function handleEvent(bot, oldEvent, newEvent) {
 
 module.exports = (bot) => {
     bot.on("guildScheduledEventUpdate", handleEvent.bind(this, bot));
+    bot.on("guildScheduledEventDelete", handleEvent.bind(this, bot));
     bot.guilds.fetch(config.sifcordGuildId).then(guild =>
         guild.scheduledEvents.fetch({}).then(events => events.each(ev => {
             handleEvent(bot, undefined, ev);
