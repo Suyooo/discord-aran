@@ -11,7 +11,8 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGES,
         Intents.FLAGS.GUILD_SCHEDULED_EVENTS
     ],
-    partials: ['CHANNEL'] // required for DMs
+    partials: ['CHANNEL'], // required for DMs
+    allowedMentions: { parse: ['users'], repliedUser: false }
 });
 
 client.modules = {};

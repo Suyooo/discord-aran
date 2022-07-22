@@ -7,10 +7,7 @@ module.exports = (bot) => ({
         if (args[0] === "restart") {
             if (await auth.checkStaff(bot, message.author.id)) {
                 log.info("RESTART", "Restart requested");
-                await message.reply({
-                    content: "Restarting...",
-                    allowedMentions: {repliedUser: false}
-                });
+                await message.reply("Restarting...");
                 process.exit(0);
             }
         }
