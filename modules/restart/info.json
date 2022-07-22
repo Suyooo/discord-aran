@@ -1,0 +1,4 @@
+{
+  "description": "Allows restarting the bot via text command.",
+  "textCommands": ["restart"]
+}
