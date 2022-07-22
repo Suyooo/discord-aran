@@ -87,6 +87,8 @@ for (const moduleName of moduleNames) {
     app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
 }
 
+allModules.sort((a,b) => a[0].localeCompare(b[0]));
+
 app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
         res.render("index", {"modules": dashboardModules, "active": allModules});
