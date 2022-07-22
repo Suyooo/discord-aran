@@ -72,7 +72,7 @@ it with the following keys:
 ### Bot Component
 
 Bot components can use the Discord.JS client to interact with the Discord server to send
-messages, look up channels/roles/users/etc and so on. It is optional to have a bot component.
+messages, look up channels/roles/users/etc. and so on. It is optional to have a bot component.
 
 The bot component is implemented in the `bot.js` file in the module folder's root. It must
 export a function that takes the Discord.JS client object as a parameter, and returns an object
@@ -88,10 +88,15 @@ with any number of the following methods:
 
 If you want to add a listener to general events (like `messageCreate` for all messages), you can
 do so by using the regular event listening methods on the Discord.JS client object (for example:
-`client.on("messageCreate", async message => {...})`)
+`bot.on("messageCreate", async message => {...})`).
+
+You can also use `bot.cron(pattern, func)` to schedule functions to be executed at certain times.
+`pattern` is a cron schedule expression, so you can use tools like https://crontab.guru/ to get
+one. The method returns a [CronJob object](https://www.npmjs.com/package/cron) you can store and
+use to stop the job.
 
 If you want to use a database to store configuration, you should make sure it gets automatically
-created if the database file does not exist yet
+created if the database file does not exist yet.
 
 #### Regarding Message Component Interactions
 

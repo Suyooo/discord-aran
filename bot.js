@@ -1,5 +1,6 @@
 const fs = require("fs");
 const {Client, Collection, Intents} = require("discord.js");
+const cron = require("cron");
 const config = require("./config");
 const log = require("./logger");
 
@@ -35,6 +36,10 @@ for (const moduleName of moduleNames) {
         log.info("BOT", "Module bot component for " + moduleName + " registered");
     }
 }
+
+client.cron = function (pattern, func) {
+    return cron.job(pattern, func, null, true, 'Asia/Tokyo');
+};
 
 client.once("ready", async () => {
     log.info("BOT", "Logged in and ready");
