@@ -31,7 +31,7 @@ module.exports = (bot) => {
                 "reason": "Scheduled RC channel open/close",
                 "lockPermissions": false
             });
-            await channel.setPosition(mainChannel.position + (channel.position > mainChannel.position ? 0 : 1), {
+            await channel.setPosition(mainChannel.position + (channel.position > mainChannel.position ? 1 : 0), {
                 "reason": "Scheduled RC channel open/close"
             });
         });

@@ -1,7 +1,7 @@
 const log = require("../../logger");
 const db = require('./db');
 const emoji = require("emoji-name-map");
-const {ButtonStyle, ActionRow, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("discord.js");
+const {ButtonStyle, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("discord.js");
 
 module.exports = (bot) => ({
     async button(interaction) {
