@@ -1,7 +1,7 @@
 const log = require("../../logger");
 const db = require('./db');
 const emoji = require("emoji-name-map");
-const {MessageActionRow, MessageButton, MessageEmbed} = require("discord.js");
+const {ButtonStyle, ActionRow, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("discord.js");
 
 module.exports = (bot) => ({
     async button(interaction) {
@@ -73,17 +73,17 @@ module.exports = (bot) => ({
                     let rows = [];
                     db.buttons_list(message.id).forEach(button => {
                         while (rows.length <= button.display_row) {
-                            rows.push(new MessageActionRow());
+                            rows.push(new ActionRowBuilder());
                         }
-                        let b = new MessageButton()
+                        let b = new ButtonBuilder()
                             .setCustomId("rolebuttons-" + button.id)
-                            .setStyle('SECONDARY');
+                            .setStyle(ButtonStyle.Secondary);
                         if (button.label) b.setLabel(button.label);
                         if (button.emoji) b.setEmoji(button.emoji.indexOf(":") === -1 ? emoji.get(button.emoji) : button.emoji);
                         rows[button.display_row].addComponents(b);
                     });
 
-                    let embed = new MessageEmbed();
+                    let embed = new EmbedBuilder();
                     if (message.title) {
                         embed.setTitle(message.title);
                         if (message.description) embed.setDescription(message.description);

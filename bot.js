@@ -1,17 +1,18 @@
 const fs = require("fs");
-const {Client, Collection, Intents} = require("discord.js");
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const cron = require("cron");
 const config = require("./config");
 const log = require("./logger");
 
 const client = new Client({
     intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.DIRECT_MESSAGES,
-        Intents.FLAGS.GUILD_SCHEDULED_EVENTS
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildScheduledEvents,
     ],
-    partials: ['CHANNEL'], // required for DMs
+    partials: [Partials.Channel], // required for DMs
     allowedMentions: { parse: ['users'], repliedUser: false }
 });
 
