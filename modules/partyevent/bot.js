@@ -86,9 +86,11 @@ async function handleEvent(bot, oldEvent, newEvent) {
 module.exports = (bot) => {
     bot.on("guildScheduledEventUpdate", handleEvent.bind(this, bot));
     bot.on("guildScheduledEventDelete", handleEvent.bind(this, bot));
-    bot.guilds.fetch(config.sifcordGuildId).then(guild =>
-        guild.scheduledEvents.fetch({}).then(events => events.each(ev => {
-            handleEvent(bot, undefined, ev);
-        })));
+    bot.on("ready", async () => {
+        bot.guilds.fetch(config.sifcordGuildId).then(guild =>
+            guild.scheduledEvents.fetch({}).then(events => events.each(ev => {
+                handleEvent(bot, undefined, ev);
+            })));
+    });
     return {};
 };
