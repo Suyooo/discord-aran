@@ -3,9 +3,9 @@ const config = require("./config");
 
 async function checkStaff(client, userId) {
     try {
-        let guild = await client.guilds.fetch(config.sifcordGuildId);
+        const guild = await client.guilds.fetch(config.sifcordGuildId);
         // do not cache: role changes should be reflected immediately
-        let member = await guild.members.fetch({user: userId, force: true});
+        const member = await guild.members.fetch({user: userId, force: true});
         return member.roles.cache.some(role => role.id === config.staffRoleId);
     } catch (e) {
         return false;

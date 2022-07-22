@@ -15,6 +15,10 @@ const client = new Client({
     allowedMentions: { parse: ['users'], repliedUser: false }
 });
 
+client.cron = function (pattern, func) {
+    return cron.job(pattern, func, null, true, 'Asia/Tokyo');
+};
+
 client.modules = {};
 client.textCommands = {};
 const moduleNames = fs.readdirSync("./modules");
@@ -37,10 +41,6 @@ for (const moduleName of moduleNames) {
         log.info("BOT", "Module bot component for " + moduleName + " registered");
     }
 }
-
-client.cron = function (pattern, func) {
-    return cron.job(pattern, func, null, true, 'Asia/Tokyo');
-};
 
 client.once("ready", async () => {
     log.info("BOT", "Logged in and ready");
