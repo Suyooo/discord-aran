@@ -71,8 +71,14 @@ for (const moduleName of moduleNames) {
         continue;
     }
     log.info("DASHBOARD", "Loading module " + moduleName);
+
     const moduleInfo = require("./modules/" + moduleName + "/info");
-    allModules.push([moduleName, moduleInfo.description]);
+    let fullDesc = moduleInfo.description;
+    if (moduleInfo.hasOwnProperty("textCommands")) {
+        fullDesc += " (Text Commands: " + moduleInfo["textCommands"].map(c => config.textCommandPrefix + c).join(", ") + ")"
+    }
+    allModules.push([moduleName, fullDesc]);
+
     if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {
         const module = require("./modules/" + moduleName + "/dashboard");
         app.use("/" + moduleName, module);
