@@ -1,3 +1,6 @@
 <%- include("header", {title: "Index"}); %>
+<h5>Module Dashboards</h5>
 <%- Object.keys(modules).map(m => "<a href='" + dashboardRootPath + "/" + m + "/'>" + modules[m] + "</a>").join("<br>"); %>
+<h5>Active Modules</h5>
+<%- active.map(m => "<b>" + m[0] + "</b>: " + m[1]).join("<br>"); %>
 <%- include("footer"); -%>

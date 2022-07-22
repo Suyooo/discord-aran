@@ -62,6 +62,7 @@ app.get("/auth/callback",
 app.locals.dashboardRootPath = config.dashboardRootPath;
 
 const moduleNames = fs.readdirSync("./modules");
+const allModules = [];
 const dashboardModules = {};
 
 for (const moduleName of moduleNames) {
@@ -71,6 +72,7 @@ for (const moduleName of moduleNames) {
     }
     log.info("DASHBOARD", "Loading module " + moduleName);
     const moduleInfo = require("./modules/" + moduleName + "/info");
+    allModules.push([moduleName, moduleInfo.description]);
     if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {
         const module = require("./modules/" + moduleName + "/dashboard");
         app.use("/" + moduleName, module);
@@ -87,7 +89,7 @@ for (const moduleName of moduleNames) {
 
 app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("index", {"modules": dashboardModules});
+        res.render("index", {"modules": dashboardModules, "active": allModules});
     } else {
         res.redirect(config.dashboardRootPath + "/auth");
     }
