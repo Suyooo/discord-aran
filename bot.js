@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const {Client, GatewayIntentBits, Partials} = require('discord.js');
 const cron = require("cron");
 const config = require("./config");
 const log = require("./logger");
@@ -14,7 +14,7 @@ const client = new Client({
         GatewayIntentBits.GuildScheduledEvents,
     ],
     partials: [Partials.Channel], // required for DMs
-    allowedMentions: { parse: ['users'], repliedUser: false }
+    allowedMentions: {parse: ['users'], repliedUser: false}
 });
 
 client.cron = function (pattern, func) {
@@ -37,6 +37,10 @@ for (const moduleName of moduleNames) {
         client.modules[moduleName] = module;
         if (moduleInfo.hasOwnProperty("textCommands")) {
             for (const textCommand of moduleInfo.textCommands) {
+                if (client.textCommands.hasOwnProperty(textCommand)) {
+                    log.error("BOT", "Startup Error: Duplicate text command \"" + textCommand + "\"");
+                    process.exit(1);
+                }
                 client.textCommands[textCommand] = module.textCommand;
             }
         }
