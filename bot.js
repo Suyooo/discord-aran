@@ -1,5 +1,5 @@
 const fs = require("fs");
-const {Client, GatewayIntentBits, Partials} = require('discord.js');
+const {Client, GatewayIntentBits, InteractionType, Partials} = require('discord.js');
 const cron = require("cron");
 const config = require("./config");
 const log = require("./logger");
@@ -65,11 +65,12 @@ client.on("messageCreate", async message => {
 client.on("interactionCreate", async interaction => {
     if (interaction.isSelectMenu()) {
         log.info("BOT", "Recieved select menu interaction " + interaction.customId);
-        const module = client.modules[interaction.customId.split("-")[0]];
+        const args = interaction.customId.split("-");
+        const module = client.modules[args[0]];
         if (!module) return;
 
         try {
-            await module.selection(interaction);
+            await module.selection(interaction, args);
         } catch (error) {
             log.error("INTERACTION", "Uncaught Error in selection for module " + module + ": " + error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
@@ -77,13 +78,27 @@ client.on("interactionCreate", async interaction => {
         }
     } else if (interaction.isButton()) {
         log.info("BOT", "Recieved button interaction " + interaction.customId);
-        const module = client.modules[interaction.customId.split("-")[0]];
+        const args = interaction.customId.split("-");
+        const module = client.modules[args[0]];
         if (!module) return;
 
         try {
-            await module.button(interaction);
+            await module.button(interaction, args);
         } catch (error) {
             log.error("INTERACTION", "Uncaught Error in button for module " + module + ": " + error.stack);
+            let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
+            return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
+        }
+    } else if (interaction.type === InteractionType.ModalSubmit) {
+        log.info("BOT", "Recieved modal submission " + interaction.customId);
+        const args = interaction.customId.split("-");
+        const module = client.modules[args[0]];
+        if (!module) return;
+
+        try {
+            await module.modal(interaction, args);
+        } catch (error) {
+            log.error("INTERACTION", "Uncaught Error in modal for module " + module + ": " + error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }

@@ -81,9 +81,12 @@ with any number of the following methods:
 * `async textCommand(message, args)`: Is called if a registered text command with the command
   prefix from the configuration is sent in a channel the bot is in. `args` is the message
   content split at spaces.
-* `async button(interaction)`: Receives a button message component interaction from Discord.JS
-* `async selection(interaction)`: Receives a select menu message component interaction from
-  Discord.JS
+* `async button(interaction, args)`: Receives a button message component interaction from
+  Discord.JS. `args` is the interaction ID split at hyphens.
+* `async selection(interaction, args)`: Receives a select menu message component interaction
+  from Discord.JS. `args` is the interaction ID split at hyphens.
+* `async modal(interaction, args)`: Receives a modal submission from Discord.JS. `args` is the
+  interaction ID split at hyphens.
 * Any number of utility methods that can be used by the bot or other components as you like
 
 If you want to add a listener to general events (like `messageCreate` for all messages), you can
