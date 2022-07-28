@@ -57,7 +57,12 @@ client.on("messageCreate", async message => {
     if (message.content.startsWith(config.textCommandPrefix)) {
         let args = message.content.substr(config.textCommandPrefix.length).split(" ");
         if (client.textCommands.hasOwnProperty(args[0])) {
-            client.textCommands[args[0]](message, args);
+            try {
+                client.textCommands[args[0]](message, args);
+            } catch (error) {
+                log.error("INTERACTION", "Uncaught Error in text command " + args[0] + ": " + error.stack);
+                return message.reply("There was an error while executing this command!");
+            }
         }
     }
 });
