@@ -60,7 +60,8 @@ client.on("messageCreate", async message => {
             try {
                 client.textCommands[args[0]](message, args);
             } catch (error) {
-                log.error("INTERACTION", "Uncaught Error in text command " + args[0] + ": " + error.stack);
+                log.error("BOT", "Uncaught Error in text command " + args[0] + ": " + error.message);
+                log.error("BOT", error.stack);
                 return message.reply("There was an error while executing this command!");
             }
         }
@@ -77,7 +78,8 @@ client.on("interactionCreate", async interaction => {
         try {
             await module.selection(interaction, args);
         } catch (error) {
-            log.error("INTERACTION", "Uncaught Error in selection for module " + module + ": " + error.stack);
+            log.error("BOT", "Uncaught Error in selection for module " + module + ": " + error.message);
+            log.error("BOT", error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
@@ -90,7 +92,8 @@ client.on("interactionCreate", async interaction => {
         try {
             await module.button(interaction, args);
         } catch (error) {
-            log.error("INTERACTION", "Uncaught Error in button for module " + module + ": " + error.stack);
+            log.error("BOT", "Uncaught Error in button for module " + module + ": " + error.message);
+            log.error("BOT", error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
@@ -103,7 +106,8 @@ client.on("interactionCreate", async interaction => {
         try {
             await module.modal(interaction, args);
         } catch (error) {
-            log.error("INTERACTION", "Uncaught Error in modal for module " + module + ": " + error.stack);
+            log.error("BOT", "Uncaught Error in modal for module " + module + ": " + error.message);
+            log.error("BOT", error.stack);
             let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
             return sendMessage({content: "There was an error while executing this command!", ephemeral: true});
         }
