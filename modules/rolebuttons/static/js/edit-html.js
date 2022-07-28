@@ -1,6 +1,6 @@
 if (typeof module !== "undefined") {
     modules = {emoji: require("emoji-name-map")};
-    module.exports = {makeMessage, makeButton, getEmojiShowHTML};
+    module.exports = {makeMessage, makeButton, getEmojiShowHTML, getChannelDropdown, getRoleDropdown};
 }
 
 let counter = 0;
@@ -24,7 +24,7 @@ function quoteattr(s, preserveCR) {
     ;
 }
 
-function makeMessage(message) {
+function makeMessage(message, rs) {
     let widths = [0, 0, 0, 0, 0];
     message.buttons.forEach(b => {
         widths[b.display_row]++;
@@ -55,14 +55,14 @@ function makeMessage(message) {
         "<input type='number' class='rolebuttons-rownum' id='row4" + counter + "' min='1' max='5' placeholder='5' value='" + widths[3] + "'>" +
         "<input type='number' class='rolebuttons-rownum' id='row5" + counter + "' min='1' max='5' placeholder='5' value='" + widths[4] + "'>" +
         "</div></div><ol class='rolebuttons-buttonlist draglist'>" +
-        message.buttons.map(makeButton).join("") +
+        message.buttons.map(b => makeButton(b, rs)).join("") +
         "</ol>" +
         "<a class='button button-primary rolebuttons-buttonadd'>Add Button</a> " +
         "<a class='button rolebuttons-messagecopy'>Copy Message</a> " +
         "<a class='button rolebuttons-messagedelete'>Delete Message</a></li>";
 }
 
-function makeButton(button) {
+function makeButton(button, rs) {
     let em = getEmojiShowHTML(button.emoji, button.label);
     counter++;
     return "<li class='rolebuttons-button row' data-id='" + quoteattr(button.id) + "'>" +
@@ -74,8 +74,8 @@ function makeButton(button) {
         "<label for='emoji" + counter + "'>Button Emoji <span class='tooltip' title='Either the name of a Discord default emoji (without the :) or a custom emoji in the form of <:Name:ID> (easiest way to get this is to send the emoji with a \\ before it and copy the resulting code)'>🛈</span></label>" +
         "<input id='emoji" + counter + "' class='rolebuttons-emoji' placeholder='(no emoji)' value='" + quoteattr(button.emoji || "") + "'>" +
         "</div><div class='three columns'>" +
-        "<label for='role" + counter + "'>Role ID</label>" +
-        "<input id='role" + counter + "' maxlength='88' class='rolebuttons-role' placeholder='Role ID' value='" + quoteattr(button.role_id || "") + "'>" +
+        "<label for='role" + counter + "'>Role</label>" +
+        getRoleDropdown("role" + counter, "rolebuttons-role", button.role_id, rs) +
         "</div><div class='two columns'>" +
         "<a class='button rolebuttons-buttoncopy'>Copy</a><br><a class='button rolebuttons-buttondelete'>Delete</a>" +
         "</div></li>";
@@ -95,4 +95,27 @@ function getEmojiShowHTML(emoji, label) {
         if (id.endsWith(">")) id = id.substr(0, id.length - 1);
         return "<img src='https://cdn.discordapp.com/emojis/" + id + "." + ext + "' alt='" + label + "'>";
     }
+}
+
+function getChannelDropdown(name, className, selected, cs) {
+    if (cs === undefined) cs = channels;
+    let inCategory = false;
+    return "<select id='" + name + "' name='" + name + "'" + (className ? " class='" + className + "'" : "") + ">"
+        + cs.map(c => {
+            if (c.type === "category") {
+                const s = (inCategory ? "</optgroup>" : "") + "<optgroup label='"+quoteattr(c.name)+"'>"
+                inCategory = true;
+                return s;
+            } else {
+                return "<option value='" + c.id + "'" + (c.id === selected ? " selected" : "") + ">#" + c.name + "</option>";
+            }
+        })
+        + (inCategory ? "</optgroup>" : "") + "</select>";
+}
+
+function getRoleDropdown(name, className, selected, rs) {
+    if (rs === undefined) rs = roles;
+    return "<select id='" + name + "' name='" + name + "'" + (className ? " class='" + className + "'" : "") + ">"
+        + rs.map(r => "<option value='" + r.id + "'" + (r.id === selected ? " selected" : "") + ">" + r.name + "</option>")
+        + "</select>";
 }

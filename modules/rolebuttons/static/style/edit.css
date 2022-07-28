@@ -62,8 +62,13 @@
     display: none;
 }
 
-.rolebuttons-description, .rolebuttons-color, .rolebuttons-button input, #rolebuttons-header input {
+.rolebuttons-description, .rolebuttons-color, .rolebuttons-button input, .rolebuttons-button select, #rolebuttons-header input, #rolebuttons-header select {
     width: 100%
+}
+
+select {
+    height: 1.66em;
+    padding: 0;
 }
 
 .rolebuttons-color-show {

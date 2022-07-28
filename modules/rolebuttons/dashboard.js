@@ -18,10 +18,15 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/new/", (req, res, next) => {
-    res.render("../modules/rolebuttons/views/edit", {
-        "group": {id: "null", guild_id: config.sifcordGuildId, messages: []},
-        "modules": {emoji, rolebuttons_edit}
-    });
+    Promise.all([bot.modules.helper.listChannelsOfGuild(config.sifcordGuildId), bot.modules.helper.listRolesOfGuild(config.sifcordGuildId)])
+        .then(([channels, roles]) => {
+            res.render("../modules/rolebuttons/views/edit", {
+                "group": {id: "null", guild_id: config.sifcordGuildId, messages: []},
+                "modules": {emoji, rolebuttons_edit},
+                "channels": channels,
+                "roles": roles
+            });
+        });
 });
 
 router.get("/:id/", (req, res, next) => {
@@ -31,7 +36,15 @@ router.get("/:id/", (req, res, next) => {
         msg.buttons = db.buttons_list(msg.id);
     });
     grp.messages = msgs;
-    res.render("../modules/rolebuttons/views/edit", {"group": grp, "modules": {emoji, rolebuttons_edit}});
+    Promise.all([bot.modules.helper.listChannelsOfGuild(grp.guild_id), bot.modules.helper.listRolesOfGuild(grp.guild_id)])
+        .then(([channels, roles]) => {
+            res.render("../modules/rolebuttons/views/edit", {
+                "group": grp,
+                "modules": {emoji, rolebuttons_edit},
+                "channels": channels,
+                "roles": roles
+            });
+        });
 });
 
 /*

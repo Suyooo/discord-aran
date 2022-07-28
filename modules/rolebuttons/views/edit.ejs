@@ -1,5 +1,9 @@
 <%- include("../../../views/header", {title: "Role Buttons", scripts: ["/vendor/jquery-sortable-min.js", "/vendor/emoji-name-map.js", "/js/rolebuttons/edit.js", "/js/rolebuttons/edit-html.js"], styles: ["/style/rolebuttons/edit.css"]}); %>
-<script>const group_id = <%= group.id %>;</script>
+<script>
+    const group_id = <%= group.id %>;
+    const roles = <%- JSON.stringify(roles) %>;
+    const channels = <%- JSON.stringify(channels) %>;
+</script>
 <div id="rolebuttons-header">
     <div class="row">
         <div class="six columns">
@@ -10,8 +14,8 @@
                    class='rolebuttons-groupname'>
         </div>
         <div class="three columns">
-            <label for="rolebuttons-channel">Channel ID</label>
-            <input id="rolebuttons-channel" value="<%= group.channel_id %>" maxlength='256' class='rolebuttons-channel'>
+            <label for="rolebuttons-channel">Channel</label>
+            <%- modules.rolebuttons_edit.getChannelDropdown("rolebuttons-channel", "rolebuttons-channel", group.channel_id, channels) %>
         </div>
         <div class="three columns">
             <label for="rolebuttons-require">Required Role ID <span class='tooltip'
@@ -27,7 +31,7 @@
 
 <h5>Messages in This Group</h5>
 <ol class="rolebuttons-messagelist draglist">
-    <%- group.messages.map(modules.rolebuttons_edit.makeMessage).join(""); %>
+    <%- group.messages.map(m => modules.rolebuttons_edit.makeMessage(m, roles)).join(""); %>
 </ol>
 <a id="rolebuttons-messageadd" class="button button-primary">Add Message</a><br><br>
 <a id="rolebuttons-save" class="button button-primary blockbutton">Save</a>
