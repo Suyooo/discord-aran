@@ -2,9 +2,6 @@ const config = require("../../config");
 const log = require("../../logger");
 const {ChannelType} = require("discord.js");
 
-function resolveChannelId(bot, id) {
-}
-
 module.exports = (bot) => {
     const o = {
         listChannelsOfGuild: async (guildId) => {

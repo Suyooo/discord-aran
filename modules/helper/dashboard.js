@@ -1,7 +1,9 @@
 const express = require("express");
 const bot = require("../../bot");
+const auth = require("../../auth");
 
 const router = express.Router();
+router.use(auth.routerStaffOnly);
 
 router.get("/guild/:id/channels/", (req, res, next) => {
     bot.modules.helper.listChannelsOfGuild(req.params.id).then(r => res.json(r));
