@@ -4,7 +4,7 @@ const emoji = require("emoji-name-map");
 const rolebuttons_edit = require("./static/js/edit-html");
 const config = require("../../config");
 const bot = require("../../bot");
-const auth = require("../../auth");
+const auth = require("../../auth")(bot);
 
 const router = express.Router();
 router.use(auth.routerStaffOnly);

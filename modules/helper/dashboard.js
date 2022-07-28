@@ -1,6 +1,6 @@
 const express = require("express");
 const bot = require("../../bot");
-const auth = require("../../auth");
+const auth = require("../../auth")(bot);
 
 const router = express.Router();
 router.use(auth.routerStaffOnly);
