@@ -5,3 +5,5 @@ log
 config.*.json
 node_modules
 *.db
+google-credentials.json
+test*.png
