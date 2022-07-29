@@ -5,9 +5,13 @@
 
 .rolebuttons-message {
     border: 1px grey solid;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 2rem;
     margin-top: 2rem;
     background-color: #333344;
+    background-image: url("grip.svg");
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: 0.2em 0.6em;
 }
 
 .rolebuttons-toggle {
@@ -90,9 +94,13 @@ select {
 
 .rolebuttons-button {
     border: 1px grey solid;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 2rem;
     margin-top: 2rem;
     background-color: #444455;
+    background-image: url("grip.svg");
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: 0.2em 0.6em
 }
 
 .collapsed .rolebuttons-button {
