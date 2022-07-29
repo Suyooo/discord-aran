@@ -7,7 +7,7 @@ const MAIN_CATEGORY_ID = "360566929448108032";
 const STORAGE_CATEGORY_ID = "629503261392502815";
 
 function setPermissionsForEveryone(channel, perm) {
-    return channel.permissionOverwrites.edit(config.sifcordGuildId, {
+    return channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
         "ViewChannel": perm,
         "SendMessages": perm
     }, {
@@ -26,7 +26,6 @@ module.exports = (bot) => {
 
         bot.cron("0 16 * * 5", async () => {
             log.info("RC", "Opening RC channel");
-            await setPermissionsForEveryone(channel, null);
             await channel.setParent(MAIN_CATEGORY_ID, {
                 "reason": "Scheduled RC channel open/close",
                 "lockPermissions": false
@@ -34,6 +33,7 @@ module.exports = (bot) => {
             await channel.setPosition(mainChannel.position + (channel.position > mainChannel.position ? 1 : 0), {
                 "reason": "Scheduled RC channel open/close"
             });
+            await setPermissionsForEveryone(channel, null);
         });
         bot.cron("0 15 * * 1", async () => {
             log.info("RC", "Closing RC channel");
