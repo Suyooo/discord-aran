@@ -3,7 +3,7 @@ const db = require('./db');
 const emoji = require("emoji-name-map");
 const {ButtonStyle, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("discord.js");
 
-module.exports = (bot) => ({/*
+module.exports = (bot) => ({
     async button(interaction) {
         let bid = interaction.customId.split("-")[1];
         let button = db.buttons_get(bid);
@@ -104,4 +104,4 @@ module.exports = (bot) => ({/*
             });
         });
     }
-*/});
+});
