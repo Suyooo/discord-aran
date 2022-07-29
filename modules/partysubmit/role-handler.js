@@ -22,7 +22,7 @@ const cellAddrList = ["B12", "G12", "L12"];
 
 function giveRewardRole(member) {
     if (member !== undefined && !knownRoleHavers.has(member.user.tag)) {
-        log.info("ROLE", "Awarding reward role to " + member.user.tag);
+        log.info("PARTYSUBMIT", "Awarding reward role to " + member.user.tag);
         member.roles.add(partyConfig.clearRewardRoleId, "Party Challenge cleared")
             .then(() => knownRoleHavers.add(member.user.tag))
             .catch(() => null);
@@ -54,7 +54,7 @@ function checkRoles(bot) {
             p.push(guild.members.fetch({cache: false, query: add.split("#")[0], limit: 1000}).then((members) => {
                 const member = members.find(m => m.user.tag === add);
                 if (member !== undefined) {
-                    log.info("ROLE", "Awarding reward role to " + member.user.tag);
+                    log.info("PARTYSUBMIT", "Awarding reward role to " + member.user.tag);
                     member.roles.add(partyConfig.clearRewardRoleId, "Party Challenge cleared");
                 }
             }));
@@ -63,7 +63,7 @@ function checkRoles(bot) {
             p.push(guild.members.fetch({cache: false, query: remove.split("#")[0], limit: 1000}).then((members) => {
                 const member = members.find(m => m.user.tag === remove);
                 if (member !== undefined) {
-                    log.info("ROLE", "Removing reward role from " + member.user.tag);
+                    log.info("PARTYSUBMIT", "Removing reward role from " + member.user.tag);
                     member.roles.remove(partyConfig.clearRewardRoleId, "Party Challenge submission rejected");
                 }
             }));
