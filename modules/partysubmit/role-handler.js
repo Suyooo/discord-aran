@@ -41,7 +41,7 @@ function checkRoles(bot) {
             }
         }
 
-        const addRole = new Set([...clearers].filter(x => knownRoleHavers.has(x)));
+        const addRole = new Set([...clearers].filter(x => !knownRoleHavers.has(x)));
         const removeRole = new Set([...knownRoleHavers].filter(x => !clearers.has(x)));
 
         knownRoleHavers = clearers;
