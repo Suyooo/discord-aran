@@ -11,7 +11,6 @@ const {
     AttachmentBuilder
 } = require("discord.js");
 const Discord = require("discord.js");
-const tinyurl = require("turl");
 const imageHandler = require("./ocr/imageHandler");
 const layout = require("./ocr/layout");
 const reader = require("./ocr/reader");
@@ -56,8 +55,6 @@ class Submission {
     submissionAttachmentUrl;
     submissionStatus = SubmissionState.EDITING;
     submissionTimeout;
-    submissionShortLinkCache;
-    submissionShortLinkLast;
 
     // --- OCR
 
@@ -78,7 +75,7 @@ class Submission {
                     .sort((a, b) => b.createdTimestamp - a.createdTimestamp); // messages.fetch has no order guarantees
         } catch (e) {
             log.error("PARTYSUBMIT", "ERROR while fetching messages: " + e.stack);
-            throw "There was an error fetching your messages from Discord. You can try again, but if it still doesn't work, [please submit manually](" + (await this.makeFormLink(false)) + ")!";
+            throw "There was an error fetching your messages from Discord. You can try again, but if it still doesn't work, [please submit manually](" + (await this.makeFormLink()) + ")!";
         }
         lastMessages.unshift(this.commandMessage); // add images from this message to the list as well
 
@@ -174,7 +171,7 @@ class Submission {
         if (this.readImageIndex === undefined) {
             log.debug("PARTYSUBMIT", "Aborting: No result screen found");
             throw "I couldn't recognize any of your images as the Results Screen, sorry! (Is there a screen filter or something?)\n" +
-            "[You can still submit this play manually with this link](" + (await this.makeFormLink(false)) + ") - you just have to fill in the numbers yourself.";
+            "[You can still submit this play manually with this link](" + (await this.makeFormLink()) + ") - you just have to fill in the numbers yourself.";
         } else {
             if (this.imageList.length > this.partyInfo.form.fields.images.length) {
                 log.debug("PARTYSUBMIT", "Too many images, making check image");
@@ -218,24 +215,10 @@ class Submission {
         return fields;
     }
 
-    async makeFormLink(shorten) {
+    async makeFormLink() {
         const fields = this.getFormFields();
-        const link = "https://docs.google.com/forms/d/e/" + this.partyInfo.form.id + "/viewform?"
+        return "https://docs.google.com/forms/d/e/" + this.partyInfo.form.id + "/viewform?"
             + Object.keys(fields).map(k => k + "=" + urlencode(fields[k])).join("&");
-
-        if (link.length < 256 || !shorten) {
-            return link;
-        }
-        if (link !== this.submissionShortLinkLast) {
-            try {
-                log.debug("PARTYSUBMIT", "Fetching short URL");
-                this.submissionShortLinkCache = await tinyurl.shorten(link);
-                this.submissionShortLinkLast = link;
-            } catch (e) {
-                return link.substring(0, 256);
-            }
-        }
-        return this.submissionShortLinkCache;
     }
 
     async updateEmbed(interaction) {
@@ -304,25 +287,18 @@ class Submission {
                     .setLabel("Cancel")
                     .setStyle(ButtonStyle.Danger),
                 new ButtonBuilder()
-                    .setURL(await this.makeFormLink(true))
+                    .setCustomId("partysubmit-form-" + this.commandMessage.author.id)
                     .setLabel("Submit via Form")
-                    .setStyle(ButtonStyle.Link)
+                    .setStyle(ButtonStyle.Secondary)
             );
         } else if (this.submissionStatus === SubmissionState.SUBMITTED) {
             embed.setFooter({text: "Submission successful!"});
         } else {
             if (this.submissionStatus === SubmissionState.CANCELLED_USER) {
-                embed.setFooter({text: "The automatic submission was cancelled, but you can still submit this play manually below."});
+                embed.setDescription("The automatic submission was cancelled, but [you can still submit this play manually with this link](" + (await this.makeFormLink()) + ").");
             } else {
-                embed.setFooter({text: "The automatic submission timed out, but you can still submit this play manually below."});
+                embed.setDescription("The automatic submission timed out, but [you can still submit this play manually with this link](" + (await this.makeFormLink()) + ").");
             }
-            buttons = new ActionRowBuilder();
-            buttons.addComponents(
-                new ButtonBuilder()
-                    .setURL(await this.makeFormLink(true))
-                    .setLabel("Submit via Form")
-                    .setStyle(ButtonStyle.Link)
-            );
         }
 
         if (interaction !== undefined) {
@@ -445,6 +421,13 @@ class Submission {
             this.other = value;
             await this.updateEmbed(interaction);
         }
+    }
+
+    async sendFormLink(interaction) {
+        interaction.reply({
+            content: "[Here's your form link!](" + (await this.makeFormLink()) + ")",
+            ephemeral: true
+        });
     }
 
     async cancel(interaction) {
@@ -589,6 +572,8 @@ module.exports = (bot) => {
                 await submission.openScoreModal(interaction);
             } else if (args[1] === "other") {
                 await submission.openOtherModal(interaction);
+            } else if (args[1] === "form") {
+                await submission.sendFormLink(interaction);
             } else if (args[1] === "cancel") {
                 await submission.cancel(interaction);
             }

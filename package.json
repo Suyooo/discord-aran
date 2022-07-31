@@ -24,7 +24,6 @@
     "npm-force-resolutions": "^0.0.10",
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
-    "turl": "^1.1.2",
     "winston": "^3.8.1"
   },
   "resolutions": {
