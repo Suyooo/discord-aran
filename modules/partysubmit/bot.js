@@ -105,7 +105,7 @@ class Submission {
             if (m.attachments) {
                 const attachmentURLs = [...m.attachments.values()]
                     .filter(a => a.contentType.startsWith("image/"))
-                    .map(a => a.proxyURL);
+                    .map(a => a.proxyURL + (a.width > 1280 ? "?width=1280&height=" + Math.floor(a.height * 1280 / a.width) : ""));
                 if (attachmentURLs.length > 0) this.imageList.push(...attachmentURLs);
             }
             if (m.embeds) {
@@ -183,7 +183,7 @@ class Submission {
             if (this.imageList.length > this.partyInfo.form.fields.images.length) {
                 log.debug("PARTYSUBMIT", "Too many images, making check image");
                 const urls = [this.imageList[this.readImageIndex], ...this.imageList.filter((_, li) => li !== this.readImageIndex)]
-                    .slice(0, this.partyInfo.form.fields.images.length).map(u => u + "?width=160&height=90");
+                    .slice(0, this.partyInfo.form.fields.images.length).map(u => u.split("?")[0] + "?width=160&height=90");
                 try {
                     const image = await imageHandler.makeCollage(urls, 160, 90);
                     this.submissionAttachmentMessage = await (await bot.channels.resolve("863812003880370227")) // #trash_room on Suyooo's server
