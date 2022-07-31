@@ -4,7 +4,13 @@ const partyConfig = require("./config");
 const config = require("../../config");
 const log = require("../../logger");
 
-let spreadsheet = undefined;
+let frontSheet = undefined;
+const winnerCellAddrList = ["G12", "B12", "L12"]; // SIF, SIFAS, OOG
+let settingsSheet = undefined;
+const formsCloseCellAddr = "J18";
+const mvpNameCellAddrList = ["J3", "B9", "J6", "B12"]; // SIF A, SIF B, SIFAS A, SIFAS B
+let rankingsSheet = undefined;
+const topCellAddrList = ["B7:D9", "G7:I9", "L7:N9", "Q7:S9"]; // SIF A, SIF B, SIFAS A, SIFAS B
 let knownRoleHavers = new Set();
 
 function startParty() {
@@ -13,12 +19,70 @@ function startParty() {
         await doc.loadInfo();
     }).then(() => {
         log.info("PARTYSUBMIT", "Logged into sheet for party");
-        spreadsheet = doc.sheetsByTitle["Collection of Info and Stuff"];
+        frontSheet = doc.sheetsByTitle["Collection of Info and Stuff"];
+        settingsSheet = doc.sheetsByTitle["Settings"];
+        rankingsSheet = doc.sheetsByTitle["Public View Data Transmission"];
         knownRoleHavers.clear();
     });
 }
 
-const cellAddrList = ["B12", "G12", "L12"];
+function endParty(controllerChannel) {
+    return settingsSheet.loadCells(formsCloseCellAddr).then(() => {
+        const cell = settingsSheet.getCellByA1(formsCloseCellAddr);
+        cell.value = false;
+        return settingsSheet.saveUpdatedCells().then(() => {
+            return new Promise(resolve => {
+                setTimeout(resolve, 10000); // 10 second wait for form closing
+            }).then(async () => {
+                await Promise.all([
+                    frontSheet.loadCells(winnerCellAddrList),
+                    settingsSheet.loadCells(mvpNameCellAddrList),
+                    rankingsSheet.loadCells(topCellAddrList)
+                ]);
+                // send finish message
+                let msg = "Party has ended, forms have been closed. After you posted the results, please finish the Party by going to the sheet and using SIFcord Party => Finish Party menu option!\n\nHere's some stuff to copypaste into the writing doc!\n\n";
+                msg += "SIF Clears\n```";
+                msg += await makeMentionList(winnerCellAddrList[0]);
+                msg += "```\n\nSIFAS Clears\n```";
+                msg += await makeMentionList(winnerCellAddrList[1]);
+                msg += "```\n\nOOG Players\n```";
+                msg += await makeMentionList(winnerCellAddrList[2]);
+                msg += "```\n\nSIF MVPs\n```";
+                msg += await makeMVPList(mvpNameCellAddrList[0], topCellAddrList[0].substr(0,1), topCellAddrList[0].substr(3,1));
+                msg += "\n\n";
+                msg += await makeMVPList(mvpNameCellAddrList[1], topCellAddrList[1].substr(0,1), topCellAddrList[1].substr(3,1));
+                msg += "```\n\nSIFAS MVPs\n```";
+                msg += await makeMVPList(mvpNameCellAddrList[2], topCellAddrList[2].substr(0,1), topCellAddrList[2].substr(3,1));
+                msg += "\n\n";
+                msg += await makeMVPList(mvpNameCellAddrList[3], topCellAddrList[3].substr(0,1), topCellAddrList[3].substr(3,1));
+                msg += "```";
+                await controllerChannel.send(msg);
+            });
+        });
+    });
+}
+
+async function makeMentionList(cellAddr) {
+    const cell = frontSheet.getCellByA1(cellAddr);
+    if (cell.value == null) return "";
+    const clearers = [];
+    for (const clearer of cell.value.split(", ")) {
+        const member = await findMemberByTag(clearer.substring(1));
+        clearers.push(member.toString());
+    }
+    return clearers.join(", ");
+}
+
+async function makeMVPList(mvpNameCellAddr, rankingUserColumn, rankingValueColumn) {
+    const nameCell = settingsSheet.getCellByA1(mvpNameCellAddr);
+    const top = [];
+    for (let row = 7; row <= 9; row++) {
+        const member = await findMemberByName(settingsSheet.getCellByA1(rankingUserColumn + row).value);
+        top.push((row === 7 ? "1st" : (row === 8 ? "2nd" : "3rd")) + ": " + (member ? member.toString() : "??")
+            + " (" + settingsSheet.getCellByA1(rankingValueColumn + row).value + ")");
+    }
+    return "**" + nameCell.value + "**: " + top.join("\n");
+}
 
 function giveRewardRole(member) {
     if (member !== undefined && !knownRoleHavers.has(member.user.tag)) {
@@ -30,11 +94,11 @@ function giveRewardRole(member) {
 }
 
 function checkRoles(bot) {
-    spreadsheet.resetLocalCache(true);
-    return spreadsheet.loadCells(cellAddrList).then(() => {
+    frontSheet.resetLocalCache(true);
+    return frontSheet.loadCells(winnerCellAddrList).then(() => {
         const clearers = new Set();
-        for (const cellAddr of cellAddrList) {
-            const cell = spreadsheet.getCellByA1(cellAddr);
+        for (const cellAddr of winnerCellAddrList) {
+            const cell = frontSheet.getCellByA1(cellAddr);
             if (cell.value == null) continue;
             for (const clearer of cell.value.split(", ")) {
                 clearers.add(clearer.substring(1));
@@ -51,8 +115,7 @@ function checkRoles(bot) {
     }).then(([guild, addRole, removeRole]) => {
         const p = [];
         for (const add of addRole) {
-            p.push(guild.members.fetch({cache: false, query: add.split("#")[0], limit: 1000}).then((members) => {
-                const member = members.find(m => m.user.tag === add);
+            p.push(findMemberByTag(add).then((member) => {
                 if (member !== undefined) {
                     log.info("PARTYSUBMIT", "Awarding reward role to " + member.user.tag);
                     member.roles.add(partyConfig.clearRewardRoleId, "Party Challenge cleared");
@@ -60,8 +123,7 @@ function checkRoles(bot) {
             }));
         }
         for (const remove of removeRole) {
-            p.push(guild.members.fetch({cache: false, query: remove.split("#")[0], limit: 1000}).then((members) => {
-                const member = members.find(m => m.user.tag === remove);
+            p.push(findMemberByTag(remove).then((member) => {
                 if (member !== undefined) {
                     log.info("PARTYSUBMIT", "Removing reward role from " + member.user.tag);
                     member.roles.remove(partyConfig.clearRewardRoleId, "Party Challenge submission rejected");
@@ -72,4 +134,15 @@ function checkRoles(bot) {
     });
 }
 
-module.exports = {startParty, giveRewardRole, checkRoles};
+async function findMemberByName(guild, name) {
+    const members = await guild.members.fetch({query: name, limit: 2});
+    if (members.size === 1) return members.first();
+    else return undefined; // not unique
+}
+
+async function findMemberByTag(guild, tag) {
+    const members = await guild.members.fetch({query: tag.split("#")[0], limit: 1000});
+    return members.find(m => m.user.tag === tag);
+}
+
+module.exports = {startParty, endParty, giveRewardRole, checkRoles};

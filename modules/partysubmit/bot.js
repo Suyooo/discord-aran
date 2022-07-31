@@ -486,17 +486,21 @@ function startParty(bot) {
     }
 
     Object.keys(activeSubmissions).forEach(userId => delete activeSubmissions[userId]);
-    partyTimeout = setTimeout(endParty, partyConfig.partyStart + 86580000 - Date.now()); // + 24 hours run time + 3 minute grace period
+    partyTimeout = setTimeout(() => endParty(bot), partyConfig.partyStart + 86580000 - Date.now()); // + 24 hours run time + 3 minute grace period
     roleHandler.startParty().then(() => checkRoles(bot));
 }
 
-function endParty() {
+function endParty(bot) {
     log.info("PARTYSUBMIT", "Party has ended!");
 
     clearTimeout(partyTimeout);
     clearTimeout(partyRoleCheckTimeout);
     partyTimeout = undefined;
     partyRoleCheckTimeout = undefined;
+
+    new Promise(resolve => {
+        setTimeout(resolve, 120000); // 2 minute grace period for clicking submit
+    }).then(() => roleHandler.endParty(bot.channels.resolve(partyConfig.controllerChannelId)));
 }
 
 function checkRoles(bot) {
