@@ -509,7 +509,6 @@ function checkRoles(bot) {
 
 module.exports = (bot) => {
     bot.on("ready", () => {
-        startParty(bot); // TODO REMOVE
         if (partyConfig.partyStart + 86580000 < Date.now()) { // planned party not over yet (+ 24 hours run time + 3 minute grace period)
             if (partyConfig.partyStart <= Date.now()) { // start immediately if at least 3 minutes before party start time
                 startParty(bot);
