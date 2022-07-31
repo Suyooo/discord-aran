@@ -33,10 +33,22 @@
       "mvpName": "Attention Please MVP",
       "label": "Hits",
       "modalPrompt": "Your Amount of Hits (Perfects + Greats)",
-      "autoFillLayoutField": null,
+      "autoFillFunction": "hits",
       "requiresThirdImage": false
     },
-    "form": null
+    "form": {
+      "id": "1FAIpQLSd0ESlsTfSNEQuPQ-e3j3BnlkEdBnPTGcIX32c569bE010_Kg",
+      "fields": {
+        "userTag": "entry.125101139",
+        "mvp": "entry.928469207",
+        "score": "entry.2080103688",
+        "other": "entry.1042200761",
+        "images": [
+          "entry.675559882",
+          "entry.2052425345"
+        ]
+      }
+    }
   },
   "SIFAS": {
     "partyChannel": "827558022078267462",
@@ -70,9 +82,22 @@
       "mvpName": "Humming Day MVP",
       "label": "SPs",
       "modalPrompt": "Your Amount of SPs",
-      "autoFillLayoutField": null,
+      "autoFillFunction": null,
       "requiresThirdImage": true
     },
-    "form": null
+    "form": {
+      "id": "1FAIpQLSevcU4dCgwz6FZ6BuXaVOSSt624ZQglrb7cGkcdZxGpTK7z0A",
+      "fields": {
+        "userTag": "entry.517474825",
+        "mvp": "entry.1157710319",
+        "score": "entry.1659827339",
+        "other": "entry.209171377",
+        "images": [
+          "entry.1433484147",
+          "entry.1071837287",
+          "entry.1890128370"
+        ]
+      }
+    }
   }
 }

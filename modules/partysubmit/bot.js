@@ -129,36 +129,23 @@ class Submission {
             try {
                 const image = await imageHandler.loadImage(this.imageList[i]).catch(() => undefined);
                 if (image === undefined) continue;
-                let lookupCriteria, otherField;
+                let layouts, ocrHandler;
 
                 if (this.partyInfo.ocrHandler === OcrHandler.SIF) {
-                    const layouts = await layout.getLayoutSIFResult(image);
+                    ocrHandler = reader.SIF;
+                    layouts = await layout.getLayoutSIFResult(image);
                     if (layouts === undefined) continue;
-
-                    this.score = await reader.readNumber(image, layouts.score, 200);
-                    // Rough Check: There was a score read and it's in a range that realistically is the actual score
-                    if (this.score === undefined || this.score <= 10000) {
-                        this.score = undefined;
-                        continue;
-                    }
-                    lookupCriteria = await reader.getClosestPHashMatch(image, Object.keys(this.partyInfo.lookupMVPIndexByRecognitionCriteria), layouts.song);
-                    if (this.partyInfo.other?.autoFillLayoutField) {
-                        otherField = await reader.readNumber(image, layouts[this.partyInfo.other.autoFillLayoutField], 200);
-                    }
                 } else if (this.partyInfo.ocrHandler === OcrHandler.SIFAS) {
-                    const layouts = await layout.getLayoutSIFASResult(image);
+                    ocrHandler = reader.SIFAS;
+                    layouts = await layout.getLayoutSIFASResult(image);
                     if (layouts === undefined) continue;
+                }
 
-                    this.score = await reader.readNumber(image, layouts.score, -200);
-                    // Rough Check: There was a score read and it's in a range that realistically is the actual score
-                    if (this.score === undefined || this.score <= 10000) {
-                        this.score = undefined;
-                        continue;
-                    }
-                    lookupCriteria = await reader.readStringWithOptions(image, Object.keys(this.partyInfo.lookupMVPIndexByRecognitionCriteria), layouts.song, -200);
-                    if (this.partyInfo.other?.autoFillLayoutField) {
-                        otherField = await reader.readNumber(image, layouts[config.guilds[message.guildId].parties.SIFAS.other.layoutField], 150);
-                    }
+                this.score = await ocrHandler.score(image, layouts);
+                // Rough Check: There was a score read and it's in a range that realistically is the actual score
+                if (this.score === undefined || this.score <= 10000) {
+                    this.score = undefined;
+                    continue;
                 }
 
                 if (this.partyInfo.sameSongForMVPs) {
@@ -168,10 +155,12 @@ class Submission {
                         this.mvpIndex = 0;
                     }
                 } else {
-                    this.mvpIndex = this.partyInfo.lookupMVPIndexByRecognitionCriteria[lookupCriteria];
+                    const lookup =
+                        await ocrHandler.mvp(image, layouts, Object.keys(this.partyInfo.lookupMVPIndexByRecognitionCriteria));
+                    this.mvpIndex = this.partyInfo.lookupMVPIndexByRecognitionCriteria[lookup];
                 }
-                if (this.partyInfo.mvps[this.mvpIndex].readOther) {
-                    this.other = otherField;
+                if (this.partyInfo.mvps[this.mvpIndex].readOther && this.partyInfo.other?.autoFillFunction) {
+                    this.other = await ocrHandler[this.partyInfo.other?.autoFillFunction](image, layouts);
                 }
 
                 this.readImageIndex = i;

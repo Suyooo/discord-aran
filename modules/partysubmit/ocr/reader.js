@@ -64,7 +64,49 @@ async function getClosestPHashMatch(originalImage, options, bbox) {
     return best;
 }
 
-module.exports = {readNumber, readString, readStringWithOptions, getClosestPHashMatch};
+const SIF = {
+    async score(image, layouts) {
+        return await readNumber(image, layouts.score, 200);
+    },
+    async mvp(image, layouts, options) {
+        return await getClosestPHashMatch(image, options, layouts.song);
+    },
+    async combo(image, layouts) {
+        return await readNumber(image, layouts.combo, 200);
+    },
+    async perfects(image, layouts) {
+        return await readNumber(image, layouts.perfects, 200);
+    },
+    async greats(image, layouts) {
+        return await readNumber(image, layouts.greats, 200);
+    },
+    async goods(image, layouts) {
+        return await readNumber(image, layouts.goods, 200);
+    },
+    async bads(image, layouts) {
+        return await readNumber(image, layouts.bads, 200);
+    },
+    async misses(image, layouts) {
+        return await readNumber(image, layouts.misses, 200);
+    },
+    async hits(image, layouts) {
+        return (await this.perfects(image, layouts)) + (await this.greats(image, layouts));
+    }
+}
+
+const SIFAS = {
+    async score(image, layouts) {
+        return await readNumber(image, layouts.score, -200);
+    },
+    async mvp(image, layouts, options) {
+        return await readStringWithOptions(image, options, layouts.song, -200);
+    },
+    async skills(image, layouts) {
+        return await readNumber(image, layouts.skills, 150);
+    }
+}
+
+module.exports = {SIF, SIFAS};
 
 /*(async function() {
     let image = await imageHandler.loadImage("https://media.discordapp.net/attachments/832628579728752680/873727798357938206/Screenshot_2021-08-08-07-40-32-247_klb.android.lovelive_en.jpg");
