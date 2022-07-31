@@ -48,8 +48,7 @@ async function readStringWithOptions(originalImage, options, bbox, threshold) {
 }
 
 async function getClosestPHashMatch(originalImage, options, bbox) {
-    let image = await originalImage.clone();
-    await image.crop(bbox.x, bbox.y, bbox.w, bbox.h);
+    let image = await imageHandler.cropclone(originalImage, bbox.x, bbox.y, bbox.w, bbox.h);
     let hash = image.pHash();
     log.debug("PARTYSUBMIT", "OCR got picture hash: " + hash);
     let best = undefined, bestDist = undefined;

@@ -2,8 +2,8 @@ const imageHandler = require("./imageHandler");
 
 async function getLayoutSIFResult(originalImage) {
     // find bottom box (with the accuracies), find the rest from there
-    let image = await originalImage.clone();
-    await image.crop(image.bitmap.width * 0.475, image.bitmap.height * 0.8, image.bitmap.width * 0.525, image.bitmap.height * 0.2 - 1);
+    let image = await imageHandler.cropclone(originalImage,
+        originalImage.bitmap.width * 0.475, originalImage.bitmap.height * 0.8, originalImage.bitmap.width * 0.525, originalImage.bitmap.height * 0.2 - 1);
     await image.grayscale();
     await image.normalize();
     let longestStreakLength = 0, longestStreakStart = 0, firstLongStreak = undefined;
@@ -94,20 +94,21 @@ async function getLayoutSIFResult(originalImage) {
 
 async function getLayoutSIFASResult(originalImage) {
     // find MVP box, find the rest from there
-    let image = await originalImage.clone();
-    let usedHeight = Math.min(image.bitmap.height, image.bitmap.width / 16 * 9);
-    await image.crop(image.bitmap.width * 0.3, image.bitmap.height * 0.55, image.bitmap.width * 0.11, usedHeight * 0.35);
+    let usedHeight = Math.min(originalImage.bitmap.height, originalImage.bitmap.width / 16 * 9);
+    let image =  await imageHandler.cropclone(originalImage,
+        originalImage.bitmap.width * 0.3, originalImage.bitmap.height * 0.55, originalImage.bitmap.width * 0.11, usedHeight * 0.35);
     await image.grayscale();
     await image.normalize();
     let streaks = {};
     for (let x = 0; x < image.bitmap.width; x++) {
-        let currentStreakLength = 0, currentStreakStart = 0, colLongestStreakLength = 0, colLongestStreakStart = 0,anyFound = false;
+        let currentStreakLength = 0, currentStreakStart = 0, colLongestStreakLength = 0, colLongestStreakStart = 0,
+            anyFound = false;
         for (let y = 0; y < image.bitmap.height; y++) {
             let idx = image.getPixelIndex(x, y);
             if (image.bitmap.data[idx] > 175) {
                 image.bitmap.data[idx] = 255;
-                image.bitmap.data[idx+1] = 0;
-                image.bitmap.data[idx+2] = 0;
+                image.bitmap.data[idx + 1] = 0;
+                image.bitmap.data[idx + 2] = 0;
                 anyFound = true;
                 currentStreakLength++;
                 if (currentStreakLength > colLongestStreakLength) {
@@ -122,7 +123,7 @@ async function getLayoutSIFASResult(originalImage) {
         if (!anyFound) break;
 
         let k = colLongestStreakLength + "," + colLongestStreakStart;
-        if (!streaks.hasOwnProperty(k)) streaks[k] = { c: 0, x: 0 }
+        if (!streaks.hasOwnProperty(k)) streaks[k] = {c: 0, x: 0}
         streaks[k].c++;
         streaks[k].x = x;
     }
@@ -134,8 +135,9 @@ async function getLayoutSIFASResult(originalImage) {
         return undefined;
     }
 
-    let mostFrequentStreak = filteredStreaks.reduce((p,c) => !p || streaks[p].c < streaks[c].c ? c : p);
-    let longestStreakLength = Number(mostFrequentStreak.split(",")[0]), longestStreakStart = Number(mostFrequentStreak.split(",")[1]);
+    let mostFrequentStreak = filteredStreaks.reduce((p, c) => !p || streaks[p].c < streaks[c].c ? c : p);
+    let longestStreakLength = Number(mostFrequentStreak.split(",")[0]),
+        longestStreakStart = Number(mostFrequentStreak.split(",")[1]);
 
     // corners of the box might not be perfect, do a little range check for the true right side
     let lastLongStreak = 0;
@@ -229,4 +231,4 @@ function hasInvalidLayout(layouts, width, height) {
     return false;
 }
 
-module.exports = { getLayoutSIFResult, getLayoutSIFASResult };
+module.exports = {getLayoutSIFResult, getLayoutSIFASResult};
