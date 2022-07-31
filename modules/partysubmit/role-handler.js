@@ -42,19 +42,19 @@ function endParty(controllerChannel) {
                 // send finish message
                 let msg = "Party has ended, forms have been closed. After you posted the results, please finish the Party by going to the sheet and using SIFcord Party => Finish Party menu option!\n\nHere's some stuff to copypaste into the writing doc!\n\n";
                 msg += "SIF Clears\n```";
-                msg += await makeMentionList(winnerCellAddrList[0]);
+                msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[0]);
                 msg += "```\n\nSIFAS Clears\n```";
-                msg += await makeMentionList(winnerCellAddrList[1]);
+                msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[1]);
                 msg += "```\n\nOOG Players\n```";
-                msg += await makeMentionList(winnerCellAddrList[2]);
+                msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[2]);
                 msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(mvpNameCellAddrList[0], topCellAddrList[0].substr(0,1), topCellAddrList[0].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topCellAddrList[0].substr(0,1), topCellAddrList[0].substr(3,1));
                 msg += "\n\n";
-                msg += await makeMVPList(mvpNameCellAddrList[1], topCellAddrList[1].substr(0,1), topCellAddrList[1].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topCellAddrList[1].substr(0,1), topCellAddrList[1].substr(3,1));
                 msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(mvpNameCellAddrList[2], topCellAddrList[2].substr(0,1), topCellAddrList[2].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topCellAddrList[2].substr(0,1), topCellAddrList[2].substr(3,1));
                 msg += "\n\n";
-                msg += await makeMVPList(mvpNameCellAddrList[3], topCellAddrList[3].substr(0,1), topCellAddrList[3].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topCellAddrList[3].substr(0,1), topCellAddrList[3].substr(3,1));
                 msg += "```";
                 await controllerChannel.send(msg);
             });
@@ -62,22 +62,22 @@ function endParty(controllerChannel) {
     });
 }
 
-async function makeMentionList(cellAddr) {
+async function makeMentionList(guild, cellAddr) {
     const cell = frontSheet.getCellByA1(cellAddr);
     if (cell.value == null) return "";
     const clearers = [];
     for (const clearer of cell.value.split(", ")) {
-        const member = await findMemberByTag(clearer.substring(1));
+        const member = await findMemberByTag(guild, clearer.substring(1));
         clearers.push(member.toString());
     }
     return clearers.join(", ");
 }
 
-async function makeMVPList(mvpNameCellAddr, rankingUserColumn, rankingValueColumn) {
+async function makeMVPList(guild, mvpNameCellAddr, rankingUserColumn, rankingValueColumn) {
     const nameCell = settingsSheet.getCellByA1(mvpNameCellAddr);
     const top = [];
     for (let row = 7; row <= 9; row++) {
-        const member = await findMemberByName(settingsSheet.getCellByA1(rankingUserColumn + row).value);
+        const member = await findMemberByName(guild, settingsSheet.getCellByA1(rankingUserColumn + row).value);
         top.push((row === 7 ? "1st" : (row === 8 ? "2nd" : "3rd")) + ": " + (member ? member.toString() : "??")
             + " (" + settingsSheet.getCellByA1(rankingValueColumn + row).value + ")");
     }
@@ -115,7 +115,7 @@ function checkRoles(bot) {
     }).then(([guild, addRole, removeRole]) => {
         const p = [];
         for (const add of addRole) {
-            p.push(findMemberByTag(add).then((member) => {
+            p.push(findMemberByTag(guild, add).then((member) => {
                 if (member !== undefined) {
                     log.info("PARTYSUBMIT", "Awarding reward role to " + member.user.tag);
                     member.roles.add(partyConfig.clearRewardRoleId, "Party Challenge cleared");
@@ -123,7 +123,7 @@ function checkRoles(bot) {
             }));
         }
         for (const remove of removeRole) {
-            p.push(findMemberByTag(remove).then((member) => {
+            p.push(findMemberByTag(guild, remove).then((member) => {
                 if (member !== undefined) {
                     log.info("PARTYSUBMIT", "Removing reward role from " + member.user.tag);
                     member.roles.remove(partyConfig.clearRewardRoleId, "Party Challenge submission rejected");
