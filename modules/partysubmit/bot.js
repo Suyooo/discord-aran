@@ -450,6 +450,7 @@ const activeSubmissions = {};
 const roleHavers = new Set();
 let partyTimeout = undefined;
 let partyRoleCheckTimeout = undefined;
+let partyActivityTimeout = undefined;
 
 function startParty(bot) {
     // TODO: when databasing, load correct party config (in role-handler too)
@@ -488,14 +489,17 @@ function startParty(bot) {
     Object.keys(activeSubmissions).forEach(userId => delete activeSubmissions[userId]);
     partyTimeout = setTimeout(() => endParty(bot), partyConfig.partyStart + 86580000 - Date.now()); // + 24 hours run time + 3 minute grace period
     roleHandler.startParty().then(() => checkRoles(bot));
+    playSIF(bot);
 }
 
 function endParty(bot) {
     log.info("PARTYSUBMIT", "Party has ended!");
 
     clearTimeout(partyTimeout);
-    clearTimeout(partyRoleCheckTimeout);
     partyTimeout = undefined;
+    clearTimeout(partyRoleCheckTimeout);
+    clearTimeout(partyActivityTimeout);
+    bot.user.setActivity(null);
     partyRoleCheckTimeout = undefined;
 
     new Promise(resolve => {
@@ -509,6 +513,18 @@ function checkRoles(bot) {
             partyRoleCheckTimeout = setTimeout(() => checkRoles(bot), 60000); // 1 minute
         }
     });
+}
+
+function playSIF(bot) {
+    if (partyTimeout === undefined) return;
+    bot.user.setActivity("#sif_party");
+    partyActivityTimeout = setTimeout(() => playSIFAS(bot), 60000);
+}
+
+function playSIFAS(bot) {
+    if (partyTimeout === undefined) return;
+    bot.user.setActivity("#sifas_party");
+    partyActivityTimeout = setTimeout(() => playSIF(bot), 60000);
 }
 
 module.exports = (bot) => {
