@@ -55,6 +55,7 @@ class Submission {
     mvpIndex;
     score;
     other;
+    showOther = false;
 
     submissionMessage;
     submissionAttachmentMessage;
@@ -195,6 +196,11 @@ class Submission {
                     log.error("PARTYSUBMIT", "ERROR handling too many image collage, continuing: " + e.stack);
                 }
             }
+
+            // Only show Other Value field if we have recognized 2nd MVP, and a third image exists if it is required
+            this.showOther = this.partyInfo.mvps[this.mvpIndex].readOther &&
+                (!this.partyInfo.other.requiresThirdImage || this.imageList.length > 2);
+
             await this.updateEmbed();
         }
     }
@@ -231,10 +237,6 @@ class Submission {
         log.debug("PARTYSUBMIT", "Posting embed");
         let buttons = undefined;
 
-        // Only show Other Value field if we have recognized 2nd MVP, and a third image exists if it is required
-        const showOther = this.partyInfo.mvps[this.mvpIndex].readOther &&
-            (!this.partyInfo.other.requiresThirdImage || this.imageList.length > 2);
-
         const embed = new EmbedBuilder()
             .setColor(partyConfig.embedColor)
             .setThumbnail(this.imageList[this.readImageIndex])
@@ -247,10 +249,10 @@ class Submission {
                 {
                     name: this.partyInfo.scoreLabel,
                     value: format(this.score),
-                    inline: showOther
+                    inline: this.showOther
                 }
             );
-        if (showOther) {
+        if (this.showOther) {
             embed.addFields(
                 {
                     name: this.partyInfo.other.label,
@@ -272,14 +274,14 @@ class Submission {
                 new ButtonBuilder()
                     .setCustomId("partysubmit-submit-" + this.commandMessage.author.id)
                     .setLabel("Submit")
-                    .setDisabled(this.other === undefined)
+                    .setDisabled(this.other === undefined && this.showOther)
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
                     .setCustomId("partysubmit-score-" + this.commandMessage.author.id)
                     .setLabel("Edit " + this.partyInfo.scoreLabel)
                     .setStyle(ButtonStyle.Secondary)
             );
-            if (showOther) {
+            if (this.showOther) {
                 buttons.addComponents(
                     new ButtonBuilder()
                         .setCustomId("partysubmit-other-" + this.commandMessage.author.id)
