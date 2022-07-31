@@ -177,7 +177,7 @@ class Submission {
 
         if (this.readImageIndex === undefined) {
             log.debug("PARTYSUBMIT", "Aborting: No result screen found");
-            throw "I couldn't recognize any of your images as the Results Screen, sorry! (Is there a screen filter or something?)\n" +
+            throw "I couldn't recognize any of your images as the Results Screen, sorry! (Is there a screen filter or something? If not, feel free to ping so we can find out why it's not working!)\n" +
             "[You can still submit this play manually with this link](" + (await this.makeFormLink()) + ") - you just have to fill in the numbers yourself.";
         } else {
             if (this.imageList.length > this.partyInfo.form.fields.images.length) {
@@ -265,8 +265,10 @@ class Submission {
         if (this.submissionStatus === SubmissionState.EDITING) {
             embed.setFooter({text: "If the MVP or images are wrong, click \"Submit via Form\" to edit everything!"});
             if (this.submissionAttachmentUrl !== undefined) {
-                embed.setDescription("I found more images than needed - the images that will be submitted are shown below, please make sure they include everything you need!")
+                embed.setDescription("I found more images than needed - the images that will be submitted are shown below, please make sure they include everything you need and the values are right!")
                     .setImage(this.submissionAttachmentUrl);
+            } else if (this.other === undefined && this.showOther) {
+                embed.setDescription("Please double-check the values I've read and enter the missing ones! (Your submission doesn't count until you enter everything needed and hit Confirm!)")
             } else {
                 embed.setDescription("Please double-check the values I've read! (Your submission doesn't count until you hit Confirm!)")
             }
