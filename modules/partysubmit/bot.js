@@ -262,7 +262,7 @@ class Submission {
             .setThumbnail(this.imageList[this.readImageIndex])
             .addFields(
                 {
-                    name: this.partyInfo.sameSongForMVPs ? "Participating in 2nd MVP" : "Song / MVP",
+                    name: this.partyInfo.sameSongForMVPs ? "Participating in " + this.partyInfo.other.mvpName : "Song / MVP",
                     value: this.partyInfo.mvps[this.mvpIndex].mvpName,
                     inline: false
                 },

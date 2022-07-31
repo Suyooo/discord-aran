@@ -1,6 +1,6 @@
 {
   "partyStart": 1659279600000,
-  "spreadsheetId": "1yZ3ag8kw-P9s0ZKfHt6tsobSSwd1ZR5Xj_g6zHsOpR8",
+  "spreadsheetId": "19GoyW0S_x8IKB0VMQ6bj4SqxMFmFoaKDuaKtzhX_nFA",
   "embedColor": "#FF9547",
   "clearRewardRoleId": "891221604233773077",
   "SIF": {
@@ -14,40 +14,29 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Borarara (Party Challenge & Score MVP)",
+        "mvpName": "Aozora Jumping Heart (Party Challenge & Unknown Dreams MVP)",
         "recognition": [
-          "1001101010000001001101001101000001000010000010100011010000000010"
+          "1001010001100111000001100010010100110000011001000011001000000000"
         ],
         "readOther": false
       },
       {
-        "mvpName": "KimiKoko (Party Challenge & Miss MVP)",
+        "mvpName": "Fantastic Departure! (Party Challenge & Attention Please MVP)",
         "recognition": [
-          "1100000100000000100000000100000000000000000000000110000001000000"
+          "1100111010000100001101000111000001000010010010000000100100000000"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "label": "Perfects",
-      "modalPrompt": "Your Amount of Perfects",
-      "autoFillLayoutField": "perfects",
+      "mvpName": "Attention Please MVP",
+      "label": "Hits",
+      "modalPrompt": "Your Amount of Hits (Perfects + Greats)",
+      "autoFillLayoutField": null,
       "requiresThirdImage": false
     },
-    "form": {
-      "id": "1FAIpQLSfupD9ZQtzoImEnv2ZMxGW1SK_--UeZEo79uGE7rj-_PszPEQ",
-      "fields": {
-        "userTag": "entry.821412025",
-        "mvp": "entry.122458676",
-        "score": "entry.634295046",
-        "other": "entry.1429128373",
-        "images": [
-          "entry.1449552455",
-          "entry.1784958101"
-        ]
-      }
-    }
+    "form": null
   },
   "SIFAS": {
     "partyChannel": "827558022078267462",
@@ -57,39 +46,33 @@
     ],
     "ocrHandler": 1,
     "scoreLabel": "Voltage",
-    "sameSongForMVPs": true,
+    "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Yes",
-        "recognition": [],
-        "readOther": true
+        "mvpName": "Mirai no Bokura wa Shitteru yo (Party Challenge & Shining Wind MVP)",
+        "recognition": [
+          "Mirai no Bokura wa Shitteru yo",
+          "未来の僕らは知ってるよ"
+        ],
+        "readOther": false
       },
       {
-        "mvpName": "No",
-        "recognition": [],
-        "readOther": false
+        "mvpName": "Humming Friend (Party Challenge & Humming Day MVP)",
+        "recognition": [
+          "Humming Friend",
+          "ハミングフレンド"
+        ],
+        "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
+      "mvpName": "Humming Day MVP",
       "label": "SPs",
       "modalPrompt": "Your Amount of SPs",
       "autoFillLayoutField": null,
       "requiresThirdImage": true
     },
-    "form": {
-      "id": "1FAIpQLSfYF3dLP7fOv0qeA-kZtzmi-0wjytJj_MBj8sYYHry0wwP4rA",
-      "fields": {
-        "userTag": "entry.562861160",
-        "mvp": "entry.1837223453",
-        "score": "entry.970199418",
-        "other": "entry.1671095302",
-        "images": [
-          "entry.405174353",
-          "entry.1225763615",
-          "entry.701662195"
-        ]
-      }
-    }
+    "form": null
   }
 }
