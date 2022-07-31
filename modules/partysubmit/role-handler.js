@@ -27,13 +27,16 @@ function startParty() {
 }
 
 function endParty(controllerChannel) {
+    log.debug("PARTYSUBMIT", "Connecting to spreadsheets to end the party");
     return settingsSheet.loadCells(formsCloseCellAddr).then(() => {
         const cell = settingsSheet.getCellByA1(formsCloseCellAddr);
         cell.value = false;
+        log.debug("PARTYSUBMIT", "Closing forms");
         return settingsSheet.saveUpdatedCells().then(() => {
             return new Promise(resolve => {
                 setTimeout(resolve, 10000); // 10 second wait for form closing
             }).then(async () => {
+                log.debug("PARTYSUBMIT", "Making copypasties");
                 await Promise.all([
                     frontSheet.loadCells(winnerCellAddrList),
                     settingsSheet.loadCells(mvpNameCellAddrList),
@@ -48,14 +51,15 @@ function endParty(controllerChannel) {
                 msg += "```\n\nOOG Players\n```";
                 msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[2]);
                 msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topCellAddrList[0].substr(0,1), topCellAddrList[0].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topCellAddrList[0].substr(0, 1), topCellAddrList[0].substr(3, 1));
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topCellAddrList[1].substr(0,1), topCellAddrList[1].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topCellAddrList[1].substr(0, 1), topCellAddrList[1].substr(3, 1));
                 msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topCellAddrList[2].substr(0,1), topCellAddrList[2].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topCellAddrList[2].substr(0, 1), topCellAddrList[2].substr(3, 1));
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topCellAddrList[3].substr(0,1), topCellAddrList[3].substr(3,1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topCellAddrList[3].substr(0, 1), topCellAddrList[3].substr(3, 1));
                 msg += "```";
+                log.debug("PARTYSUBMIT", "Sending copypasties");
                 await controllerChannel.send(msg);
             });
         });
@@ -64,10 +68,12 @@ function endParty(controllerChannel) {
 
 async function makeMentionList(guild, cellAddr) {
     const cell = frontSheet.getCellByA1(cellAddr);
-    if (cell.value == null) return "";
+    if (cell.value === null) return "";
     const clearers = [];
     for (const clearer of cell.value.split(", ")) {
-        const member = await findMemberByTag(guild, clearer.substring(1));
+        const tag = clearer.trim();
+        if (tag === "") continue;
+        const member = await findMemberByTag(guild, tag.substring(1));
         clearers.push(member.toString());
     }
     return clearers.join(", ");
@@ -77,9 +83,11 @@ async function makeMVPList(guild, mvpNameCellAddr, rankingUserColumn, rankingVal
     const nameCell = settingsSheet.getCellByA1(mvpNameCellAddr);
     const top = [];
     for (let row = 7; row <= 9; row++) {
-        const member = await findMemberByName(guild, settingsSheet.getCellByA1(rankingUserColumn + row).value);
-        top.push((row === 7 ? "1st" : (row === 8 ? "2nd" : "3rd")) + ": " + (member ? member.toString() : "??")
-            + " (" + settingsSheet.getCellByA1(rankingValueColumn + row).value + ")");
+        const userName = rankingsSheet.getCellByA1(rankingUserColumn + row).value;
+        if (userName === null) continue;
+        const member = await findMemberByName(guild, userName.trim());
+        top.push((row === 7 ? "" : (row === 8 ? "2nd: " : "3rd: ")) + (member ? member.toString() : "@" + userName.trim())
+            + " (" + rankingsSheet.getCellByA1(rankingValueColumn + row).value + ")");
     }
     return "**" + nameCell.value + "**: " + top.join("\n");
 }
