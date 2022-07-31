@@ -111,7 +111,7 @@ class Submission {
             if (m.embeds) {
                 const embedURLs = m.embeds
                     .filter(e => e.data.thumbnail)
-                    .map(e => e.data.thumbnail.proxy_url);
+                    .map(e => e.data.thumbnail.proxy_url + (e.data.thumbnail.width > 1280 ? "?width=1280&height=" + Math.floor(e.data.thumbnail.height * 1280 / e.data.thumbnail.width) : ""));
                 if (embedURLs.length > 0) this.imageList.push(...embedURLs);
             }
             lastMessageTimestamp = m.createdTimestamp;
