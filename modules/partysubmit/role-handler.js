@@ -47,11 +47,11 @@ function endParty(controllerChannel) {
                 msg += await makeMentionList(winnerCellAddrList[1]);
                 msg += "```\n\nOOG Players\n```";
                 msg += await makeMentionList(winnerCellAddrList[2]);
-                msg += "```\n\nSIF MVPs\n```";
+                msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
                 msg += await makeMVPList(mvpNameCellAddrList[0], topCellAddrList[0].substr(0,1), topCellAddrList[0].substr(3,1));
                 msg += "\n\n";
                 msg += await makeMVPList(mvpNameCellAddrList[1], topCellAddrList[1].substr(0,1), topCellAddrList[1].substr(3,1));
-                msg += "```\n\nSIFAS MVPs\n```";
+                msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
                 msg += await makeMVPList(mvpNameCellAddrList[2], topCellAddrList[2].substr(0,1), topCellAddrList[2].substr(3,1));
                 msg += "\n\n";
                 msg += await makeMVPList(mvpNameCellAddrList[3], topCellAddrList[3].substr(0,1), topCellAddrList[3].substr(3,1));

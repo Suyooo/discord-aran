@@ -19,6 +19,12 @@ const config = require("../../config");
 const log = require("../../logger");
 const partyConfig = require("./config");
 
+// TODO: give out MVP roles
+// TODO: remove clear/MVP role timers
+// TODO: remove reward emotes timer
+// TODO: auto party-unstorage 15 minutes before
+// TODO: auto party-unlock when a message gets pinned?
+
 const SubmissionState = {
     EDITING: 0, SUBMITTED: 1, CANCELLED_USER: 2, CANCELLED_TIMEOUT: 3
 }
