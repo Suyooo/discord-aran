@@ -267,13 +267,15 @@ class Submission {
             if (this.submissionAttachmentUrl !== undefined) {
                 embed.setDescription("I found more images than needed - the images that will be submitted are shown below, please make sure they include everything you need!")
                     .setImage(this.submissionAttachmentUrl);
+            } else {
+                embed.setDescription("Please double-check the values I've read! (Your submission doesn't count until you hit Confirm!)")
             }
 
             buttons = new ActionRowBuilder();
             buttons.addComponents(
                 new ButtonBuilder()
                     .setCustomId("partysubmit-submit-" + this.commandMessage.author.id)
-                    .setLabel("Submit")
+                    .setLabel("Confirm")
                     .setDisabled(this.other === undefined && this.showOther)
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()

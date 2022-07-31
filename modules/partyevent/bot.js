@@ -37,8 +37,8 @@ function checkCountdownNameUpdate(bot, event, hours) {
 async function handleEvent(bot, oldEvent, newEvent) {
     const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
     if (location) {
-        const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
         if (!oldEvent?.isActive() && newEvent.isActive()) {
+            const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
             for (let channelName in channelNames) {
                 const channel = bot.channels.cache.find(channel => channel.name === channelName);
                 if (channel && channel.type === ChannelType.GuildText) {
@@ -51,6 +51,7 @@ async function handleEvent(bot, oldEvent, newEvent) {
                 }
             }
         } else if (oldEvent?.isActive() && (newEvent === undefined || !newEvent.isActive())) {
+            const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
             for (let channelName in channelNames) {
                 const searchName = channelName + "🟢";
                 const channel = bot.channels.cache.find(channel => channel.name === searchName);
