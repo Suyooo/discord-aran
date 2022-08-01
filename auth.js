@@ -1,9 +1,9 @@
 const config = require("./config");
 
-module.exports = bot => {
-    async function checkStaff(client, userId) {
+module.exports = (bot, db) => {
+    async function checkStaff(userId) {
         try {
-            const guild = await client.guilds.fetch(config.sifcordGuildId);
+            const guild = await bot.guilds.fetch(config.sifcordGuildId);
             // do not cache: role changes should be reflected immediately
             const member = await guild.members.fetch({user: userId, force: true});
             return member.roles.cache.some(role => role.id === config.staffRoleId);
@@ -15,7 +15,7 @@ module.exports = bot => {
     async function routerStaffOnly(req, res, next) {
         try {
             if (req.isAuthenticated()) {
-                if (await checkStaff(bot, req.user.id)) {
+                if (await checkStaff(req.user.id)) {
                     return next();
                 }
                 res.status(403);

@@ -18,7 +18,7 @@ function setPermissionsForEveryone(channel, perm) {
 
 // For future reference? Cron schedule for 5x EXP Periods - 0 12,17,22 * * 6,7
 
-module.exports = (bot) => {
+module.exports = (bot, db) => {
     bot.on("ready", async () => {
         const guild = await bot.guilds.fetch(config.sifcordGuildId);
         const channel = await guild.channels.fetch(RC_CHANNEL_ID);

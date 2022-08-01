@@ -2,8 +2,8 @@ const config = require("../../config");
 const log = require("../../logger");
 const {ChannelType} = require("discord.js");
 
-module.exports = (bot) => {
-    const o = {
+module.exports = (bot, db) => {
+    return {
         listChannelsOfGuild: async (guildId) => {
             return await bot.guilds.fetch(guildId).then(guild => {
                 const all = [...guild.channels.cache.values()];
@@ -38,6 +38,4 @@ module.exports = (bot) => {
             });
         }
     };
-
-    return o;
 };

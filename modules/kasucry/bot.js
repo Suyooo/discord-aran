@@ -2,10 +2,10 @@ const {ChannelType} = require("discord.js");
 
 const lastCryTimeByChannel = {};
 const lastCryTimeByUser = {};
-const CHANNEL_COOLDOWN = 600000; // 10 minutes
-const USER_COOLDOWN = 3600000; // 60 minutes
+const CHANNEL_COOLDOWN = 3600000; // 1 hour
+const USER_COOLDOWN = 21600000; // 6 hours
 
-module.exports = (bot) => {
+module.exports = (bot, db) => {
     bot.on("messageCreate", async message => {
         if (message.author.bot) return;
         const content = message.content.toLowerCase();

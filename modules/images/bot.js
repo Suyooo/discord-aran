@@ -1,6 +1,6 @@
 const config = require("../../config")
 
-module.exports = (bot) => ({
+module.exports = (bot, db) => ({
     async textCommand(message, args) {
         if (args[0] === "images") {
             let g = await bot.guilds.fetch(config.sifcordGuildId);

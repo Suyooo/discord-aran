@@ -84,7 +84,7 @@ async function handleEvent(bot, oldEvent, newEvent) {
     }
 }
 
-module.exports = (bot) => {
+module.exports = (bot, db) => {
     bot.on("guildScheduledEventUpdate", handleEvent.bind(this, bot));
     bot.on("guildScheduledEventDelete", handleEvent.bind(this, bot));
     bot.on("ready", async () => {
