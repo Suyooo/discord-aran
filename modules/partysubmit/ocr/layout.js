@@ -191,13 +191,13 @@ async function getLayoutSIFASResult(originalImage) {
 
     // cut off the smaller font size part of the score bounding box
     let scoreBoxImage = await imageHandler.prepareForOCR(originalImage, layouts.score, -200);
-    let searchY = scoreBoxImage.bitmap.height * 0.33;
+    let searchY = 0;
     let rightEdge = scoreBoxImage.bitmap.width - 1;
     while (scoreBoxImage.bitmap.data[scoreBoxImage.getPixelIndex(rightEdge, searchY)] === 255) {
         rightEdge--;
         if (rightEdge < 0) {
             rightEdge = scoreBoxImage.bitmap.width - 1;
-            searchY += 5;
+            searchY += 2;
             if (searchY > scoreBoxImage.bitmap.height / 2) return undefined;
         }
     }
@@ -215,7 +215,7 @@ async function getLayoutSIFASResult(originalImage) {
         }
     }
     // rightEdge is now right between the last actual score digit and the slash
-    layouts.score.w = rightEdge;
+    layouts.score.w = rightEdge + 2;
 
     return layouts;
 }
