@@ -10,8 +10,14 @@ let settingsSheet = undefined;
 const formsCloseCellAddr = "J18";
 const mvpNameCellAddrList = ["J3", "B9", "J6", "B12"]; // SIF A, SIF B, SIFAS A, SIFAS B
 let rankingsSheet = undefined;
-const topCellAddrList = ["B7:D9", "G7:I9", "L7:N9", "Q7:S9"]; // SIF A, SIF B, SIFAS A, SIFAS B
+const topCellAddrList = ["A7:D16", "F7:I16", "K7:N16", "P7:S16"]; // SIF A, SIF B, SIFAS A, SIFAS B
+const topFirstColList = [0, 5, 10, 15]; // SIF A, SIF B, SIFAS A, SIFAS B (0-indexed)
 let knownRoleHavers = new Set();
+
+// https://stackoverflow.com/a/39466341
+function ordinal(n) {
+    return n + (["st", "nd", "rd"][((n + 90) % 100 - 10) % 10 - 1] || "th");
+}
 
 function startParty() {
     let doc = new GoogleSpreadsheet(partyConfig.spreadsheetId);
@@ -31,12 +37,15 @@ function endParty(controllerChannel) {
     return settingsSheet.loadCells(formsCloseCellAddr).then(() => {
         const cell = settingsSheet.getCellByA1(formsCloseCellAddr);
         cell.value = false;
-        log.debug("PARTYSUBMIT", "Closing forms");
+        log.info("PARTYSUBMIT", "2nd grace period over, closing forms");
         return settingsSheet.saveUpdatedCells().then(() => {
             return new Promise(resolve => {
                 setTimeout(resolve, 10000); // 10 second wait for form closing
             }).then(async () => {
-                log.debug("PARTYSUBMIT", "Making copypasties");
+                log.info("PARTYSUBMIT", "Making copypasties");
+                frontSheet.resetLocalCache(true);
+                settingsSheet.resetLocalCache(true);
+                rankingsSheet.resetLocalCache(true);
                 await Promise.all([
                     frontSheet.loadCells(winnerCellAddrList),
                     settingsSheet.loadCells(mvpNameCellAddrList),
@@ -51,13 +60,13 @@ function endParty(controllerChannel) {
                 msg += "```\n\nOOG Players\n```";
                 msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[2]);
                 msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topCellAddrList[0].substr(0, 1), topCellAddrList[0].substr(3, 1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[0], "Score: ", "");
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topCellAddrList[1].substr(0, 1), topCellAddrList[1].substr(3, 1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[1], "", " " + partyConfig.SIF.other.label);
                 msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topCellAddrList[2].substr(0, 1), topCellAddrList[2].substr(3, 1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[2], "Voltage: ", "");
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topCellAddrList[3].substr(0, 1), topCellAddrList[3].substr(3, 1));
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[3], "", " " + partyConfig.SIFAS.other.label);
                 msg += "```";
                 log.debug("PARTYSUBMIT", "Sending copypasties");
                 await controllerChannel.send(msg);
@@ -79,15 +88,45 @@ async function makeMentionList(guild, cellAddr) {
     return clearers.join(", ");
 }
 
-async function makeMVPList(guild, mvpNameCellAddr, rankingUserColumn, rankingValueColumn) {
+async function makeMVPList(guild, mvpNameCellAddr, firstCol, pre, suf) {
+    const rankings = {1: undefined, 2: undefined, 3: undefined};
+    for (let row = 6; row <= 15; row++) {
+        const rank = rankingsSheet.getCell(row, firstCol).value;
+        if (rank === null || rank > 3) break;
+
+        const userName = rankingsSheet.getCell(row, firstCol + 1).value;
+        const possibleMembers = [...knownRoleHavers.values()].filter(n => n.startsWith(userName.trim()));
+        let member;
+        if (possibleMembers.length === 1) {
+            member = await findMemberByTag(guild, possibleMembers[0]);
+        } else {
+            member = await findMemberByName(guild, userName);
+        }
+
+        if (rankings[rank] === undefined) {
+            rankings[rank] = {
+                "score": rankingsSheet.getCell(row, firstCol + 3).value,
+                "players": []
+            }
+        }
+        rankings[rank].players.push(member ? member.toString() : "@" + userName.trim());
+    }
+
     const nameCell = settingsSheet.getCellByA1(mvpNameCellAddr);
     const top = [];
-    for (let row = 7; row <= 9; row++) {
-        const userName = rankingsSheet.getCellByA1(rankingUserColumn + row).value;
-        if (userName === null) continue;
-        const member = await findMemberByName(guild, userName.trim());
-        top.push((row === 7 ? "" : (row === 8 ? "2nd: " : "3rd: ")) + (member ? member.toString() : "@" + userName.trim())
-            + " (" + rankingsSheet.getCellByA1(rankingValueColumn + row).value + ")");
+    for (let rank = 1; rank <= 3; rank++) {
+        if (rankings[rank] === undefined) continue;
+        let s;
+
+        if (rankings[rank].players.length > 1) {
+            const combo = rankings[rank].players[rankings[rank].players.length - 2] + " and " + rankings[rank].players[rankings[rank].players.length - 1];
+            rankings[rank].players.splice(-2, 2, combo);
+            s = "Tied in " + ordinal(rank) + ": " + rankings[rank].players.join(", ");
+        } else {
+            s = ((rank > 1) ? (ordinal(rank) + ": ") : "") + rankings[rank].players[0];
+        }
+
+        top.push(s + " (" + pre + rankings[rank].score + suf + ")");
     }
     return "**" + nameCell.value + "**: " + top.join("\n");
 }

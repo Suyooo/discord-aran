@@ -66,7 +66,7 @@ class Submission {
     // --- OCR
 
     constructor(commandMessage, partyInfo) {
-        log.debug("PARTYSUBMIT", "Starting submission for " + commandMessage.author.tag);
+        log.info("PARTYSUBMIT", "Starting submission for " + commandMessage.author.tag);
         this.commandMessage = commandMessage;
         this.partyInfo = partyInfo;
     }
@@ -505,7 +505,7 @@ function startParty(bot) {
 }
 
 function endParty(bot) {
-    log.info("PARTYSUBMIT", "Party has ended!");
+    log.info("PARTYSUBMIT", "1st grace period over, not accepting new automatic submissions");
 
     clearTimeout(partyTimeout);
     partyTimeout = undefined;
