@@ -8,7 +8,7 @@
     padding: 1rem 1rem 1rem 2rem;
     margin-top: 2rem;
     background-color: #333344;
-    background-image: url("/img/rolebuttons/grip.svg");
+    background-image: url("../../img/rolebuttons/grip.svg");
     background-repeat: no-repeat;
     background-size: 1em;
     background-position: 0.2em 0.6em;
@@ -97,7 +97,7 @@ select {
     padding: 1rem 1rem 1rem 2rem;
     margin-top: 2rem;
     background-color: #444455;
-    background-image: url("/img/rolebuttons/grip.svg");
+    background-image: url("../../img/rolebuttons/grip.svg");
     background-repeat: no-repeat;
     background-size: 1em;
     background-position: 0.2em 0.6em
