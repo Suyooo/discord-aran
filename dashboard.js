@@ -9,7 +9,7 @@ const MemoryStore = require("memorystore")(session);
 const fs = require("fs");
 const crypto = require("crypto");
 
-module.exports = (bot, db) => {
+module.exports = (moduleList, bot, db) => {
     const app = express();
 
     app.set("view engine", "ejs");
@@ -61,36 +61,30 @@ module.exports = (bot, db) => {
     );
     app.locals.dashboardRootPath = config.dashboardRootPath;
 
-    const moduleNames = fs.readdirSync("./modules");
     const allModules = [];
     const dashboardModules = {};
 
-    for (const moduleName of moduleNames) {
-        if (config.hasOwnProperty("moduleWhitelist") && config.moduleWhitelist.indexOf(moduleName) === -1) {
-            log.info("DASHBOARD", "Module " + moduleName + " not whitelisted, skipping");
-            continue;
-        }
-        log.debug("DASHBOARD", "Loading module " + moduleName);
+    for (const mod of moduleList) {
+        log.debug("DASHBOARD", "Loading module " + mod.name);
 
-        const moduleInfo = require("./modules/" + moduleName + "/info");
-        let fullDesc = moduleInfo.description;
-        if (moduleInfo.hasOwnProperty("textCommands")) {
-            fullDesc += " (Text Commands: " + moduleInfo["textCommands"].map(c => config.textCommandPrefix + c).join(", ") + ")"
+        let fullDesc = mod.info.description;
+        if (mod.info.hasOwnProperty("textCommands")) {
+            fullDesc += " (Text Commands: " + mod.info["textCommands"].map(c => config.textCommandPrefix + c).join(", ") + ")"
         }
-        allModules.push([moduleName, fullDesc]);
+        allModules.push([mod.name, fullDesc]);
 
-        if (fs.existsSync("./modules/" + moduleName + "/dashboard.js")) {
-            const module = require("./modules/" + moduleName + "/dashboard")(bot, db);
-            app.use("/" + moduleName, module);
+        const module = require("./modules/" + mod.name + "/dashboard")(bot, db);
+        app.use("/" + mod.name, module);
 
-            if (moduleInfo.hasOwnProperty("dashboardTitle")) {
-                dashboardModules[moduleName] = moduleInfo.dashboardTitle;
-            }
-            log.info("DASHBOARD", "Module dashboard component for " + moduleName + " registered");
+        if (mod.info.hasOwnProperty("dashboardTitle")) {
+            dashboardModules[mod.name] = mod.info.dashboardTitle;
         }
-        app.use("/js/" + moduleName, express.static("modules/" + moduleName + "/static/js"));
-        app.use("/style/" + moduleName, express.static("modules/" + moduleName + "/static/style"));
-        app.use("/vendor/" + moduleName, express.static("modules/" + moduleName + "/static/vendor"));
+        log.info("DASHBOARD", "Module dashboard component for " + mod.name + " registered");
+
+        app.use("/js/" + mod.name, express.static("modules/" + mod.name + "/static/js"));
+        app.use("/img/" + mod.name, express.static("modules/" + mod.name + "/static/img"));
+        app.use("/style/" + mod.name, express.static("modules/" + mod.name + "/static/style"));
+        app.use("/vendor/" + mod.name, express.static("modules/" + mod.name + "/static/vendor"));
     }
 
     allModules.sort((a, b) => a[0].localeCompare(b[0]));

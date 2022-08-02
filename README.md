@@ -150,6 +150,6 @@ declare in the `info.json` file that there is no dashboard for your module.
 If you want to limit access to the dashboard, make sure to use one of the middlewares from
 `bot.auth`, like `router.use(bot.auth.mustBeStaff);`. You can create a `views` subfolder in your
 module folder to add EJS templates to use (make sure to include the header/footer). You can also
-create a `static` folder for resources used by the dashboard. The `js`, `style` and `vendor`
-folders will be served by Express.JS at the `/js/modulename/`, `/style/modulename/` and
-`/vendor/modulename/` URLs of the dashboard server.
+create a `static` folder for resources used by the dashboard. The `js`, `img`, `style` and
+`vendor` folders will be served by Express.JS at the `/js/modulename/`, `/img/modulename/`,
+`/style/modulename/` and `/vendor/modulename/` URLs of the dashboard server.

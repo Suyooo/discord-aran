@@ -1,3 +1,3 @@
 const db = require("sequelize");
 
-module.exports = db;
+module.exports = (moduleList) => db;

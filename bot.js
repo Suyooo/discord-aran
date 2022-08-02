@@ -4,7 +4,7 @@ const cron = require("cron");
 const config = require("./config");
 const log = require("./logger");
 
-module.exports = (db) => {
+module.exports = (moduleList, db) => {
     const bot = new Client({
         intents: [
             GatewayIntentBits.Guilds,
@@ -26,30 +26,22 @@ module.exports = (db) => {
 
     bot.modules = {};
     bot.textCommands = {};
-    const moduleNames = fs.readdirSync("./modules");
 
-    for (const moduleName of moduleNames) {
-        if (config.hasOwnProperty("moduleWhitelist") && config.moduleWhitelist.indexOf(moduleName) === -1) {
-            log.info("BOT", "Module " + moduleName + " not whitelisted, skipping");
-            continue;
-        }
-        log.debug("BOT", "Loading module " + moduleName);
-        const moduleInfo = require("./modules/" + moduleName + "/info");
+    for (const mod of moduleList) {
+        log.debug("BOT", "Loading module " + mod.name);
 
-        if (fs.existsSync("./modules/" + moduleName + "/bot.js")) {
-            const module = require("./modules/" + moduleName + "/bot")(bot, db);
-            bot.modules[moduleName] = module;
-            if (moduleInfo.hasOwnProperty("textCommands")) {
-                for (const textCommand of moduleInfo.textCommands) {
-                    if (bot.textCommands.hasOwnProperty(textCommand)) {
-                        log.error("BOT", "Startup Error: Duplicate text command \"" + textCommand + "\"");
-                        process.exit(1);
-                    }
-                    bot.textCommands[textCommand] = module.textCommand;
+        const module = require("./modules/" + mod.name + "/bot")(bot, db);
+        bot.modules[mod.name] = module;
+        if (mod.info.hasOwnProperty("textCommands")) {
+            for (const textCommand of mod.info.textCommands) {
+                if (bot.textCommands.hasOwnProperty(textCommand)) {
+                    log.error("BOT", "Startup Error: Duplicate text command \"" + textCommand + "\"");
+                    process.exit(1);
                 }
+                bot.textCommands[textCommand] = module.textCommand;
             }
-            log.info("BOT", "Module bot component for " + moduleName + " registered");
         }
+        log.info("BOT", "Module bot component for " + mod.name + " registered");
     }
 
     bot.once("ready", () => {
