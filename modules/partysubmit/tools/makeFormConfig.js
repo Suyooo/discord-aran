@@ -30,4 +30,9 @@ prefill.split("&").filter(f => f.startsWith("entry.")).forEach(f => {
 
 form.fields.mvp = unknown;
 
+if (form.fields.userTag === undefined) console.log("NO USER TAG FIELD FOUND");
+if (form.fields.mvp === undefined) console.log("NO MVP FIELD FOUND");
+if (form.fields.score === undefined) console.log("NO SCORE FIELD FOUND");
+if (form.fields.images.length < 2) console.log("LESS THAN TWO IMAGE FIELDS FOUND");
+
 console.log("\"form\":" + JSON.stringify(form));

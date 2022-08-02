@@ -555,8 +555,6 @@ module.exports = (bot, db) => {
         async textCommand(message, args) {
             if (args[0] === "submit") {
                 const partyInfo = partyConfig.lookupConfigByChannelId[message.channel.id];
-                console.log("got submit");
-                console.log(partyInfo !== undefined, partyTimeout !== undefined, partyConfig.isTestChannel[message.channel.id]);
                 if (partyInfo !== undefined && (partyTimeout !== undefined || partyConfig.isTestChannel[message.channel.id])) {
                     if (activeSubmissions.hasOwnProperty(message.author.id)) {
                         message.reply({
