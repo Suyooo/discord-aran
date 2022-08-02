@@ -12,14 +12,14 @@ for (const moduleName of fs.readdirSync("./modules")) {
     moduleList.push({
         "name": moduleName,
         "info": moduleInfo,
-        "has_db": fs.existsSync("./modules/" + moduleName + "/db.js"),
-        "has_bot": fs.existsSync("./modules/" + moduleName + "/bot.js"),
-        "has_dashboard": fs.existsSync("./modules/" + moduleName + "/dashboard.js")
+        "hasDb": fs.existsSync("./modules/" + moduleName + "/db.js"),
+        "hasBot": fs.existsSync("./modules/" + moduleName + "/bot.js"),
+        "hasDashboard": fs.existsSync("./modules/" + moduleName + "/dashboard.js")
     });
 }
 
-require("./db")(moduleList.filter(m => m.has_db)).then((db) => {
-    require("./bot")(moduleList.filter(m => m.has_bot), db).then((bot) => {
-        require("./dashboard")(moduleList.filter(m => m.has_dashboard), bot, db);
+require("./db")(moduleList.filter(m => m.hasDb)).then((db) => {
+    require("./bot")(moduleList.filter(m => m.hasBot), db).then((bot) => {
+        require("./dashboard")(moduleList, bot, db);
     });
 });

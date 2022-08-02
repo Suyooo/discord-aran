@@ -73,13 +73,15 @@ module.exports = (moduleList, bot, db) => {
         }
         allModules.push([mod.name, fullDesc]);
 
-        const module = require("./modules/" + mod.name + "/dashboard")(bot, db);
-        app.use("/" + mod.name, module);
+        if (mod.hasDashboard) {
+            const module = require("./modules/" + mod.name + "/dashboard")(bot, db);
+            app.use("/" + mod.name, module);
 
-        if (mod.info.hasOwnProperty("dashboardTitle")) {
-            dashboardModules[mod.name] = mod.info.dashboardTitle;
+            if (mod.info.hasOwnProperty("dashboardTitle")) {
+                dashboardModules[mod.name] = mod.info.dashboardTitle;
+            }
+            log.info("DASHBOARD", "Module dashboard component for " + mod.name + " registered");
         }
-        log.info("DASHBOARD", "Module dashboard component for " + mod.name + " registered");
 
         app.use("/js/" + mod.name, express.static("modules/" + mod.name + "/static/js"));
         app.use("/img/" + mod.name, express.static("modules/" + mod.name + "/static/img"));
