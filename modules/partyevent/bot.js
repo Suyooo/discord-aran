@@ -38,31 +38,27 @@ module.exports = (bot, db) => {
     async function handleEvent(oldEvent, newEvent) {
         const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
         if (location) {
-            if (newEvent !== undefined && newEvent.isActive()) {
+            if (!oldEvent?.isActive() && newEvent.isActive()) {
+                log.info("PARTYEVENT", "Event " + newEvent.name + " now active, removing markers");
                 const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
-                log.debug("PARTYEVENT", "Event " + newEvent.name + " now active, channels " + channelNames.join("/"));
                 for (let channelName of channelNames) {
                     const channel = bot.channels.cache.find(channel => channel.name === channelName);
-                    log.debug("PARTYEVENT", "Looking for " + channelName + ", got " + (channel ? channel.name : "undefined"));
                     if (channel && channel.type === ChannelType.GuildText) {
                         try {
-                            log.info("PARTYEVENT", "Adding marker for " + channelName);
                             channel.setName(channelName + "🟢");
                         } catch {
                             // pass
                         }
                     }
                 }
-            } else if (newEvent === undefined || !newEvent.isActive()) {
+            } else if (oldEvent?.isActive() && (newEvent === undefined || !newEvent.isActive())) {
+                log.info("PARTYEVENT", "Event " + newEvent.name + " now inactive, removing markers");
                 const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
-                log.debug("PARTYEVENT", "Event " + newEvent.name + " now inactive, channels " + channelNames.join("/"));
                 for (let channelName of channelNames) {
                     const searchName = channelName + "🟢";
                     const channel = bot.channels.cache.find(channel => channel.name === searchName);
-                    log.debug("PARTYEVENT", "Looking for " + searchName + ", got " + (channel ? channel.name : "undefined"));
                     if (channel && channel.type === ChannelType.GuildText) {
                         try {
-                            log.info("PARTYEVENT", "Removing marker for " + channelName);
                             channel.setName(channelName);
                         } catch {
                             // pass
