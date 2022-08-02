@@ -41,7 +41,7 @@ module.exports = (bot, db) => {
             if (newEvent !== undefined && newEvent.isActive()) {
                 const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
                 log.debug("PARTYEVENT", "Event " + newEvent.name + " now active, channels " + channelNames.join("/"));
-                for (let channelName in channelNames) {
+                for (let channelName of channelNames) {
                     const channel = bot.channels.cache.find(channel => channel.name === channelName);
                     log.debug("PARTYEVENT", "Looking for " + channelName + ", got " + (channel ? channel.name : "undefined"));
                     if (channel && channel.type === ChannelType.GuildText) {
@@ -56,7 +56,7 @@ module.exports = (bot, db) => {
             } else if (newEvent === undefined || !newEvent.isActive()) {
                 const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
                 log.debug("PARTYEVENT", "Event " + newEvent.name + " now inactive, channels " + channelNames.join("/"));
-                for (let channelName in channelNames) {
+                for (let channelName of channelNames) {
                     const searchName = channelName + "🟢";
                     const channel = bot.channels.cache.find(channel => channel.name === searchName);
                     log.debug("PARTYEVENT", "Looking for " + searchName + ", got " + (channel ? channel.name : "undefined"));
