@@ -1,9 +1,9 @@
 const express = require("express");
-const dbOld = require("./db-old");
 const emoji = require("emoji-name-map");
 const rolebuttons_edit = require("./static/js/edit-html");
 const config = require("../../config");
 const log = require("../../logger");
+const {Op} = require("sequelize");
 
 module.exports = (bot, db) => {
     const router = express.Router();
@@ -14,7 +14,8 @@ module.exports = (bot, db) => {
      */
 
     router.get("/", (req, res, next) => {
-        res.render("../modules/rolebuttons/views/list", {"groups": dbOld.groups_list()});
+        db.modules.rolebuttons.Group.findAll({attributes: ['id', 'title']})
+            .then(groups => res.render("../modules/rolebuttons/views/list", {"groups": groups}));
     });
 
     router.get("/new/", (req, res, next) => {
@@ -30,21 +31,39 @@ module.exports = (bot, db) => {
     });
 
     router.get("/:id/", (req, res, next) => {
-        let grp = dbOld.groups_get(parseInt(req.params.id));
-        let msgs = dbOld.messages_list(grp.id);
-        msgs.forEach(msg => {
-            msg.buttons = dbOld.buttons_list(msg.id);
-        });
-        grp.messages = msgs;
-        Promise.all([bot.modules.helper.listChannelsOfGuild(grp.guild_id), bot.modules.helper.listRolesOfGuild(grp.guild_id)])
-            .then(([channels, roles]) => {
-                res.render("../modules/rolebuttons/views/edit", {
-                    "group": grp,
-                    "modules": {emoji, rolebuttons_edit},
-                    "channels": channels,
-                    "roles": roles
-                });
+        const id = parseInt(req.params.id);
+        if (id >= 0) {
+            db.modules.rolebuttons.Group.findByPk(id, {
+                include: {
+                    model: db.modules.rolebuttons.Message,
+                    as: "messages",
+                    include: {
+                        model: db.modules.rolebuttons.Button,
+                        as: "buttons"
+                    }
+                }
+            }).then(grp => {
+                if (grp !== null) {
+                    Promise.all([bot.modules.helper.listChannelsOfGuild(grp.guild_id), bot.modules.helper.listRolesOfGuild(grp.guild_id)])
+                        .then(([channels, roles]) => {
+                            res.render("../modules/rolebuttons/views/edit", {
+                                "group": grp,
+                                "modules": {emoji, rolebuttons_edit},
+                                "channels": channels,
+                                "roles": roles
+                            });
+                        });
+                } else {
+                    res.status(404).send({
+                        message: "This group does not exist."
+                    });
+                }
             });
+        } else {
+            res.status(400).send({
+                message: "Invalid group ID."
+            });
+        }
     });
 
     /*
@@ -52,63 +71,113 @@ module.exports = (bot, db) => {
      */
 
     router.put("/save/", (req, res, next) => {
-        let group_json;
-        let new_group = false;
-        dbOld.transaction(() => {
-            if (req.body.id) {
-                group_json = dbOld.groups_update(req.body);
-            } else {
-                new_group = true;
-                group_json = dbOld.groups_new(req.body);
+        db.transaction(async (t) => {
+            if (!req.body.id) {
+                req.body.id = (await db.modules.rolebuttons.Group.create(req.body, {
+                    include: [{
+                        association: db.modules.rolebuttons.Group.Messages,
+                        as: "messages",
+                        include: [{
+                            association: db.modules.rolebuttons.Message.Buttons,
+                            as: "buttons"
+                        }]
+                    }],
+                    transaction: t
+                })).id;
+                return;
             }
-            req.body.messages.forEach(msg => {
-                if (new_group) msg.group_id = group_json.id;
-                let msg_json;
-                let new_msg = false;
-                if (msg.id) {
-                    msg_json = dbOld.messages_update(msg);
-                } else {
-                    new_msg = true;
-                    msg_json = dbOld.messages_new(msg);
-                }
-                msg.buttons.forEach(btn => {
-                    if (new_msg) btn.message_id = msg_json.id;
-                    if (btn.id) {
-                        dbOld.buttons_update(btn);
-                    } else {
-                        dbOld.buttons_new(btn);
-                    }
+
+            if (req.body.delete_buttons) {
+                await db.modules.rolebuttons.Button.destroy({
+                    where: {
+                        [Op.or]: req.body.delete_buttons.map(i => ({id: i}))
+                    },
+                    transaction: t
                 });
+            }
+            if (req.body.delete_messages) {
+                console.log(req.body.delete_messages);
+                await db.modules.rolebuttons.Message.destroy({
+                    where: {
+                        [Op.or]: req.body.delete_messages.map(i => ({id: i}))
+                    },
+                    transaction: t
+                });
+            }
+
+            const group = await db.modules.rolebuttons.Group.findByPk(req.body.id, {transaction: t});
+
+            if (req.body.messages) {
+                for (const messageData of req.body.messages) {
+                    let message;
+                    if (!messageData.id) {
+                        message = await group.createMessage(messageData, {
+                            transaction: t
+                        });
+                    } else {
+                        message = await db.modules.rolebuttons.Message.findByPk(messageData.id, {transaction: t});
+                    }
+
+                    if (messageData.buttons) {
+                        for (const buttonData of messageData.buttons) {
+                            if (!buttonData.id) {
+                                await message.createButton(buttonData, {transaction: t});
+                            } else {
+                                await db.modules.rolebuttons.Button.update(buttonData, {
+                                    where: {id: buttonData.id},
+                                    transaction: t
+                                });
+                            }
+                        }
+                    }
+
+                    await db.modules.rolebuttons.Message.update(messageData, {
+                        where: {id: messageData.id},
+                        transaction: t
+                    });
+                    await message.set(messageData);
+                    await message.save({transaction: t});
+                }
+            }
+
+            await group.set(req.body);
+            await group.save({transaction: t});
+        })
+            .then(group => res.json({"success": true, "id": req.body.id}))
+            .catch(error => {
+                log.error("ROLEBUTTONS", "Error saving group: " + error + "\n" + error.stack);
+                res.status(500).json({"success": false})
             });
-            req.body.delete_buttons.forEach(dbOld.buttons_delete);
-            req.body.delete_messages.forEach(dbOld.messages_delete);
-        })();
-        res.json(group_json);
     });
 
     router.delete("/delete/", (req, res, next) => {
-        bot.modules.rolebuttons.deleteAllMessages(req.body.id).then(() => {
-            dbOld.transaction(() => {
-                dbOld.messages_list(req.body.id).forEach(msg => {
-                    dbOld.buttons_list(msg.id).forEach(btn => {
-                        dbOld.buttons_delete(btn.id);
-                    });
-                    dbOld.messages_delete(msg.id);
-                });
-                dbOld.groups_delete(req.body.id);
-            })();
-            res.json({});
-        });
+        bot.modules.rolebuttons.deleteAllMessages(req.body.id)
+            .then(() => db.modules.rolebuttons.Group.destroy({where: {id: req.body.id}}))
+            .then(() => res.json({"success": true}))
+            .catch(error => {
+                log.error("ROLEBUTTONS", "Error deleting group: " + error + "\n" + error.stack);
+                res.status(500).json({"success": false})
+            });
     });
 
     router.put("/post/", (req, res, next) => {
         log.info("ROLEBUTTONS", "Posting requested for Group #" + req.body.id);
-        bot.modules.rolebuttons.postGroup(req.body.id, true).then(() => res.json({})).catch(e => next(e));
+        bot.modules.rolebuttons.postGroup(req.body.id, true)
+            .then(() => res.json({"success": true}))
+            .catch(error => {
+                log.error("ROLEBUTTONS", "Error posting group: " + error + "\n" + error.stack);
+                res.status(500).json({"success": false})
+            });
     });
 
     router.put("/update/", (req, res, next) => {
         log.info("ROLEBUTTONS", "Updates requested for Group #" + req.body.id);
-        bot.modules.rolebuttons.postGroup(req.body.id, false).then(() => res.json({})).catch(e => next(e));
+        bot.modules.rolebuttons.postGroup(req.body.id, false)
+            .then(() => res.json({"success": true}))
+            .catch(error => {
+                log.error("ROLEBUTTONS", "Error updating group: " + error + "\n" + error.stack);
+                res.status(500).json({"success": false})
+            });
     });
 
     return router;

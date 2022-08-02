@@ -8,6 +8,22 @@ window.onbeforeunload = function (e) {
     }
 };
 
+function removeEmpty(obj) {
+    const newObj = {};
+    Object.entries(obj).forEach(([k, v]) => {
+        if (Array.isArray(v)) {
+            newObj[k] = v;
+            if (newObj[k].length === 0) delete newObj[k];
+        } else if (v === Object(v)) {
+            newObj[k] = removeEmpty(v);
+            if (Object.keys(obj).length === 0) delete newObj[k];
+        } else if (v != null) {
+            newObj[k] = obj[k];
+        }
+    });
+    return newObj;
+}
+
 $(function () {
     counter = $(".rolebuttons-message, .rolebuttons-button").length;
 
@@ -16,7 +32,6 @@ $(function () {
         let i = $("ol.rolebuttons-messagelist");
         let n = $(makeMessage({
             id: null,
-            posted_msg_id: null,
             title: "",
             description: "",
             color: "",
@@ -44,7 +59,7 @@ $(function () {
                 type: "PUT",
                 url: "../save/",
                 contentType: "application/json",
-                data: JSON.stringify(res)
+                data: JSON.stringify(removeEmpty(res))
             }).done((res) => {
                 alert("Saved.");
                 changed = false;
@@ -131,7 +146,6 @@ $(function () {
 
                     return {
                         id: Number($parent.data("id")) || null,
-                        posted_msg_id: $parent.data("posted_msg_id") || null,
                         title: title,
                         description: description,
                         color: col,
@@ -178,7 +192,7 @@ $(function () {
                     let i = 0;
                     return {
                         id: group_id,
-                        name: $(".rolebuttons-groupname").val() || null,
+                        title: $(".rolebuttons-groupname").val() || null,
                         guild_id: gid,
                         channel_id: cid,
                         require_role_ids: $(".rolebuttons-require").val() || null,
@@ -224,7 +238,6 @@ function setUpEvents(parent) {
         let i = $(e.currentTarget).parent();
         let n = $(makeMessage({
             id: null,
-            posted_msg_id: null,
             title: $(".rolebuttons-title", i).val() || "",
             description: $(".rolebuttons-description", i).val() || "",
             color: $(".rolebuttons-color", i).val() || "",
@@ -247,10 +260,7 @@ function setUpEvents(parent) {
         let n = Number(i.data("id"));
         if (n) {
             messagesToDelete.push(n);
-            $(".rolebuttons-button", i).each((i, e) => {
-                let n2 = Number($(e).data("id"));
-                if (n2) buttonsToDelete.push(n2);
-            });
+            changed = true;
         }
         i.remove();
     });
@@ -277,7 +287,10 @@ function setUpEvents(parent) {
         if (!confirm("Are you sure you want to delete this button?")) return;
         let i = $(e.currentTarget).parent().parent();
         let n = Number(i.data("id"));
-        if (n) buttonsToDelete.push(n);
+        if (n) {
+            buttonsToDelete.push(n);
+            changed = true;
+        }
         i.remove();
     });
     $("input,textarea,select").on("change", () => {

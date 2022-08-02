@@ -37,7 +37,7 @@ function makeMessage(message, rs) {
     widths[i] = "";
 
     counter++;
-    return "<li class='rolebuttons-message collapsed' data-id='" + quoteattr(message.id) + "' data-posted_msg_id='" + quoteattr(message.posted_msg_id) + "'>" +
+    return "<li class='rolebuttons-message collapsed' data-id='" + quoteattr(message.id) + "'>" +
         "<label for='title" + counter + "'>Embed Title</label>" +
         "<input id='title" + counter + "' maxlength='256' class='rolebuttons-title' placeholder='(no embed)' value='" + quoteattr(message.title || "") + "'>" +
         "<div class='rolebuttons-toggle'></div>" +
@@ -72,7 +72,7 @@ function makeButton(button, rs) {
         "<input id='label" + counter + "' maxlength='80' class='rolebuttons-label' placeholder='(no label)' value='" + quoteattr(button.label || "") + "'>" +
         "</div><div class='three columns'>" +
         "<label for='emoji" + counter + "'>Button Emoji <span class='tooltip' title='Either the name of a Discord default emoji (without the :) or a custom emoji in the form of <:Name:ID> (easiest way to get this is to send the emoji with a \\ before it and copy the resulting code)'>🛈</span></label>" +
-        "<input id='emoji" + counter + "' class='rolebuttons-emoji' placeholder='(no emoji)' value='" + quoteattr(button.emoji || "") + "'>" +
+        "<input id='emoji" + counter + "' maxlength='80' class='rolebuttons-emoji' placeholder='(no emoji)' value='" + quoteattr(button.emoji || "") + "'>" +
         "</div><div class='three columns'>" +
         "<label for='role" + counter + "'>Role</label>" +
         getRoleDropdown("role" + counter, "rolebuttons-role", button.role_id, rs) +
