@@ -76,7 +76,7 @@ server or store data. Here's what those have.
 
 #### Bot Object
 
-The Bot Object is generally just a [Discord.JS client object](https://discord.js.org/#/docs/discord.js/14.0.3/class/Client),
+The bot object is generally just a [Discord.JS client object](https://discord.js.org/#/docs/discord.js/14.0.3/class/Client),
 so check those docs for what you can do with it. For example, if you want to add a listener to
 general events (like `messageCreate` for all messages), you can do so by using the regular event
 listening methods on the bot object (`bot.on("messageCreate", async message => {...})`).
@@ -99,7 +99,13 @@ Additionally, the following properties are added to it by Aran:
 
 #### Database Object
 
-`// TODO`
+Similarly, the database object is really just a [Sequelize ORM database object](https://sequelize.org/docs/v6/category/core-concepts/),
+with a wrapped `db.define` method that will prefix the module name to the model and table names.
+
+Additionally, it offers `db.modules`, which allows you to access all defined models. Just like
+the bot module list, you use the module and model names as keys (for example, if you defined a
+model called `User` in the module `test`, you can access it via `db.modules.test.User`). This
+way, you don't have to manually store and pass the models returned by `db.define`.
 
 ### Bot Component
 
@@ -121,8 +127,9 @@ number of the following methods:
   interaction ID split at hyphens.
 * Any number of utility methods that can be used by the bot or other components as you like
 
-If you want to use a database to store configuration, you should make sure it gets automatically
-created if the database file does not exist yet.
+Note that the bot is not logged in at the point where modules are loaded. If you want to run any
+initialization code that requires you to be connected to Discord, make sure to register it as
+a `ready` event handler on the client object.
 
 #### Regarding Message Component Interactions
 
@@ -153,3 +160,25 @@ module folder to add EJS templates to use (make sure to include the header/foote
 create a `static` folder for resources used by the dashboard. The `js`, `img`, `style` and
 `vendor` folders will be served by Express.JS at the `/js/modulename/`, `/img/modulename/`,
 `/style/modulename/` and `/vendor/modulename/` URLs of the dashboard server.
+
+### Database Models
+
+Database models can be defined in the `db.js` file in the module folder's root. It must export
+a function taking the database object as parameter. No return value is required. This allows
+you to call the `db.define` function to create new models. (Please use that method instead of
+extending classes, as the wrapped `db.define` function makes sure to prefix names with the
+module name and to add it to the `db.modules` list.)
+
+If you want to do any work on the data before the bot or dashboard components are loaded (for
+example an integrity check or something), make sure to call the model's `sync()` method first
+to load data. Otherwise, Aran will sync all models at once after all modules are loaded.
+
+### Initialization Order
+
+Aran first loads the database, defines all module's models and sychronizes them. Then the bot
+will be initialized, all module's bot components are loaded and finally the bot logs in. After
+that, the dashboard is initialized and the dashboard components are loaded.
+
+This means you can assume that the database is fully available in your bot component's
+initialization, and both the database and bot can be used in the dashboard component's
+initialization.

@@ -1,14 +1,14 @@
 const log = require("../../logger");
-const db = require('./db');
+const dbOld = require('./db-old');
 const emoji = require("emoji-name-map");
 const {ButtonStyle, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("discord.js");
 
-module.exports = (bot, db_) => ({
+module.exports = (bot, db) => ({
     async button(interaction) {
         let bid = interaction.customId.split("-")[1];
-        let button = db.buttons_get(bid);
-        let message = db.messages_get(button.message_id);
-        let group = db.groups_get(message.group_id);
+        let button = dbOld.buttons_get(bid);
+        let message = dbOld.messages_get(button.message_id);
+        let group = dbOld.groups_get(message.group_id);
         if (group.require_role_ids) {
             let allowed = false;
             for (const reqid of group.require_role_ids.split(",")) {
@@ -36,10 +36,10 @@ module.exports = (bot, db_) => ({
         }
     },
     async deleteAllMessages(group_id) {
-        let group = db.groups_get(group_id);
+        let group = dbOld.groups_get(group_id);
         await bot.guilds.fetch(group.guild_id).then(guild => guild.channels.fetch(group.channel_id)).then(channel => {
             const p = []
-            for (let message of db.messages_list(group_id)) {
+            for (let message of dbOld.messages_list(group_id)) {
                 if (message.posted_msg_id) {
                     p.push(channel.messages.fetch(message.posted_msg_id).then(postMsg => postMsg ? postMsg.delete() : 0));
                 }
@@ -48,10 +48,10 @@ module.exports = (bot, db_) => ({
         }).catch(() => null);
     },
     async postGroup(group_id, deleteMessages) {
-        let group = db.groups_get(group_id);
+        let group = dbOld.groups_get(group_id);
         bot.guilds.fetch(group.guild_id).then(guild => {
             guild.channels.fetch(group.channel_id).then(async function (channel) {
-                for (let message of db.messages_list(group.id)) {
+                for (let message of dbOld.messages_list(group.id)) {
                     let postMsg = undefined;
                     let msgFunc = channel.send.bind(channel);
                     if (message.posted_msg_id) {
@@ -71,7 +71,7 @@ module.exports = (bot, db_) => ({
                     }
 
                     let rows = [];
-                    db.buttons_list(message.id).forEach(button => {
+                    dbOld.buttons_list(message.id).forEach(button => {
                         while (rows.length <= button.display_row) {
                             rows.push(new ActionRowBuilder());
                         }
@@ -98,7 +98,7 @@ module.exports = (bot, db_) => ({
                     }).then(msg => {
                         msg.suppressEmbeds(message.title === null);
                         message.posted_msg_id = msg.id;
-                        db.messages_update(message);
+                        dbOld.messages_update(message);
                     });
                 }
             });

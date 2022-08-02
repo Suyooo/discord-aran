@@ -1,11 +1,11 @@
 const express = require("express");
-const db = require("./db");
+const dbOld = require("./db-old");
 const emoji = require("emoji-name-map");
 const rolebuttons_edit = require("./static/js/edit-html");
 const config = require("../../config");
 const log = require("../../logger");
 
-module.exports = (bot, db_) => {
+module.exports = (bot, db) => {
     const router = express.Router();
     router.use(bot.auth.routerStaffOnly);
 
@@ -14,7 +14,7 @@ module.exports = (bot, db_) => {
      */
 
     router.get("/", (req, res, next) => {
-        res.render("../modules/rolebuttons/views/list", {"groups": db.groups_list()});
+        res.render("../modules/rolebuttons/views/list", {"groups": dbOld.groups_list()});
     });
 
     router.get("/new/", (req, res, next) => {
@@ -30,10 +30,10 @@ module.exports = (bot, db_) => {
     });
 
     router.get("/:id/", (req, res, next) => {
-        let grp = db.groups_get(parseInt(req.params.id));
-        let msgs = db.messages_list(grp.id);
+        let grp = dbOld.groups_get(parseInt(req.params.id));
+        let msgs = dbOld.messages_list(grp.id);
         msgs.forEach(msg => {
-            msg.buttons = db.buttons_list(msg.id);
+            msg.buttons = dbOld.buttons_list(msg.id);
         });
         grp.messages = msgs;
         Promise.all([bot.modules.helper.listChannelsOfGuild(grp.guild_id), bot.modules.helper.listRolesOfGuild(grp.guild_id)])
@@ -54,48 +54,48 @@ module.exports = (bot, db_) => {
     router.put("/save/", (req, res, next) => {
         let group_json;
         let new_group = false;
-        db.transaction(() => {
+        dbOld.transaction(() => {
             if (req.body.id) {
-                group_json = db.groups_update(req.body);
+                group_json = dbOld.groups_update(req.body);
             } else {
                 new_group = true;
-                group_json = db.groups_new(req.body);
+                group_json = dbOld.groups_new(req.body);
             }
             req.body.messages.forEach(msg => {
                 if (new_group) msg.group_id = group_json.id;
                 let msg_json;
                 let new_msg = false;
                 if (msg.id) {
-                    msg_json = db.messages_update(msg);
+                    msg_json = dbOld.messages_update(msg);
                 } else {
                     new_msg = true;
-                    msg_json = db.messages_new(msg);
+                    msg_json = dbOld.messages_new(msg);
                 }
                 msg.buttons.forEach(btn => {
                     if (new_msg) btn.message_id = msg_json.id;
                     if (btn.id) {
-                        db.buttons_update(btn);
+                        dbOld.buttons_update(btn);
                     } else {
-                        db.buttons_new(btn);
+                        dbOld.buttons_new(btn);
                     }
                 });
             });
-            req.body.delete_buttons.forEach(db.buttons_delete);
-            req.body.delete_messages.forEach(db.messages_delete);
+            req.body.delete_buttons.forEach(dbOld.buttons_delete);
+            req.body.delete_messages.forEach(dbOld.messages_delete);
         })();
         res.json(group_json);
     });
 
     router.delete("/delete/", (req, res, next) => {
         bot.modules.rolebuttons.deleteAllMessages(req.body.id).then(() => {
-            db.transaction(() => {
-                db.messages_list(req.body.id).forEach(msg => {
-                    db.buttons_list(msg.id).forEach(btn => {
-                        db.buttons_delete(btn.id);
+            dbOld.transaction(() => {
+                dbOld.messages_list(req.body.id).forEach(msg => {
+                    dbOld.buttons_list(msg.id).forEach(btn => {
+                        dbOld.buttons_delete(btn.id);
                     });
-                    db.messages_delete(msg.id);
+                    dbOld.messages_delete(msg.id);
                 });
-                db.groups_delete(req.body.id);
+                dbOld.groups_delete(req.body.id);
             })();
             res.json({});
         });

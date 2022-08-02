@@ -18,6 +18,8 @@ for (const moduleName of fs.readdirSync("./modules")) {
     });
 }
 
-const db = require("./db")(moduleList.filter(m => m.has_db));
-const bot = require("./bot")(moduleList.filter(m => m.has_bot), db);
-require("./dashboard")(moduleList.filter(m => m.has_dashboard), bot, db);
+require("./db")(moduleList.filter(m => m.has_db)).then((db) => {
+    require("./bot")(moduleList.filter(m => m.has_bot), db).then((bot) => {
+        require("./dashboard")(moduleList.filter(m => m.has_dashboard), bot, db);
+    });
+});

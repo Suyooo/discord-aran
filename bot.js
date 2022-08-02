@@ -122,12 +122,13 @@ module.exports = (moduleList, db) => {
         }
     });
 
-    bot.login(config.botToken)
-        .then(() => log.info("BOT", "Logged in"))
+    return bot.login(config.botToken)
+        .then(() => {
+            log.info("BOT", "Logged in");
+            return bot;
+        })
         .catch(error => {
             log.error("BOT", "Failed to log in! " + error.stack);
             process.exit(1);
         });
-
-    return bot;
 };
