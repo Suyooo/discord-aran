@@ -71,22 +71,8 @@ module.exports = (bot, db) => {
      */
 
     router.put("/save/", (req, res, next) => {
+        let group;
         db.transaction(async (t) => {
-            if (!req.body.id) {
-                req.body.id = (await db.modules.rolebuttons.Group.create(req.body, {
-                    include: [{
-                        association: db.modules.rolebuttons.Group.Messages,
-                        as: "messages",
-                        include: [{
-                            association: db.modules.rolebuttons.Message.Buttons,
-                            as: "buttons"
-                        }]
-                    }],
-                    transaction: t
-                })).id;
-                return;
-            }
-
             if (req.body.delete_buttons) {
                 await db.modules.rolebuttons.Button.destroy({
                     where: {
@@ -105,17 +91,21 @@ module.exports = (bot, db) => {
                 });
             }
 
-            const group = await db.modules.rolebuttons.Group.findByPk(req.body.id, {transaction: t});
+            if (!req.body.id) {
+                group = await db.modules.rolebuttons.Group.create(req.body, { transaction: t });
+            } else {
+                group = await db.modules.rolebuttons.Group.findByPk(req.body.id, {transaction: t});
+                await group.set(req.body);
+            }
 
             if (req.body.messages) {
                 for (const messageData of req.body.messages) {
                     let message;
                     if (!messageData.id) {
-                        message = await group.createMessage(messageData, {
-                            transaction: t
-                        });
+                        message = await group.createMessage(messageData, { transaction: t });
                     } else {
                         message = await db.modules.rolebuttons.Message.findByPk(messageData.id, {transaction: t});
+                        await message.set(messageData);
                     }
 
                     if (messageData.buttons) {
@@ -131,19 +121,13 @@ module.exports = (bot, db) => {
                         }
                     }
 
-                    await db.modules.rolebuttons.Message.update(messageData, {
-                        where: {id: messageData.id},
-                        transaction: t
-                    });
-                    await message.set(messageData);
                     await message.save({transaction: t});
                 }
             }
 
-            await group.set(req.body);
             await group.save({transaction: t});
         })
-            .then(group => res.json({"success": true, "id": req.body.id}))
+            .then(() => res.json({"success": true, "id": group.id}))
             .catch(error => {
                 log.error("ROLEBUTTONS", "Error saving group: " + error + "\n" + error.stack);
                 res.status(500).json({"success": false})
