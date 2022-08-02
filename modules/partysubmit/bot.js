@@ -464,39 +464,40 @@ let partyTimeout = undefined;
 let partyRoleCheckTimeout = undefined;
 let partyActivityTimeout = undefined;
 
+// Prepare some indexes
+partyConfig.lookupConfigByChannelId = {
+    [partyConfig.SIF.testChannels[0]]: partyConfig.SIF,
+    [partyConfig.SIF.testChannels[1]]: partyConfig.SIF,
+    [partyConfig.SIF.partyChannel]: partyConfig.SIF,
+    [partyConfig.SIFAS.testChannels[0]]: partyConfig.SIFAS,
+    [partyConfig.SIFAS.testChannels[1]]: partyConfig.SIFAS,
+    [partyConfig.SIFAS.partyChannel]: partyConfig.SIFAS
+};
+partyConfig.isTestChannel = {
+    [partyConfig.SIF.testChannels[0]]: true,
+    [partyConfig.SIF.testChannels[1]]: true,
+    [partyConfig.SIF.partyChannel]: false,
+    [partyConfig.SIFAS.testChannels[0]]: true,
+    [partyConfig.SIFAS.testChannels[1]]: true,
+    [partyConfig.SIFAS.partyChannel]: false
+};
+partyConfig.SIF.lookupMVPIndexByRecognitionCriteria = {};
+for (const mvpIndex in partyConfig.SIF.mvps) {
+    for (const r of partyConfig.SIF.mvps[mvpIndex].recognition) {
+        partyConfig.SIF.lookupMVPIndexByRecognitionCriteria[r] = mvpIndex;
+    }
+}
+partyConfig.SIFAS.lookupMVPIndexByRecognitionCriteria = {};
+for (const mvpIndex in partyConfig.SIFAS.mvps) {
+    for (const r of partyConfig.SIFAS.mvps[mvpIndex].recognition) {
+        partyConfig.SIFAS.lookupMVPIndexByRecognitionCriteria[r] = mvpIndex;
+    }
+}
+
 function startParty(bot) {
     // TODO: when databasing, load correct party config (in role-handler too)
     // TODO: possible to load seperate test config?
     log.info("PARTYSUBMIT", "Party goes live!");
-    // Prepare some indexes
-    partyConfig.lookupConfigByChannelId = {
-        [partyConfig.SIF.testChannels[0]]: partyConfig.SIF,
-        [partyConfig.SIF.testChannels[1]]: partyConfig.SIF,
-        [partyConfig.SIF.partyChannel]: partyConfig.SIF,
-        [partyConfig.SIFAS.testChannels[0]]: partyConfig.SIFAS,
-        [partyConfig.SIFAS.testChannels[1]]: partyConfig.SIFAS,
-        [partyConfig.SIFAS.partyChannel]: partyConfig.SIFAS
-    };
-    partyConfig.isTestChannel = {
-        [partyConfig.SIF.testChannels[0]]: true,
-        [partyConfig.SIF.testChannels[1]]: true,
-        [partyConfig.SIF.partyChannel]: false,
-        [partyConfig.SIFAS.testChannels[0]]: true,
-        [partyConfig.SIFAS.testChannels[1]]: true,
-        [partyConfig.SIFAS.partyChannel]: false
-    };
-    partyConfig.SIF.lookupMVPIndexByRecognitionCriteria = {};
-    for (const mvpIndex in partyConfig.SIF.mvps) {
-        for (const r of partyConfig.SIF.mvps[mvpIndex].recognition) {
-            partyConfig.SIF.lookupMVPIndexByRecognitionCriteria[r] = mvpIndex;
-        }
-    }
-    partyConfig.SIFAS.lookupMVPIndexByRecognitionCriteria = {};
-    for (const mvpIndex in partyConfig.SIFAS.mvps) {
-        for (const r of partyConfig.SIFAS.mvps[mvpIndex].recognition) {
-            partyConfig.SIFAS.lookupMVPIndexByRecognitionCriteria[r] = mvpIndex;
-        }
-    }
 
     Object.keys(activeSubmissions).forEach(userId => delete activeSubmissions[userId]);
     partyTimeout = setTimeout(() => endParty(bot), partyConfig.partyStart + 86580000 - Date.now()); // + 24 hours run time + 3 minute grace period
@@ -554,6 +555,8 @@ module.exports = (bot, db) => {
         async textCommand(message, args) {
             if (args[0] === "submit") {
                 const partyInfo = partyConfig.lookupConfigByChannelId[message.channel.id];
+                console.log("got submit");
+                console.log(partyInfo !== undefined, partyTimeout !== undefined, partyConfig.isTestChannel[message.channel.id]);
                 if (partyInfo !== undefined && (partyTimeout !== undefined || partyConfig.isTestChannel[message.channel.id])) {
                     if (activeSubmissions.hasOwnProperty(message.author.id)) {
                         message.reply({
