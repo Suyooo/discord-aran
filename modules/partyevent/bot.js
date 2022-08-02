@@ -43,7 +43,7 @@ module.exports = (bot, db) => {
                 log.debug("PARTYEVENT", "Event " + newEvent.name + " now active, channels " + channelNames.join("/"));
                 for (let channelName in channelNames) {
                     const channel = bot.channels.cache.find(channel => channel.name === channelName);
-                    log.debug("PARTYEVENT", "Looking for " + channelName + ", got" + (channel ? channel.name : "undefined"));
+                    log.debug("PARTYEVENT", "Looking for " + channelName + ", got " + (channel ? channel.name : "undefined"));
                     if (channel && channel.type === ChannelType.GuildText) {
                         try {
                             log.info("PARTYEVENT", "Adding marker for " + channelName);
@@ -59,7 +59,7 @@ module.exports = (bot, db) => {
                 for (let channelName in channelNames) {
                     const searchName = channelName + "🟢";
                     const channel = bot.channels.cache.find(channel => channel.name === searchName);
-                    log.debug("PARTYEVENT", "Looking for " + searchName + ", got" + (channel ? channel.name : "undefined"));
+                    log.debug("PARTYEVENT", "Looking for " + searchName + ", got " + (channel ? channel.name : "undefined"));
                     if (channel && channel.type === ChannelType.GuildText) {
                         try {
                             log.info("PARTYEVENT", "Removing marker for " + channelName);
