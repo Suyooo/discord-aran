@@ -39,7 +39,7 @@ module.exports = (bot, db) => {
         const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
         if (location) {
             if (!oldEvent?.isActive() && newEvent.isActive()) {
-                log.info("PARTYEVENT", "Event " + newEvent.name + " now active, removing markers");
+                log.info("PARTYEVENT", "Event " + newEvent.name + " now active, adding markers");
                 const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
                 for (let channelName of channelNames) {
                     const channel = bot.channels.cache.find(channel => channel.name === channelName);
