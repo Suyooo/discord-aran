@@ -34,63 +34,67 @@ function checkCountdownNameUpdate(bot, event, hours) {
     }
 }
 
-async function handleEvent(bot, oldEvent, newEvent) {
-    const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
-    if (location) {
-        if (!oldEvent?.isActive() && newEvent.isActive()) {
-            const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
-            for (let channelName in channelNames) {
-                const channel = bot.channels.cache.find(channel => channel.name === channelName);
-                if (channel && channel.type === ChannelType.GuildText) {
-                    try {
-                        log.info("PARTYEVENT", "Adding marker for " + channelName);
-                        channel.setName(channelName + "🟢");
-                    } catch {
-                        // pass
-                    }
-                }
-            }
-        } else if (oldEvent?.isActive() && (newEvent === undefined || !newEvent.isActive())) {
-            const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
-            for (let channelName in channelNames) {
-                const searchName = channelName + "🟢";
-                const channel = bot.channels.cache.find(channel => channel.name === searchName);
-                if (channel && channel.type === ChannelType.GuildText) {
-                    try {
-                        log.info("PARTYEVENT", "Removing marker for " + channelName);
-                        channel.setName(channelName);
-                    } catch {
-                        // pass
-                    }
-                }
-            }
-        }
-    }
-
-    if (newEvent.isActive() && newEvent.name.indexOf("SIFcord Party") !== -1 && newEvent.name.indexOf("Birthday") !== -1) {
-        // For Birthday events, do a countdown for the last four hours in the event name
-        clearTimeout(nameUpdateTimeouts[newEvent.id]);
-        const now = Date.now();
-        let hours = 4;
-        let target = newEvent.scheduledEndTimestamp - (3600000 * hours);
-        while (target < now && hours > 0) {
-            hours--;
-            target += 3600000;
-        }
-        if (hours > 0) {
-            log.info("PARTYEVENT", "Scheduled " + hours + "-hour countdown change for " + newEvent.name + " in " + ((target - now) / 1000) + "s");
-            nameUpdateTimeouts[newEvent.id] = setTimeout(checkCountdownNameUpdate.bind(this, bot, newEvent, hours), target - now + 100);
-        }
-    }
-}
-
 module.exports = (bot, db) => {
-    bot.on("guildScheduledEventUpdate", handleEvent.bind(this, bot));
-    bot.on("guildScheduledEventDelete", handleEvent.bind(this, bot));
+    async function handleEvent(oldEvent, newEvent) {
+        const location = newEvent?.entityMetadata?.location || oldEvent?.entityMetadata?.location;
+        if (location) {
+            if (newEvent !== undefined && newEvent.isActive()) {
+                const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
+                log.debug("PARTYEVENT", "Event " + newEvent.name + " now active, channels " + channelNames.join("/"));
+                for (let channelName in channelNames) {
+                    const channel = bot.channels.cache.find(channel => channel.name === channelName);
+                    log.debug("PARTYEVENT", "Looking for " + channelName + ", got" + (channel ? channel.name : "undefined"));
+                    if (channel && channel.type === ChannelType.GuildText) {
+                        try {
+                            log.info("PARTYEVENT", "Adding marker for " + channelName);
+                            channel.setName(channelName + "🟢");
+                        } catch {
+                            // pass
+                        }
+                    }
+                }
+            } else if (newEvent === undefined || !newEvent.isActive()) {
+                const channelNames = [...location.matchAll(/#([^#,;/ ]*)/g)].map(m => m[1]);
+                log.debug("PARTYEVENT", "Event " + newEvent.name + " now inactive, channels " + channelNames.join("/"));
+                for (let channelName in channelNames) {
+                    const searchName = channelName + "🟢";
+                    const channel = bot.channels.cache.find(channel => channel.name === searchName);
+                    log.debug("PARTYEVENT", "Looking for " + searchName + ", got" + (channel ? channel.name : "undefined"));
+                    if (channel && channel.type === ChannelType.GuildText) {
+                        try {
+                            log.info("PARTYEVENT", "Removing marker for " + channelName);
+                            channel.setName(channelName);
+                        } catch {
+                            // pass
+                        }
+                    }
+                }
+            }
+        }
+
+        if (newEvent.isActive() && newEvent.name.indexOf("SIFcord Party") !== -1 && newEvent.name.indexOf("Birthday") !== -1) {
+            // For Birthday events, do a countdown for the last four hours in the event name
+            clearTimeout(nameUpdateTimeouts[newEvent.id]);
+            const now = Date.now();
+            let hours = 4;
+            let target = newEvent.scheduledEndTimestamp - (3600000 * hours);
+            while (target < now && hours > 0) {
+                hours--;
+                target += 3600000;
+            }
+            if (hours > 0) {
+                log.info("PARTYEVENT", "Scheduled " + hours + "-hour countdown change for " + newEvent.name + " in " + ((target - now) / 1000) + "s");
+                nameUpdateTimeouts[newEvent.id] = setTimeout(checkCountdownNameUpdate.bind(this, bot, newEvent, hours), target - now + 100);
+            }
+        }
+    }
+
+    bot.on("guildScheduledEventUpdate", handleEvent);
+    bot.on("guildScheduledEventDelete", handleEvent);
     bot.on("ready", async () => {
         bot.guilds.fetch(config.sifcordGuildId).then(guild =>
             guild.scheduledEvents.fetch({}).then(events => events.each(ev => {
-                handleEvent(bot, undefined, ev);
+                handleEvent(undefined, ev);
             })));
     });
     return {};
