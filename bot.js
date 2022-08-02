@@ -56,7 +56,7 @@ module.exports = (moduleList, db) => {
                 try {
                     bot.textCommands[args[0]](message, args);
                 } catch (error) {
-                    log.error("BOT", "Uncaught Error in text command " + args[0] + ": " + error.stack);
+                    log.error("BOT", "Uncaught Error in text command " + args[0] + ": " + error + "\n" + error.stack);
                     return message.reply("There was an error while executing this command!");
                 }
             }
@@ -80,11 +80,11 @@ module.exports = (moduleList, db) => {
 
             module.selection(interaction, args)
                 .catch(error => {
-                    log.error("BOT", "Uncaught Error in selection for module " + args[0] + ": " + error.stack);
+                    log.error("BOT", "Uncaught Error in selection for module " + args[0] + ": " + error + "\n" + error.stack);
                     let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
                     sendMessage({content: "There was an error while executing this command!", ephemeral: true})
                         .catch(error => {
-                            log.error("BOT", "Also failed to send a failure notice to the user: " + error.stack);
+                            log.error("BOT", "Also failed to send a failure notice to the user: " + error + "\n" + error.stack);
                         });
                 });
         } else if (interaction.isButton()) {
@@ -96,11 +96,11 @@ module.exports = (moduleList, db) => {
 
             module.button(interaction, args)
                 .catch(error => {
-                    log.error("BOT", "Uncaught Error in button for module " + args[0] + ": " + error.stack);
+                    log.error("BOT", "Uncaught Error in button for module " + args[0] + ": " + error + "\n" + error.stack);
                     let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
                     sendMessage({content: "There was an error while executing this command!", ephemeral: true})
                         .catch(error => {
-                            log.error("BOT", "Also failed to send a failure notice to the user: " + error.stack);
+                            log.error("BOT", "Also failed to send a failure notice to the user: " + error + "\n" + error.stack);
                         });
                 });
         } else if (interaction.type === InteractionType.ModalSubmit) {
@@ -112,11 +112,11 @@ module.exports = (moduleList, db) => {
 
             module.modal(interaction, args)
                 .catch(error => {
-                    log.error("BOT", "Uncaught Error in modal for module " + args[0] + ": " + error.stack);
+                    log.error("BOT", "Uncaught Error in modal for module " + args[0] + ": " + error + "\n" + error.stack);
                     let sendMessage = (interaction.replied || interaction.deferred ? interaction.followUp : interaction.reply).bind(interaction);
                     sendMessage({content: "There was an error while executing this command!", ephemeral: true})
                         .catch(error => {
-                            log.error("BOT", "Also failed to send a failure notice to the user: " + error.stack);
+                            log.error("BOT", "Also failed to send a failure notice to the user: " + error + "\n" + error.stack);
                         });
                 });
         }
@@ -128,7 +128,7 @@ module.exports = (moduleList, db) => {
             return bot;
         })
         .catch(error => {
-            log.error("BOT", "Failed to log in! " + error.stack);
+            log.error("BOT", "Failed to log in! " + error + "\n" + error.stack);
             process.exit(1);
         });
 };

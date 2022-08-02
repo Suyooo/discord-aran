@@ -38,7 +38,7 @@ module.exports = (moduleList) => {
             return db;
         })
         .catch(error => {
-            log.error("DB", "Failed to synchronize models! " + error.stack);
+            log.error("DB", "Failed to synchronize models! " + error + "\n" + error.stack);
             process.exit(1);
         });
 };

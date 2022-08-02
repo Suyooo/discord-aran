@@ -81,7 +81,7 @@ class Submission {
                     .filter((m) => (m.author && m.author.id === this.commandMessage.author.id && m.createdTimestamp > cutoff))
                     .sort((a, b) => b.createdTimestamp - a.createdTimestamp); // messages.fetch has no order guarantees
         } catch (e) {
-            log.error("PARTYSUBMIT", "ERROR while fetching messages: " + e.stack);
+            log.error("PARTYSUBMIT", "ERROR while fetching messages: " + e + "\n" + e.stack);
             throw "There was an error fetching your messages from Discord. You can try again, but if it still doesn't work, [please submit manually](" + (await this.makeFormLink()) + ")!";
         }
         lastMessages.unshift(this.commandMessage); // add images from this message to the list as well
@@ -170,7 +170,7 @@ class Submission {
                 this.readImageIndex = i;
                 break;
             } catch (e) {
-                log.error("PARTYSUBMIT", "ERROR handling image " + (i + 1) + ", continuing: " + e.stack);
+                log.error("PARTYSUBMIT", "ERROR handling image " + (i + 1) + ", continuing: " + e + "\n" + e.stack);
                 this.mvp = this.score = this.other = undefined;
             }
         }
@@ -193,7 +193,7 @@ class Submission {
                         })
                     this.submissionAttachmentUrl = this.submissionAttachmentMessage.attachments.first().proxyURL;
                 } catch (e) {
-                    log.error("PARTYSUBMIT", "ERROR handling too many image collage, continuing: " + e.stack);
+                    log.error("PARTYSUBMIT", "ERROR handling too many image collage, continuing: " + e + "\n" + e.stack);
                 }
             }
 
