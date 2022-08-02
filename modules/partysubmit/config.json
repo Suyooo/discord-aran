@@ -1,8 +1,8 @@
 {
-  "partyStart": 1659279600000,
-  "spreadsheetId": "19GoyW0S_x8IKB0VMQ6bj4SqxMFmFoaKDuaKtzhX_nFA",
-  "embedColor": "#FF9547",
-  "clearRewardRoleId": "891221604233773077",
+  "partyStart": 1659452400000,
+  "spreadsheetId": "1hcom2CpI2XY2aliejZXUHpTgr93o25et6KiOjVBEr5w",
+  "embedColor": "#FFA336",
+  "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
     "partyChannel": "832628579728752680",
@@ -15,38 +15,38 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Aozora Jumping Heart (Party Challenge & Unknown Dreams MVP)",
+        "mvpName": "Ai wa Taiyo jyanai? (Party Challenge & Illuminating the World MVP)",
         "recognition": [
-          "1001010001100111000001100010010100110000011001000011001000000000"
+          "1101011000011000011000001000001010001000100101001000010000011000"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Fantastic Departure! (Party Challenge & Attention Please MVP)",
+        "mvpName": "No brand girls (Party Challenge & Wasted MVP)",
         "recognition": [
-          "1100111010000100001101000111000001000010010010000000100100000000"
+          "1000100001001010001100000110001000000001000000101000000000010000"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Attention Please MVP",
-      "label": "Hits",
-      "modalPrompt": "Your Amount of Hits (Perfects + Greats)",
-      "autoFillFunction": "hits",
+      "mvpName": "Wasted MVP",
+      "label": "Remaining Stamina",
+      "modalPrompt": "Your Remaining Stamina",
+      "autoFillFunction": null,
       "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLSd0ESlsTfSNEQuPQ-e3j3BnlkEdBnPTGcIX32c569bE010_Kg",
+      "id": "1FAIpQLSfSJAkgyHqfpViY7dewFe7QDDW0s0k7hxsfDM3fF1BUKMKUew",
       "fields": {
-        "userTag": "entry.125101139",
-        "mvp": "entry.928469207",
-        "score": "entry.2080103688",
-        "other": "entry.1042200761",
+        "mvp": "entry.1718289615",
+        "score": "entry.384595431",
+        "other": "entry.1322383939",
         "images": [
-          "entry.675559882",
-          "entry.2052425345"
+          "entry.119376475",
+          "entry.1064805880",
+          "entry.97447412"
         ]
       }
     }
@@ -62,41 +62,38 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Mirai no Bokura wa Shitteru yo (Party Challenge & Shining Wind MVP)",
+        "mvpName": "Happy maker! (Party Challenge & Ganbatte Ganbatte MVP)",
         "recognition": [
-          "Mirai no Bokura wa Shitteru yo",
-          "未来の僕らは知ってるよ"
+          "Happy maker!"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Humming Friend (Party Challenge & Humming Day MVP)",
+        "mvpName": "Snow halation (Party Challenge & Five More Minutes MVP)",
         "recognition": [
-          "Humming Friend",
-          "ハミングフレンド"
+          "Snow halation"
         ],
-        "readOther": true
+        "readOther": false
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Humming Day MVP",
-      "label": "SPs",
-      "modalPrompt": "Your Amount of SPs",
+      "mvpName": "Five More Minutes MVP",
+      "label": "Voltage",
+      "modalPrompt": "Your Voltage",
       "autoFillFunction": null,
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSevcU4dCgwz6FZ6BuXaVOSSt624ZQglrb7cGkcdZxGpTK7z0A",
+      "id": "1FAIpQLSfu4ssM39tfLsQVNjqrjrd3OvHGNDXB6pvSJ_UG1zJJACe2oA",
       "fields": {
-        "userTag": "entry.517474825",
-        "mvp": "entry.1157710319",
-        "score": "entry.1659827339",
-        "other": "entry.209171377",
+        "userTag": "entry.1500732089",
+        "mvp": "entry.75992958",
+        "score": "entry.2009383163",
         "images": [
-          "entry.1433484147",
-          "entry.1071837287",
-          "entry.1890128370"
+          "entry.2092540119",
+          "entry.1711576036",
+          "entry.272161627"
         ]
       }
     }
