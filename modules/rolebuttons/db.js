@@ -55,8 +55,24 @@ module.exports = db => {
         }
     });
 
-    Group.Messages = Group.hasMany(Message, {as: "messages", foreignKey: {name: "groupId", notNull: false}, onDelete: "CASCADE"});
-    Message.Group = Message.belongsTo(Group, {as: "group", foreignKey: {name: "groupId", notNull: false}, onDelete: "CASCADE"});
-    Message.Buttons = Message.hasMany(Button, {as: "buttons", foreignKey: {name: "messageId", notNull: false}, onDelete: "CASCADE"});
-    Button.Message = Button.belongsTo(Message, {as: "message", foreignKey: {name: "messageId", notNull: false}, onDelete: "CASCADE"});
+    Group.Messages = Group.hasMany(Message, {
+        as: "messages",
+        foreignKey: {name: "groupId", notNull: false},
+        onDelete: "CASCADE"
+    });
+    Message.Group = Message.belongsTo(Group, {
+        as: "group",
+        foreignKey: {name: "groupId", notNull: false},
+        onDelete: "CASCADE"
+    });
+    Message.Buttons = Message.hasMany(Button, {
+        as: "buttons",
+        foreignKey: {name: "messageId", notNull: false},
+        onDelete: "CASCADE"
+    });
+    Button.Message = Button.belongsTo(Message, {
+        as: "message",
+        foreignKey: {name: "messageId", notNull: false},
+        onDelete: "CASCADE"
+    });
 };

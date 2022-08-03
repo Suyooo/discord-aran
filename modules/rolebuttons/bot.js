@@ -7,12 +7,15 @@ module.exports = (bot, db) => ({
         let button;
         try {
             button = await db.modules.rolebuttons.Button.findByPk(parseInt(args[1]), {
+                attributes: ["role_id","messageId"],
                 include: {
                     model: db.modules.rolebuttons.Message,
                     as: "message",
+                    attributes: ["groupId"],
                     include: {
                         model: db.modules.rolebuttons.Group,
-                        as: "group"
+                        as: "group",
+                        attributes: ["require_role_ids"]
                     }
                 }
             });
@@ -83,13 +86,11 @@ module.exports = (bot, db) => ({
         let group;
         try {
             group = await db.modules.rolebuttons.Group.findByPk(group_id, {
+                attributes: ["channel_id"],
                 include: {
                     model: db.modules.rolebuttons.Message,
                     as: "messages",
-                    include: {
-                        model: db.modules.rolebuttons.Button,
-                        as: "buttons"
-                    }
+                    attributes: ["posted_msg_id"]
                 }
             })
         } catch (error) {
@@ -109,12 +110,15 @@ module.exports = (bot, db) => ({
         let group;
         try {
             group = await db.modules.rolebuttons.Group.findByPk(group_id, {
+                attributes: ["channel_id"],
                 include: {
                     model: db.modules.rolebuttons.Message,
                     as: "messages",
+                    attributes: ["title", "description", "color", "posted_msg_id"],
                     include: {
                         model: db.modules.rolebuttons.Button,
-                        as: "buttons"
+                        as: "buttons",
+                        attributes: ["id", "label", "emoji", "display_row"]
                     }
                 }
             })
