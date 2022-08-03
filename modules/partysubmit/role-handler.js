@@ -62,11 +62,11 @@ function endParty(controllerChannel) {
                 msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
                 msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[0], "Score: ", "");
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[1], "", " " + partyConfig.SIF.other.label);
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topFirstColList[1], "", " " + partyConfig.SIF.other.label);
                 msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[2], "Voltage: ", "");
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topFirstColList[2], "Voltage: ", "");
                 msg += "\n\n";
-                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[3], "", " " + partyConfig.SIFAS.other.label);
+                msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topFirstColList[3], "", " " + partyConfig.SIFAS.other.label);
                 msg += "```";
                 log.debug("PARTYSUBMIT", "Sending copypasties");
                 await controllerChannel.send(msg);
