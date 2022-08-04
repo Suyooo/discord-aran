@@ -33,15 +33,18 @@ module.exports = (bot, db) => ({
 
         if (button.message.group.require_role_ids) {
             let allowed = false;
-            for (const reqid of button.message.group.require_role_ids.split(",")) {
-                if (interaction.member.roles.cache.has(reqid.trim())) {
+            const splitreq = button.message.group.require_role_ids.split(",").map(r => r.trim());
+            for (const reqid of splitreq) {
+                if (interaction.member.roles.cache.has(reqid)) {
                     allowed = true;
                     break;
                 }
             }
             if (!allowed) {
                 await interaction.reply({
-                    content: "You are not allowed to use these role buttons.",
+                    content: splitreq.length === 1
+                        ? "You must have the <@&" + splitreq[0] + "> role to use these buttons."
+                        : "You must have one of these roles to use these buttons: " + splitreq.map(r => "<@&" + r + ">").join(", "),
                     ephemeral: true
                 })
                     .catch(error => {
