@@ -41,7 +41,18 @@ module.exports = (bot, db) => {
                         model: db.modules.rolebuttons.Button,
                         as: "buttons"
                     }
-                }
+                },
+                order: [
+                    [
+                        {model: db.modules.rolebuttons.Message, as: "messages"},
+                        'display_order'
+                    ],
+                    [
+                        {model: db.modules.rolebuttons.Message, as: "messages"},
+                        {model: db.modules.rolebuttons.Button, as: "buttons"},
+                        'display_order'
+                    ]
+                ]
             }).then(grp => {
                 if (grp !== null) {
                     Promise.all([bot.modules.helper.listChannelsOfGuild(grp.guild_id), bot.modules.helper.listRolesOfGuild(grp.guild_id)])

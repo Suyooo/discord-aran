@@ -120,7 +120,18 @@ module.exports = (bot, db) => ({
                         as: "buttons",
                         attributes: ["id", "label", "emoji", "display_row"]
                     }
-                }
+                },
+                order: [
+                    [
+                        {model: db.modules.rolebuttons.Message, as: "messages"},
+                        'display_order'
+                    ],
+                    [
+                        {model: db.modules.rolebuttons.Message, as: "messages"},
+                        {model: db.modules.rolebuttons.Button, as: "buttons"},
+                        'display_order'
+                    ]
+                ]
             })
         } catch (error) {
             log.error("ROLEBUTTONS", "Failed to get group info: " + error + "\n" + error.stack);
