@@ -9,7 +9,7 @@ module.exports = (moduleList) => {
     const originalDefine = db.define.bind(db);
 
     for (const mod of moduleList) {
-        log.debug("BOT", "Loading module " + mod.name);
+        log.debug("DB", "Loading module " + mod.name);
         db.modules[mod.name] = {};
 
         let count = 0;
