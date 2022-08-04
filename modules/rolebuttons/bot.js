@@ -7,7 +7,7 @@ module.exports = (bot, db) => ({
         let button;
         try {
             button = await db.modules.rolebuttons.Button.findByPk(parseInt(args[1]), {
-                attributes: ["role_id","messageId"],
+                attributes: ["role_id", "messageId"],
                 include: {
                     model: db.modules.rolebuttons.Message,
                     as: "message",
@@ -114,7 +114,7 @@ module.exports = (bot, db) => ({
                 include: {
                     model: db.modules.rolebuttons.Message,
                     as: "messages",
-                    attributes: ["title", "description", "color", "posted_msg_id"],
+                    attributes: ["id", "title", "description", "color", "posted_msg_id"],
                     include: {
                         model: db.modules.rolebuttons.Button,
                         as: "buttons",
@@ -124,7 +124,7 @@ module.exports = (bot, db) => ({
             })
         } catch (error) {
             log.error("ROLEBUTTONS", "Failed to get group info: " + error + "\n" + error.stack);
-            return;
+            throw error;
         }
 
         const channel = await bot.channels.fetch(group.channel_id);
@@ -134,14 +134,15 @@ module.exports = (bot, db) => ({
             if (message.posted_msg_id) {
                 postMsg = await channel.messages.fetch(message.posted_msg_id).catch(() => undefined);
                 if (postMsg && deleteMessages) {
-                    postMsg.delete().catch(() => { });
+                    postMsg.delete().catch(() => {
+                    });
                     postMsg = undefined;
                 }
             }
 
             if (!deleteMessages && !postMsg) {
                 // An update was requested, but this message was deleted or was never posted. Nothing to do.
-                return;
+                continue;
             }
 
             let rows = [];
@@ -170,18 +171,28 @@ module.exports = (bot, db) => ({
                 await postMsg.edit({
                     embeds: [embed],
                     components: rows
-                }).then(msg => {
-                    msg.suppressEmbeds(message.title === null);
-                });
+                })
+                    .then(msg => {
+                        msg.suppressEmbeds(message.title === null);
+                    })
+                    .catch(error => {
+                        log.error("ROLEBUTTONS", "Failed to update button message: " + error + "\n" + error.stack);
+                        throw error;
+                    });
             } else {
                 await channel.send({
                     embeds: [embed],
                     components: rows
-                }).then(msg => {
-                    msg.suppressEmbeds(message.title === null);
-                    message.posted_msg_id = msg.id;
-                    message.save();
-                });
+                })
+                    .then(msg => {
+                        msg.suppressEmbeds(message.title === null);
+                        message.posted_msg_id = msg.id;
+                        return message.save();
+                    })
+                    .catch(error => {
+                        log.error("ROLEBUTTONS", "Failed to post button message: " + error + "\n" + error.stack);
+                        throw error;
+                    });
             }
         }
     }
