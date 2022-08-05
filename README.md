@@ -33,6 +33,7 @@ Configuring bot behaviour.
 * `sifcordGuildId`: Server ID for which server this bot should be running on. You probably want to change this to a test
   server's ID.
 * `staffRoleId`: Role ID for the role that should be used for dashboard access control.
+* `partyRoleId`: Role ID for a role that can access the index and *some* modules related to Party events.
 
 #### Local (`config.local.json`)
 
