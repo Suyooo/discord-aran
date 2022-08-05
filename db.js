@@ -1,9 +1,28 @@
 const sequelize = require("sequelize");
 const inflection = require("inflection");
 const log = require("./logger");
+const config = require("./config");
+
+function getDatabase() {
+    if (config.database.driver === "sqlite") {
+        return new sequelize.Sequelize("sqlite:" + config.database.filename, {
+            dialect: "sqlite",
+            logging: log.debug.bind(this, "DB")
+        });
+    } else if (config.database.driver === "mysql") {
+        return new sequelize.Sequelize(config.database.database, config.database.username, config.database.password, {
+            dialect: "mysql",
+            host: config.database.host,
+            logging: log.debug.bind(this, "DB")
+        });
+    } else {
+        console.log("Unsupported database driver configured.");
+        process.exit(1);
+    }
+}
 
 module.exports = (moduleList) => {
-    const db = new sequelize.Sequelize("sqlite:config.db", {logging: log.debug.bind(this, "DB")});
+    const db = getDatabase();
 
     db.modules = {};
     const originalDefine = db.define.bind(db);

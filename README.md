@@ -41,6 +41,10 @@ File that sets per-environment configuration (so I can deploy every other file f
 server environment)
 
 * `dashboardPort`: Which port the dashboard should run on.
+* `database`: An object with database configuration. The first property is `driver`, which is either `sqlite` or `mysql`
+  . Depending on which driver you run, you have other required properties:
+  * `sqlite` requires `filename`, the relative path to the database file.
+  * `mysql` requires `host`, `database`, `username` and `password`.
 * `dashboardRootPath` *(optional)*: If proxying through a webserver running on another port, this option allows you to
   set a subfolder so link URLs are set correctly, without a trailing slash (for example: `/dashboard`). If not set, it
   will be set to the root (empty string).

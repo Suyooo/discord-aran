@@ -20,6 +20,7 @@
     "jimp": "^0.16.1",
     "jquery": "^3.6.0",
     "memorystore": "^1.6.7",
+    "mysql2": "^2.3.3",
     "node-tesseract-ocr": "^2.2.1",
     "npm-force-resolutions": "^0.0.10",
     "passport": "^0.6.0",
