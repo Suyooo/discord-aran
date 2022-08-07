@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OST - Oninatsu Stonk Trading</title>
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/skeleton.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/normalize.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/style.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/partynatsumi/style.css">
+    <script src="<%- dashboardRootPath %>/vendor/jquery/jquery.min.js"></script>
+    <script src="<%- dashboardRootPath %>/vendor/partynatsumi/apexcharts/apexcharts.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container">
+    <div class="logo"><img height="160" src="<%- dashboardRootPath %>/img/partynatsumi/logo.png" alt="Oninatsu Stock Trading Logo"></div>
+    <div class="row">
+        <div class="six columns">
+            <h6>Display Range</h6>
+            <div class="buttonrow" id="displayrange">
+                <a id="b2880" class="button bl" onClick="setRange(2880)">ALL</a
+                ><a id="b1440" class="button bc" onClick="setRange(1440)">24h</a
+                ><a id="b720" class="button button-primary bc" onClick="setRange(720)">12h</a
+                ><a id="b360" class="button bc" onClick="setRange(360)">6h</a
+                ><a id="b180" class="button bc" onClick="setRange(180)">3h</a
+                ><a id="b60" class="button br" onClick="setRange(60)">1h</a>
+            </div>
+        </div>
+        <div class="six columns">
+            <h6>Pages</h6>
+            <div class="buttonrow">
+                <a href="" class="button button-primary bl">Stonk Prices</a
+                ><a href="ranking/" class="button br">Player Rankings</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[0][0] %></h5> <span class="charttitle"><%= stonks[0][1] %></span> <h5 id="p0" class="chartprice">&nbsp;<%= data[0][data[0].length-1][4] %> G</h5></div>
+            <div id="chart0" class="chart"></div>
+        </div>
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[1][0] %></h5> <span class="charttitle"><%= stonks[1][1] %></span> <h5 id="p1" class="chartprice">&nbsp;<%= data[1][data[1].length-1][4] %> G</h5></div>
+            <div id="chart1" class="chart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[2][0] %></h5> <span class="charttitle"><%= stonks[2][1] %></span> <h5 id="p2" class="chartprice">&nbsp;<%= data[2][data[2].length-1][4] %> G</h5></div>
+            <div id="chart2" class="chart"></div>
+        </div>
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[3][0] %></h5> <span class="charttitle"><%= stonks[3][1] %></span> <h5 id="p3" class="chartprice">&nbsp;<%= data[3][data[3].length-1][4] %> G</h5></div>
+            <div id="chart3" class="chart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[4][0] %></h5> <span class="charttitle"><%= stonks[4][1] %></span> <h5 id="p4" class="chartprice">&nbsp;<%= data[4][data[4].length-1][4] %> G</h5></div>
+            <div id="chart4" class="chart"></div>
+        </div>
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[5][0] %></h5> <span class="charttitle"><%= stonks[5][1] %></span> <h5 id="p5" class="chartprice">&nbsp;<%= data[5][data[5].length-1][4] %> G</h5></div>
+            <div id="chart5" class="chart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[6][0] %></h5> <span class="charttitle"><%= stonks[6][1] %></span> <h5 id="p6" class="chartprice">&nbsp;<%= data[6][data[6].length-1][4] %> G</h5></div>
+            <div id="chart6" class="chart"></div>
+        </div>
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[7][0] %></h5> <span class="charttitle"><%= stonks[7][1] %></span> <h5 id="p7" class="chartprice">&nbsp;<%= data[7][data[7].length-1][4] %> G</h5></div>
+            <div id="chart7" class="chart"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="three columns">&nbsp;</div>
+        <div class="six columns">
+            <div class="chartheader"><h5><%= stonks[8][0] %></h5> <span class="charttitle"><%= stonks[8][1] %></span> <h5 id="p8" class="chartprice">&nbsp;<%= data[8][data[8].length-1][4] %> G</h5></div>
+            <div id="chart8" class="chart"></div>
+        </div>
+        <div class="three columns">&nbsp;</div>
+    </div>
+    <div class="faq"><a target="_blank" href="<%- dashboardRootPath %>/img/partynatsumi/explaincandlestick.png">❓ What are these graphs?</a><br><a onClick="toggleColorblind()">👁 Colorblind Mode</a></div>
+</div>
+<script>
+    const fullData = <%- JSON.stringify(data) %>;
+    const stonks = <%- JSON.stringify(stonks) %>;
+    const updateInterval = <%- interval %>;
+    const startTime = <%- startTime %>;
+</script>
+<script src="<%- dashboardRootPath %>/js/partynatsumi/stonklist.js"></script>
+</body>

@@ -1,0 +1,5 @@
+{
+  "description": "Natsumi Party Fake Stonks game",
+  "textCommands": [ "ost", "endostgame", "fixost", "reloadoptions" ],
+  "dashboardTitle": "Natsumi Party"
+}

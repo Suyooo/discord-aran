@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="explaincandlestick.svg"
+   inkscape:export-filename="/home/chris/gdrive/Projekte/discord-aran/modules/partynatsumi/static/img/explaincandlestick.png"
+   inkscape:export-xdpi="100"
+   inkscape:export-ydpi="100"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:zoom="0.54866744"
+     inkscape:cx="640.64308"
+     inkscape:cy="633.35269"
+     inkscape:window-width="1850"
+     inkscape:window-height="1000"
+     inkscape:window-x="34"
+     inkscape:window-y="44"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="77.587914"
+       y="502.22861"
+       width="278.9614"
+       height="51.23017"
+       id="rect67736" />
+    <rect
+       x="383.79281"
+       y="205.77429"
+       width="150.91385"
+       height="27.789128"
+       id="rect38185" />
+    <rect
+       x="124.09032"
+       y="99.849851"
+       width="868.69222"
+       height="51.260559"
+       id="rect32221" />
+    <rect
+       x="24.5402"
+       y="14.385169"
+       width="1069.8978"
+       height="86.04636"
+       id="rect4142" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="150.91385"
+       height="27.789127"
+       id="rect38185-3" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="437.75334"
+       height="30.126401"
+       id="rect38185-7" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="437.75333"
+       height="30.126402"
+       id="rect38185-7-3" />
+    <rect
+       x="24.540199"
+       y="14.385169"
+       width="1069.8978"
+       height="86.046356"
+       id="rect4142-6" />
+    <rect
+       x="24.540199"
+       y="14.385169"
+       width="1069.8978"
+       height="86.046356"
+       id="rect4142-6-9" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="150.91385"
+       height="27.789127"
+       id="rect38185-1" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="437.75333"
+       height="30.126402"
+       id="rect38185-7-2" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="437.75333"
+       height="30.126402"
+       id="rect38185-7-3-7" />
+    <rect
+       x="383.79282"
+       y="205.77429"
+       width="150.91385"
+       height="27.789127"
+       id="rect38185-3-0" />
+    <rect
+       x="124.09032"
+       y="99.849854"
+       width="866.44377"
+       height="176.0018"
+       id="rect32221-7" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke-width:1.05994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:0.353314, 0.706631;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect846"
+       width="297"
+       height="210"
+       x="0"
+       y="0" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 99.100236,92.167967 H 68.026292"
+       id="path20586"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,0.51807844,4.2333335)"
+       id="text4140"
+       style="font-size:64px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect4142)"
+       x="431.53125"
+       y="0"><tspan
+         x="126.89551"
+         y="71.009766"
+         id="tspan121833"><tspan
+           style="font-family:'Architects Daughter';-inkscape-font-specification:'Architects Daughter';text-align:center;text-anchor:middle"
+           id="tspan121831">What is a Candlestick Chart?</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,23.845524,41.852726)"
+       id="text4140-2"
+       style="font-size:64px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect4142-6)"
+       x="431.53125"
+       y="0"><tspan
+         x="24.541016"
+         y="71.009766"
+         id="tspan121837"><tspan
+           style="font-family:'Architects Daughter';-inkscape-font-specification:'Architects Daughter'"
+           id="tspan121835">Rising</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 8.6384112,73.003 v 67.2867 H 78.154969"
+       id="path20030" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 99.388456,129.04846 H 3.9754446"
+       id="path20621"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#80ff80;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:0.136009, 0.272017;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect20387"
+       width="9.6144638"
+       height="36.880444"
+       x="86.108002"
+       y="92.167969" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 55.261762,72.598346 H 99.232936"
+       id="path20787"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 35.131609,136.5443 H 99.367456"
+       id="path21039"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,1.2013389,0.52916667)"
+       id="text32219"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect32221)"><tspan
+         x="124.08984"
+         y="118.72458"
+         id="tspan121841"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121839">A candlestick chart allows you to summarize a course over a certain time period!</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,1.1934928,137.01425)"
+       id="text32219-3"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;text-align:center;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect32221-7)"
+       x="424.41077"
+       y="0"><tspan
+         x="130.24449"
+         y="118.72458"
+         id="tspan121845"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121843">Basically: If the candlestick is green/bright, the price is currently at the top end!
+</tspan></tspan><tspan
+         x="183.65586"
+         y="145.39121"
+         id="tspan121849"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121847">If the candlestick is red/dark, the price is currently at the bottom end!
+</tspan></tspan><tspan
+         x="557.31152"
+         y="172.05783"
+         id="tspan121853"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121851">
+</tspan></tspan><tspan
+         x="137.52052"
+         y="198.72446"
+         id="tspan121857"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121855">The &quot;shadow&quot; - the lines from the candlestick to the minimum and maximum - </tspan></tspan><tspan
+         x="152.3955"
+         y="225.39108"
+         id="tspan121861"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121859">can tell you whether a price might move even further in a certain direction!</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.97705123,15.338974)"
+       id="text38183"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121865"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121863">Maximum</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.97705123,34.909709)"
+       id="text38183-5"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-7)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121869"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121867">Close: the final price of the period</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.97705123,71.667009)"
+       id="text38183-5-5"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-7-3)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121873"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121871">Open: the first price of the period</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-0.97705123,78.976395)"
+       id="text38183-6"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-3)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121877"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121875">Minimum</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 90.915232,92.167967 V 72.598346"
+       id="path20789" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 90.915232,129.04846 v 7.49584"
+       id="path21305" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 274.42732,92.167967 H 208.11253"
+       id="path20586-9"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,213.46018,41.852726)"
+       id="text4140-2-3"
+       style="font-size:64px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect4142-6-9)"
+       x="431.53125"
+       y="0"><tspan
+         x="24.541016"
+         y="71.009766"
+         id="tspan121881"><tspan
+           style="font-family:'Architects Daughter';-inkscape-font-specification:'Architects Daughter'"
+           id="tspan121879">Falling</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 204.63563,73.003 v 67.2867 h 48.84643"
+       id="path20030-6"
+       sodipodi:nodetypes="ccc" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 274.71554,129.04846 H 245.61136"
+       id="path20621-0"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#aa0000;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:0.136009, 0.272017;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect20387-2"
+       width="9.6144638"
+       height="36.880444"
+       x="261.43506"
+       y="92.167969" />
+    <path
+       style="fill:none;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 230.58885,72.598346 h 43.97117"
+       id="path20787-6"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#0000ff;stroke:#666666;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.5, 1.5;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 241.45066,136.5443 h 33.24388"
+       id="path21039-1"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,174.35003,15.338974)"
+       id="text38183-8"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-1)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121885"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121883">Max</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,174.35003,34.909709)"
+       id="text38183-5-7"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-7-2)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121889"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121887">Open</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,174.35003,71.667009)"
+       id="text38183-5-5-9"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-7-3-7)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121893"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121891">Close</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,174.35003,78.976395)"
+       id="text38183-6-2"
+       style="font-size:21.3333px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect38185-3-0)"><tspan
+         x="383.79297"
+         y="224.64841"
+         id="tspan121897"><tspan
+           style="font-family:sans-serif;-inkscape-font-specification:sans-serif"
+           id="tspan121895">Min</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 266.24232,92.167967 V 72.598346"
+       id="path20789-0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 266.24232,129.04846 v 7.49584"
+       id="path21305-2" />
+    <path
+       style="fill:none;stroke:#0000ff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 211.92635,92.167965 2.55447,7.106549 7.37354,-20.351106 3.83611,8.508182 4.89838,-14.833245 10.86181,63.945955 3.43427,-21.79034 4.52188,14.2945"
+       id="path65168"
+       sodipodi:nodetypes="cccccccc" />
+    <path
+       style="fill:none;stroke:#0000ff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 10.466891,129.07433 8.92666,-18.61945 4.060865,9.77363 6.659866,-14.26163 9.1019,30.57742 11.457535,-48.998963 2.550475,17.216193 6.63208,-32.163182 7.891104,41.702962 7.312765,-22.159186"
+       id="path20211" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text67734"
+       style="font-family:sans-serif;font-size:21.33333333px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:sans-serif;white-space:pre;shape-inside:url(#rect67736);font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.93889px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#0000ff;stroke-width:0.264583"
+       x="108.50408"
+       y="106.30692"
+       id="text70836"><tspan
+         sodipodi:role="line"
+         id="tspan70834"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="108.50408"
+         y="106.30692">Close</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="108.50408"
+         y="112.48053"
+         id="tspan81134">&gt;</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="108.50408"
+         y="118.65414"
+         id="tspan81136">Open</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.93889px;line-height:1.25;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#0000ff;stroke-width:0.264583"
+       x="283.31247"
+       y="106.30692"
+       id="text70836-2"><tspan
+         sodipodi:role="line"
+         id="tspan70834-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="283.31247"
+         y="106.30692">Close</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="283.31247"
+         y="112.48053"
+         id="tspan81134-8">&lt;</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.93889px;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;text-anchor:middle;fill:#0000ff;stroke-width:0.264583"
+         x="283.31247"
+         y="118.65414"
+         id="tspan81136-9">Open</tspan></text>
+  </g>
+</svg>

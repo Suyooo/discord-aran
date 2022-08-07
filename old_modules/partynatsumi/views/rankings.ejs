@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OST - Oninatsu Stonk Trading - Rankings</title>
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/skeleton.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/normalize.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/style.css">
+    <link rel="stylesheet" href="<%- dashboardRootPath %>/style/partynatsumi/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container">
+    <div class="logo"><img height="160" src="<%- dashboardRootPath %>/img/partynatsumi/logo.png" alt="Oninatsu Stock Trading Logo"></div>
+    <div class="row">
+        <div class="three columns">
+            &nbsp;
+        </div>
+        <div class="three columns">
+            &nbsp;
+        </div>
+        <div class="six columns">
+            <h6>Pages</h6>
+            <div class="buttonrow">
+                <a href=".." class="button bl">Stonk Prices</a
+                ><a href="." class="button button-primary br">Player Ratings</a>
+            </div>
+        </div>
+    </div>
+    <div class="gcpanel">
+        <div class="gcbarcontainer">
+            <h6>GROUP CHALLENGE</h6>
+            <div class="gcbar">
+                <div class="gcbarfill" style="width: <%= ranking.length / .2 %>%"></div>
+            </div>
+            <div class="gcnote">
+                <% if (ranking.length < 20) { %>
+                    If 20 players join the market, you will unlock an animated variant of NatsuYay!
+                <% } else { %>
+                    Enough players joined to unlock an animated variant of NatsuYay!
+                <% } %>
+            </div>
+        </div>
+        <img class="gcyay" src="<%- dashboardRootPath %>/img/partynatsumi/NatsuYay.png" alt="NatsuYay">
+    </div>
+    <div class="row">
+        <div class="three columns">
+            &nbsp;
+        </div>
+        <div class="six columns">
+            <h1>G RANKINGS</h1>
+            <div class="subtitle">(Value of stonks owned not included.)</div>
+            <table>
+            <% for (const r of ranking) { %>
+                    <tr><th><%= r[0] %></th><td><%= r[1] %></td></tr>
+            <% } %>
+            </table>
+        </div>
+        <div class="three columns">
+            &nbsp;
+        </div>
+    </div>
+</div>
+</body>

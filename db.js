@@ -7,13 +7,13 @@ function getDatabase() {
     if (config.database.driver === "sqlite") {
         return new sequelize.Sequelize("sqlite:" + config.database.filename, {
             dialect: "sqlite",
-            logging: log.debug.bind(this, "DB")
+            logging: undefined /*log.debug.bind(this, "DB")*/
         });
     } else if (config.database.driver === "mysql") {
         return new sequelize.Sequelize(config.database.database, config.database.username, config.database.password, {
             dialect: "mysql",
             host: config.database.host,
-            logging: log.debug.bind(this, "DB")
+            logging: undefined /*log.debug.bind(this, "DB")*/
         });
     } else {
         console.log("Unsupported database driver configured.");

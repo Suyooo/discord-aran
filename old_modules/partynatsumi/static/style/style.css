@@ -1,0 +1,198 @@
+.button, button, input[type="submit"], input[type="reset"], input[type="button"] {
+    color: #888;
+    border: 1px solid #888;
+}
+
+.button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover, .button:focus, button:focus, input[type="submit"]:focus, input[type="reset"]:focus, input[type="button"]:focus {
+    color: #000;
+    border-color: #000;
+}
+
+.button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary {
+    color: #000;
+    background-color: #FF51C4;
+    border-color: #555;
+}
+
+.button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus {
+    color: #000;
+    background-color: #FFA1D5;
+    border-color: #000;
+}
+
+body {
+    background-color: #f3e6b6;
+    color: black;
+}
+
+.logo {
+    margin-top: 1em;
+    width: 100%;
+    text-align: center;
+}
+
+.logo img {
+    max-width: 100%;
+    max-height: 10em;
+}
+
+.chart {
+    background-color: white;
+    color: black;
+    border-radius: 1em;
+}
+
+.six.columns {
+    padding: 1em;
+}
+
+.three.columns {
+    height: 0.001em;
+    overflow: hidden;
+}
+
+.charttitle {
+    color: #555;
+}
+
+.chartheader {
+    display: flex;
+    height: 2em;
+    align-items: flex-end;
+}
+.chartheader span {
+    flex: 1 1 0;
+    padding: 0 .5em;
+    line-height: 1em;
+    min-height: 1.4em;
+}
+.chartheader h5 {
+    flex: 0 1 auto;
+}
+
+h1 {
+    margin: 1em 0 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FF51C4;
+    letter-spacing: .3em;
+    text-align: center;
+}
+
+h5 {
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #FF51C4;
+    font-size: 1.2em;
+    display: inline-block;
+}
+
+h6 {
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #111;
+    font-size: .85em;
+    letter-spacing: .3em;
+}
+
+.subtitle {
+    margin: 0;
+    color: #333;
+    font-size: .8em;
+    text-align: center;
+}
+
+.buttonrow {
+    display: flex;
+}
+
+.buttonrow .button {
+    padding: 0;
+    flex: 1 0 0;
+}
+
+.bl {
+    border-right: none;
+    border-radius: 1em 0 0 1em;
+}
+
+.bc {
+    border-right: none;
+    border-radius: 0;
+}
+
+.br {
+    border-radius: 0 1em 1em 0;
+}
+
+.faq {
+    font-size: .8em;
+    float: right;
+}
+
+.faq a {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.gcpanel {
+    border-radius: 1em;
+    background-color: white;
+    padding: 2em;
+    display: flex;
+    align-items: center;
+}
+
+.gcbarcontainer {
+    flex: 1 1 0;
+}
+
+.gcbar {
+    height: 2em;
+    border-radius: 1em;
+    width: 100%;
+    background-color: #f3e6b6;
+    overflow: hidden;
+}
+
+.gcbarfill {
+    height: 2em;
+    background-color: #FF51C4;
+}
+
+.gcyay {
+    height: 5em;
+    padding-left: 2em;
+    float: right;
+    flex: 0 0 1;
+}
+
+.gcnote {
+    font-size: .7em;
+    color: #333;
+    float: right;
+}
+
+table {
+    width: 100%;
+    margin-top: .5em;
+}
+
+td,th {
+    padding: .5em 1em !important;
+}
+
+tr:nth-child(even) {
+    background-color: #fff4c8;
+}
+
+tr:nth-child(odd) {
+    background-color: #fff7d5;
+}
+
+td {
+    text-align: right;
+}
