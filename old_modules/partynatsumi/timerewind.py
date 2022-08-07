@@ -3,7 +3,7 @@
 import sqlite3,json
 TURN = 204
 
-db = sqlite3.connect("othertimeline.db")
+db = sqlite3.connect("destruction_timeline.db")
 c = db.cursor()
 
 invs = {}
@@ -17,10 +17,10 @@ for t in c.execute("SELECT * FROM partynatsumi_traderecords"):
     invs[t[1]][1][t[3]] -= t[5]
     invs[t[1]][6] = t[6]
 
-with open("timerewind-jobs","r") as jobs:
+"""with open("timerewind-jobs","r") as jobs:
     for line in jobs.readlines():
         if "," not in line: continue
-        invs[line.split(",")[1].split("\n")[0]][0] += 600
+        invs[line.split(",")[1].split("\n")[0]][0] += 600"""
 
 for k in invs:
     inv = invs[k]
