@@ -20,8 +20,9 @@ async function readNumber(originalImage, bbox, threshold) {
         });
     } catch (e) {
         return undefined;
+    } finally {
+        fs.unlink(tempName, () => null);
     }
-    fs.unlink(tempName, ()=>{});
     log.debug("PARTYSUBMIT", "OCR read number: " + res.trim());
     return res === "" ? undefined : Number(res);
 }
@@ -37,8 +38,9 @@ async function readString(originalImage, bbox, threshold) {
         });
     } catch (e) {
         return undefined;
+    } finally {
+        fs.unlink(tempName, () => null);
     }
-    fs.unlinkSync(tempName);
     log.debug("PARTYSUBMIT", "OCR read string: " + res.trim());
     return res.trim();
 }
@@ -106,14 +108,3 @@ const SIFAS = {
 }
 
 module.exports = {SIF, SIFAS};
-
-/*(async function() {
-    let image = await imageHandler.loadImage("https://media.discordapp.net/attachments/832628579728752680/873727798357938206/Screenshot_2021-08-08-07-40-32-247_klb.android.lovelive_en.jpg");
-    let layout = await layouts.getLayoutSIFResult(image);
-    const o = {
-        "1101001000001001011001000100000001010000000010001000000000000000": "NSNM",
-        "1101001000011000001001100011000110100000001000101000000000000001": "DIVE"
-    }
-    let best = await getClosestPHashMatch(image,Object.keys(o),layout.song);
-    console.log(o[best]);
-})();*/
