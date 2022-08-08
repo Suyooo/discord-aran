@@ -542,6 +542,10 @@ function playSIFAS(bot) {
 
 module.exports = (bot, db) => {
     bot.on("ready", () => {
+        /*roleHandler.startParty()
+            .then(() => roleHandler.checkRoles(bot))
+            .then(() => roleHandler.endParty(bot.channels.resolve(config.sifcordGuildId)))
+            .then(() => process.exit(0));*/
         if (partyConfig.partyStart + 86580000 >= Date.now()) { // planned party not over yet (+ 24 hours run time + 3 minute grace period)
             if (partyConfig.partyStart <= Date.now()) { // start immediately if at least 3 minutes before party start time
                 startParty(bot);

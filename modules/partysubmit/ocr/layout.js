@@ -11,7 +11,7 @@ async function getLayoutSIFResult(originalImage) {
         let currentStreakLength = 0, currentStreakStart = 0;
         for (let x = 0; x < image.bitmap.width; x++) {
             let idx = image.getPixelIndex(x, y);
-            if (image.bitmap.data[idx] > 245) {
+            if (image.bitmap.data[idx] > 235) {
                 currentStreakLength++;
                 if (currentStreakLength > longestStreakLength) {
                     longestStreakLength = currentStreakLength;

@@ -42,22 +42,23 @@ async function endParty(controllerChannel) {
         settingsSheet.loadCells(mvpNameCellAddrList),
         rankingsSheet.loadCells(topCellAddrList)
     ]);
+    const guild = controllerChannel.guild;
     // send finish message
     let msg = "Party has ended, **please close the forms** by going to the sheet and using the SIFcord Party => Close Forms menu option!\nAfter you posted the results, please also finish the Party by going to the sheet and using the SIFcord Party => Finish Party menu option!\n\nHere's some stuff to copypaste into the writing doc!\n\n";
     msg += "SIF Clears\n```";
-    msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[0]);
+    msg += await makeMentionList(guild, winnerCellAddrList[0]);
     msg += "```\n\nSIFAS Clears\n```";
-    msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[1]);
+    msg += await makeMentionList(guild, winnerCellAddrList[1]);
     msg += "```\n\nOOG Players\n```";
-    msg += await makeMentionList(controllerChannel.guild, winnerCellAddrList[2]);
+    msg += await makeMentionList(guild, winnerCellAddrList[2]);
     msg += "```\n\nSIF MVPs **(unverified - please check before posting!)**\n```";
-    msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[0], topFirstColList[0], "Score: ", "");
+    msg += await makeMVPList(guild, mvpNameCellAddrList[0], topFirstColList[0], "Score: ", "");
     msg += "\n\n";
-    msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[1], topFirstColList[1], "", " " + partyConfig.SIF.other.label);
+    msg += await makeMVPList(guild, mvpNameCellAddrList[1], topFirstColList[1], "", " " + partyConfig.SIF.other.label);
     msg += "```\n\nSIFAS MVPs **(unverified - please check before posting!)**\n```";
-    msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[2], topFirstColList[2], "Voltage: ", "");
+    msg += await makeMVPList(guild, mvpNameCellAddrList[2], topFirstColList[2], "Voltage: ", "");
     msg += "\n\n";
-    msg += await makeMVPList(controllerChannel.guild, mvpNameCellAddrList[3], topFirstColList[3], "", " " + partyConfig.SIFAS.other.label);
+    msg += await makeMVPList(guild, mvpNameCellAddrList[3], topFirstColList[3], "", " " + partyConfig.SIFAS.other.label);
     msg += "```";
     log.debug("PARTYSUBMIT", "Sending copypasties");
     await controllerChannel.send(msg);
@@ -70,7 +71,7 @@ async function makeMentionList(guild, cellAddr) {
     for (const clearer of cell.value.split(", ")) {
         const tag = clearer.trim();
         if (tag === "") continue;
-        const member = await findMemberByTag(guild, tag.substring(1));
+        const member = await findMemberByTag(guild, tag);
         clearers.push(member.toString());
     }
     return clearers.join(", ");
@@ -136,7 +137,7 @@ function checkRoles(bot) {
             const cell = frontSheet.getCellByA1(cellAddr);
             if (cell.value == null) continue;
             for (const clearer of cell.value.split(", ")) {
-                clearers.add(clearer.substring(1));
+                clearers.add(clearer);
             }
         }
 
