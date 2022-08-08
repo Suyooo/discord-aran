@@ -52,6 +52,11 @@ module.exports = db => {
         },
         require_role_ids: {
             type: DataTypes.STRING(256)
+        },
+        send_reply: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     });
 

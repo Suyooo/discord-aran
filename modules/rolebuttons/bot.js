@@ -15,7 +15,7 @@ module.exports = (bot, db) => ({
                     include: {
                         model: db.modules.rolebuttons.Group,
                         as: "group",
-                        attributes: ["require_role_ids"]
+                        attributes: ["require_role_ids", "send_reply"]
                     }
                 }
             });
@@ -79,10 +79,18 @@ module.exports = (bot, db) => ({
             return;
         }
 
-        await interaction.reply({content: action + " the <@&" + rid + "> role!", ephemeral: true})
-            .catch(error => {
-                log.error("ROLEBUTTONS", "Failed to tell user about role change: " + error + "\n" + error.stack);
-            });
+        console.log(button.message.group.send_reply);
+        if (button.message.group.send_reply === true) {
+            await interaction.reply({content: action + " the <@&" + rid + "> role!", ephemeral: true})
+                .catch(error => {
+                    log.error("ROLEBUTTONS", "Failed to tell user about role change: " + error + "\n" + error.stack);
+                });
+        } else {
+            await interaction.update({})
+                .catch(error => {
+                    log.error("ROLEBUTTONS", "Failed to acknowledge interaction: " + error + "\n" + error.stack);
+                });
+        }
     },
     async deleteAllMessages(group_id) {
         log.debug("ROLEBUTTONS", "Deleting all posts for group " + group_id);

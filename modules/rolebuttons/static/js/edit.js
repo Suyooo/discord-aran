@@ -196,6 +196,7 @@ $(function () {
                         guild_id: gid,
                         channel_id: cid,
                         require_role_ids: $(".rolebuttons-require").val() || null,
+                        send_reply: $("#rolebuttons-reply").is(":checked"),
                         delete_messages: messagesToDelete,
                         delete_buttons: buttonsToDelete,
                         messages: $children.map(c => {

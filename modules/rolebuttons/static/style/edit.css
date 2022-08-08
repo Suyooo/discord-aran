@@ -66,8 +66,12 @@
     display: none;
 }
 
-.rolebuttons-description, .rolebuttons-color, .rolebuttons-button input, .rolebuttons-button select, #rolebuttons-header input, #rolebuttons-header select {
+.rolebuttons-description, .rolebuttons-color, .rolebuttons-button input:not([type="checkbox"]), .rolebuttons-button select, #rolebuttons-header input:not([type="checkbox"]), #rolebuttons-header select {
     width: 100%
+}
+
+input[type="checkbox"] + label {
+    display: inline;
 }
 
 select {

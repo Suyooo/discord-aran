@@ -22,6 +22,8 @@
                                                                     title='ID of the role required to use the buttons in this group. You can specify multiple IDs, seperated by commas, and the buttons will work if the user has at least one of the roles.'>🛈</span></label>
             <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256'
                    class='rolebuttons-require'>
+            <br>
+            <input id="rolebuttons-reply"<%= group.send_reply ? " checked" : "" %> type="checkbox"> <label for="rolebuttons-reply">Send reply on role change</label>
         </div>
     </div>
     <input id="rolebuttons-guild" type="hidden" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>
