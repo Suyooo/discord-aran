@@ -23,7 +23,7 @@
             <input id="rolebuttons-require" value="<%= group.require_role_ids %>" maxlength='256'
                    class='rolebuttons-require'>
             <br>
-            <input id="rolebuttons-reply"<%= group.send_reply ? " checked" : "" %> type="checkbox"> <label for="rolebuttons-reply">Send reply on role change</label>
+            <input id="rolebuttons-reply"<%= group.send_reply ? " checked" : "" %> type="checkbox"> <label for="rolebuttons-reply">Send reply in channel instead of DM</label>
         </div>
     </div>
     <input id="rolebuttons-guild" type="hidden" value="<%= group.guild_id %>" maxlength='256' class='rolebuttons-guild'>

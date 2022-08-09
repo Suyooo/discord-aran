@@ -79,17 +79,22 @@ module.exports = (bot, db) => ({
             return;
         }
 
-        console.log(button.message.group.send_reply);
         if (button.message.group.send_reply === true) {
             await interaction.reply({content: action + " the <@&" + rid + "> role!", ephemeral: true})
                 .catch(error => {
                     log.error("ROLEBUTTONS", "Failed to tell user about role change: " + error + "\n" + error.stack);
                 });
         } else {
-            await interaction.update({})
-                .catch(error => {
-                    log.error("ROLEBUTTONS", "Failed to acknowledge interaction: " + error + "\n" + error.stack);
-                });
+            await Promise.all([
+                interaction.user.send({content: action + " the **" + (await interaction.guild.roles.resolve(rid)).name + "** role!"})
+                    .catch(error => {
+                        log.error("ROLEBUTTONS", "Failed to tell user about role change: " + error + "\n" + error.stack);
+                    }),
+                interaction.update({})
+                    .catch(error => {
+                        log.error("ROLEBUTTONS", "Failed to acknowledge interaction: " + error + "\n" + error.stack);
+                    })
+            ]);
         }
     },
     async deleteAllMessages(group_id) {
