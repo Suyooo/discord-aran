@@ -239,21 +239,15 @@ function setUpEvents(parent) {
         $(".rolebuttons-emoji-show", i.parent().parent()).html(getEmojiShowHTML(i.val(), $(".rolebuttons-label", i.parent().parent()).val()));
     });
     $(".rolebuttons-messagecopy", parent).on("click", e => {
-        let i = $(e.currentTarget).parent();
-        let n = $(makeMessage({
-            id: null,
-            title: $(".rolebuttons-title", i).val() || "",
-            description: $(".rolebuttons-description", i).val() || "",
-            color: $(".rolebuttons-color", i).val() || "",
-            buttons: $(".rolebuttons-button", i).toArray().map(e => {
-                return {
-                    id: null,
-                    role_id: $(".rolebuttons-role", e).val() || "",
-                    label: $(".rolebuttons-label", e).val() || "",
-                    emoji: $(".rolebuttons-emoji", e).val() || ""
-                }
-            })
-        }));
+        const i = $(e.currentTarget).parent();
+        const d = $("ol.rolebuttons-messagelist").sortable("serialize")[0].messages[$("li.rolebuttons-message").index(i)];
+        d.id = null;
+        d.buttons.map(b => {
+            b.id = null;
+            return b;
+        });
+
+        const n = $(makeMessage(d));
         i.after(n);
         setUpEvents(n);
         i.addClass("collapsed");
