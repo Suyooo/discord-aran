@@ -94,6 +94,9 @@ $(function () {
                 return true;
             }
         },
+        onDragStart: function() {
+            changed = true;
+        },
         serialize: function ($parent, $children, parentIsContainer) {
             if (!parentIsContainer) {
                 if ($parent.is(".rolebuttons-button")) {
@@ -253,7 +256,8 @@ function setUpEvents(parent) {
         }));
         i.after(n);
         setUpEvents(n);
-        n.removeClass("collapsed");
+        i.addClass("collapsed");
+        changed = true;
     });
     $(".rolebuttons-messagedelete", parent).on("click", e => {
         if (!confirm("Are you sure you want to delete this message?")) return;
@@ -283,6 +287,7 @@ function setUpEvents(parent) {
         }));
         i.after(n);
         setUpEvents(n);
+        changed = true;
     });
     $(".rolebuttons-buttondelete", parent).on("click", e => {
         if (!confirm("Are you sure you want to delete this button?")) return;
