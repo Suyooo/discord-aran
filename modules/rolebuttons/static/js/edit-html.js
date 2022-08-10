@@ -86,14 +86,14 @@ function getEmojiShowHTML(emoji, label) {
         return "<span>" + label.substring(0, 1) + "</span>";
     } else if (emoji.indexOf(":") === -1) {
         let em = modules.emoji.get(emoji);
-        if (em === undefined) em = "X";
+        if (em === undefined) em = "XX";
         return "<span>" + em + "</span>";
     } else {
         let id = emoji.split(":");
         let ext = (id[0] === "a" || id[0] === "<a") ? "gif" : "png";
         id = id[id.length - 1];
         if (id.endsWith(">")) id = id.substr(0, id.length - 1);
-        return "<img src='https://cdn.discordapp.com/emojis/" + id + "." + ext + "' alt='" + label + "'>";
+        return "<img src='https://cdn.discordapp.com/emojis/" + id + "." + ext + "' alt='XX'>";
     }
 }
 
