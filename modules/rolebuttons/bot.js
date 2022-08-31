@@ -4,6 +4,7 @@ const {ButtonStyle, ButtonBuilder, EmbedBuilder, ActionRowBuilder} = require("di
 
 module.exports = (bot, db) => ({
     async button(interaction, args) {
+        log.debug("ROLEBUTTONS", "Got interaction for button " + parseInt(args[1]));
         let button;
         try {
             button = await db.modules.rolebuttons.Button.findByPk(parseInt(args[1]), {
@@ -30,8 +31,10 @@ module.exports = (bot, db) => ({
                 });
             return;
         }
+        log.debug("ROLEBUTTONS", "Got info from DB (for role " + button.role_id + ")");
 
         if (button.message.group.require_role_ids) {
+            log.debug("ROLEBUTTONS", "Checking for requirement role");
             let allowed = false;
             const splitreq = button.message.group.require_role_ids.split(",").map(r => r.trim());
             for (const reqid of splitreq) {
@@ -41,6 +44,7 @@ module.exports = (bot, db) => ({
                 }
             }
             if (!allowed) {
+                log.debug("ROLEBUTTONS", "Aborted for missing requirement role");
                 await interaction.reply({
                     content: splitreq.length === 1
                         ? "You must have the <@&" + splitreq[0] + "> role to use these buttons."
@@ -55,7 +59,9 @@ module.exports = (bot, db) => ({
         }
 
         let rid = button.role_id;
-        let has = interaction.member.roles.cache.has(rid);
+        log.debug("ROLEBUTTONS", "Now updating role " + interaction.guild.roles.resolve(rid).name);
+        let has = (await interaction.member.fetch(true)).roles.cache.has(rid);
+        log.debug("ROLEBUTTONS", "User does" + (has ? "" : "n't") + " have the role");
         let roleChangePromise, action;
         try {
             if (has) {

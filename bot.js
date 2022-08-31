@@ -53,6 +53,7 @@ module.exports = (moduleList, db) => {
         if (message.content.startsWith(config.textCommandPrefix)) {
             let args = message.content.substr(config.textCommandPrefix.length).split(" ");
             if (bot.textCommands.hasOwnProperty(args[0])) {
+                log.info("BOT", "Recieved text command " + args[0] + " from " + message.author.tag);
                 try {
                     bot.textCommands[args[0]](message, args);
                 } catch (error) {
@@ -64,6 +65,7 @@ module.exports = (moduleList, db) => {
     });
 
     bot.on("interactionCreate", interaction => {
+        log.debug("BOT", "Interaction " + interaction.customId + " from " + interaction.user.tag);
         const args = interaction.customId.split("-");
         const module = bot.modules[args[0]];
         if (!module) {
@@ -72,7 +74,7 @@ module.exports = (moduleList, db) => {
         }
 
         if (interaction.isSelectMenu()) {
-            log.info("BOT", "Recieved select menu interaction " + interaction.customId);
+            log.info("BOT", "Recieved select menu interaction " + interaction.customId + " from " + interaction.user.tag);
             if (module.selection === undefined) {
                 log.error("BOT", "Got interaction for module " + args[0] + ", but it doesn't handle selections");
                 return;
@@ -88,7 +90,7 @@ module.exports = (moduleList, db) => {
                         });
                 });
         } else if (interaction.isButton()) {
-            log.info("BOT", "Recieved button interaction " + interaction.customId);
+            log.info("BOT", "Recieved button interaction " + interaction.customId + " from " + interaction.user.tag);
             if (module.button === undefined) {
                 log.error("BOT", "Got interaction for module " + args[0] + ", but it doesn't handle buttons");
                 return;
@@ -104,7 +106,7 @@ module.exports = (moduleList, db) => {
                         });
                 });
         } else if (interaction.type === InteractionType.ModalSubmit) {
-            log.info("BOT", "Recieved modal interaction " + interaction.customId);
+            log.info("BOT", "Recieved modal interaction " + interaction.customId + " from " + interaction.user.tag);
             if (module.button === undefined) {
                 log.error("BOT", "Got interaction for module " + args[0] + ", but it doesn't handle modals");
                 return;

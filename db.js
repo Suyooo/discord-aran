@@ -7,12 +7,14 @@ function getDatabase() {
     if (config.database.driver === "sqlite") {
         return new sequelize.Sequelize("sqlite:" + config.database.filename, {
             dialect: "sqlite",
+            logQueryParameters: true,
             logging: undefined /*log.debug.bind(this, "DB")*/
         });
     } else if (config.database.driver === "mysql") {
         return new sequelize.Sequelize(config.database.database, config.database.username, config.database.password, {
             dialect: "mysql",
             host: config.database.host,
+            logQueryParameters: true,
             logging: undefined /*log.debug.bind(this, "DB")*/
         });
     } else {
