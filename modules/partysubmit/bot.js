@@ -557,31 +557,29 @@ module.exports = (bot, db) => {
 
     return {
         async textCommand(message, args) {
-            if (args[0] === "submit") {
-                const partyInfo = partyConfig.lookupConfigByChannelId[message.channel.id];
-                if (partyInfo !== undefined && (partyTimeout !== undefined || partyConfig.isTestChannel[message.channel.id])) {
-                    if (activeSubmissions.hasOwnProperty(message.author.id)) {
-                        message.reply({
-                            embeds: [new EmbedBuilder()
-                                .setColor(partyConfig.embedColor)
-                                .setDescription("You already have a submission in progress. Please submit or cancel that one first! (If you submitted manually via the form, you'll have to cancel the automatic submission.)")]
-                        });
-                    } else {
-                        await message.channel.sendTyping();
-                        const submission = new Submission(message, partyInfo);
-                        submission.getImages(bot).then(() => submission.doRecognition(bot))
-                            .then(() => {
-                                activeSubmissions[message.author.id] = submission;
-                                submission.submissionTimeout = setTimeout(() => submission.cancel(undefined), 900000); // 15 minutes
-                            })
-                            .catch((err) => {
-                                message.reply({
-                                    embeds: [new EmbedBuilder()
-                                        .setColor(partyConfig.embedColor)
-                                        .setDescription(err)]
-                                });
+            const partyInfo = partyConfig.lookupConfigByChannelId[message.channel.id];
+            if (partyInfo !== undefined && (partyTimeout !== undefined || partyConfig.isTestChannel[message.channel.id])) {
+                if (activeSubmissions.hasOwnProperty(message.author.id)) {
+                    message.reply({
+                        embeds: [new EmbedBuilder()
+                            .setColor(partyConfig.embedColor)
+                            .setDescription("You already have a submission in progress. Please submit or cancel that one first! (If you submitted manually via the form, you'll have to cancel the automatic submission.)")]
+                    });
+                } else {
+                    await message.channel.sendTyping();
+                    const submission = new Submission(message, partyInfo);
+                    submission.getImages(bot).then(() => submission.doRecognition(bot))
+                        .then(() => {
+                            activeSubmissions[message.author.id] = submission;
+                            submission.submissionTimeout = setTimeout(() => submission.cancel(undefined), 900000); // 15 minutes
+                        })
+                        .catch((err) => {
+                            message.reply({
+                                embeds: [new EmbedBuilder()
+                                    .setColor(partyConfig.embedColor)
+                                    .setDescription(err)]
                             });
-                    }
+                        });
                 }
             }
         },
