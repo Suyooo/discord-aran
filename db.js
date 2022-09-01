@@ -28,6 +28,7 @@ module.exports = (moduleList) => {
 
     db.modules = {};
     const originalDefine = db.define.bind(db);
+    const syncPromises = [];
 
     for (const mod of moduleList) {
         log.debug("DB", "Loading module " + mod.name);
@@ -39,7 +40,7 @@ module.exports = (moduleList) => {
             options.tableName = mod.name + "_" + (options.tableName ? options.tableName : inflection.pluralize(modelName).toLowerCase());
             const model = originalDefine(mod.name + "_" + modelName, attributes, options);
             db.modules[mod.name][modelName] = model;
-            // TODO: Add per-model sync, so force/alter can be set as command line arguments per model to update tables
+            syncPromises.push(model.sync());
             count++;
             return model;
         }
@@ -53,7 +54,7 @@ module.exports = (moduleList) => {
         return undefined;
     };
 
-    return db.sync()
+    return Promise.all(syncPromises)
         .then(() => {
             log.info("DB", "Models synchronized");
             return db;
