@@ -1,0 +1,4 @@
+{
+  "description": "Helper for opening/closing event channels, also automatically opens/closes SIF RC channel on schedule.",
+  "textCommands": ["open", "close", "unlock", "poststaffcontrolpanel", "postpartycontrolpanel"]
+}
