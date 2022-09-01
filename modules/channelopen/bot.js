@@ -323,7 +323,7 @@ async function postStaffControlPanel(bot) {
             .setCustomId("channelopen-close-dlp")
             .setStyle(ButtonStyle.Danger)
     );
-    const channel = await bot.channels.fetch("836582911134269510");
+    const channel = await bot.channels.fetch("292286248540962818");
     await channel.send({
         content: "**Event Channel Open/Close Buttons**\n(alternative text commands in the message below)",
         components: rows
@@ -394,7 +394,7 @@ async function postPartyControlPanel(bot) {
             .setCustomId("channelopen-close-sifcordparty")
             .setStyle(ButtonStyle.Danger)
     );
-    const channel = await bot.channels.fetch("836582911134269510");
+    const channel = await bot.channels.fetch("381590906475773953");
     await channel.send({
         content: "**Party Channel Open/Close Buttons**\n(alternative text commands in the message below)",
         components: rows
