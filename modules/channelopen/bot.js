@@ -237,6 +237,13 @@ async function findAndExecuteHandler(bot, user, key, open) {
         if (key === "sifparty") handler = handleSIFParty;
         else if (key === "sifasparty") handler = handleSIFASParty;
         else if (key === "sifcordparty") handler = handleSIFcordParty;
+        else if (key === "bothparty") {
+            await Promise.all([
+                handleSIFParty(bot, open, user),
+                handleSIFASParty(bot, open, user)
+            ]);
+            return true;
+        }
     }
 
     if (handler !== undefined) {
@@ -381,6 +388,25 @@ async function postPartyControlPanel(bot) {
     );
     rows[2].addComponents(
         new ButtonBuilder()
+            .setLabel("Both SIF and SIFAS Party")
+            .setCustomId("channelopen-label-bothparty")
+            .setStyle(ButtonStyle.Secondary)
+            .setDisabled(true),
+        new ButtonBuilder()
+            .setLabel("Open (read only)")
+            .setCustomId("channelopen-open-bothparty")
+            .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+            .setLabel("Unlock")
+            .setCustomId("channelopen-unlock-bothparty")
+            .setStyle(ButtonStyle.Success),
+        new ButtonBuilder()
+            .setLabel("Close")
+            .setCustomId("channelopen-close-bothparty")
+            .setStyle(ButtonStyle.Danger)
+    );
+    rows[3].addComponents(
+        new ButtonBuilder()
             .setLabel("SIFcord Party")
             .setCustomId("channelopen-label-sifcordparty")
             .setStyle(ButtonStyle.Secondary)
@@ -404,6 +430,7 @@ async function postPartyControlPanel(bot) {
         "Alternatively, you can use the text commands `.open`, `.unlock` and `.close` in this channel:\n" +
         "`.open sifparty`/`.unlock sifparty`/`.close sifparty` - SIF Party\n" +
         "`.open sifasparty`/`.unlock sifasparty`/`.close sifasparty` - SIFAS Party\n" +
+        "`.open bothparty`/`.unlock bothparty`/`.close bothparty` - Both SIF and SIFAS Party\n" +
         "`.open sifcordparty`/`.close sifcordparty` - SIFcord Party");
 }
 
@@ -429,9 +456,9 @@ module.exports = (bot, db) => {
                     return;
                 }
 
-                if (args[0] === "unlock" && (args[1] === "sifparty" || args[1] === "sifasparty") && await bot.auth.checkParty(message.author)) {
-                    if (args[2] === "sifparty") await unlockSIFParty(bot, message.author);
-                    else await unlockSIFASParty(bot, message.author);
+                if (args[0] === "unlock" && (args[1] === "sifparty" || args[1] === "sifasparty" || args[1] === "bothparty") && await bot.auth.checkParty(message.author)) {
+                    if (args[2] !== "sifparty") await unlockSIFASParty(bot, message.author);
+                    if (args[2] !== "sifasparty") await unlockSIFParty(bot, message.author);
                 } else {
                     let key = args[1];
                     if (key === undefined) {
@@ -472,9 +499,9 @@ module.exports = (bot, db) => {
         async button(interaction, args) {
             try {
                 const deferral = interaction.deferUpdate();
-                if (args[1] === "unlock" && (args[2] === "sifparty" || args[2] === "sifasparty") && await bot.auth.checkParty(interaction.user)) {
-                    if (args[2] === "sifparty") await unlockSIFParty(bot, interaction.user);
-                    else await unlockSIFASParty(bot, interaction.user);
+                if (args[1] === "unlock" && (args[2] === "sifparty" || args[2] === "sifasparty" || args[2] === "bothparty") && await bot.auth.checkParty(interaction.user)) {
+                    if (args[2] !== "sifparty") await unlockSIFASParty(bot, interaction.user);
+                    if (args[2] !== "sifasparty") await unlockSIFParty(bot, interaction.user);
                 } else {
                     await findAndExecuteHandler(bot, interaction.user, args[2], args[1] !== "close");
                 }
