@@ -520,7 +520,7 @@ function startParty(bot, post) {
 async function sendChallengePosts(bot, channel, posts, unlockMethod) {
     const messages = [];
     for (const post of posts) {
-        messages.push(await channel.send(post));
+        messages.push(await channel.send({content: post, allowedMentions: {parse: ['users', 'roles']}}));
     }
     await bot.modules.channelopen[unlockMethod](bot, bot.user);
     for (let i = messages.length - 1; i >= 0; i--) {
