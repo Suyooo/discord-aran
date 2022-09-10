@@ -1,7 +1,7 @@
 {
   "partyStart": 1659884400000,
-  "spreadsheetId": "106YyqfsjAbuLMx-g35dv45JWhS6XE8h281vlpYv5b0w",
-  "embedColor": "#F60E0E",
+  "spreadsheetId": "1ynCQl2DWxJNfuozo5Ke56bz3A-CAN0AaXd2JDn0Yv50",
+  "embedColor": "#CEBFBF",
   "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
@@ -15,38 +15,38 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "MELODY (Party Challenge & The Things We Love MVP)",
+        "mvpName": "Wonderful Rush (Party Challenge & Straight Into The Future MVP)",
         "recognition": [
-          "1000000000001000110000101010001000110000001000001000100010001000"
+          "1000000000110100010001001000000011001000011000000010000100000000"
         ],
         "readOther": false
       },
       {
-        "mvpName": "DIVE! (Party Challenge & Secret Stuco President MVP)",
+        "mvpName": "Spicaterrible (Party Challenge & My Heart's Future MVP)",
         "recognition": [
-          "1101001000011001001001001011000110100000001000100000000000000001"
+          "1001011001100000110100001000000001100000010000001000010001000000"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Secret Stuco President MVP",
-      "label": "Goods",
-      "modalPrompt": "Your Goods",
-      "autoFillFunction": "goods",
+      "mvpName": "My Heart's Future MVP",
+      "label": "Hearts",
+      "modalPrompt": "Your Hearts",
+      "autoFillFunction": null,
       "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLScBvkmpkW_-8iB1djytRD0VfD9w5K1a3Q1pPpagTDabcP0x2Q",
+      "id": "1FAIpQLSdtPNSVJTgmdCsZGrtqRGhJxIi_Mr6eRb4rtQSQkBcJyEbXRA",
       "fields": {
-        "userTag": "entry.720499454",
-        "mvp": "entry.421803360",
-        "score": "entry.94866282",
-        "other": "entry.1446485621",
+        "userTag": "entry.568386523",
+        "mvp": "entry.754943301",
+        "score": "entry.1376268821",
+        "other": "entry.1327045712",
         "images": [
-          "entry.888924480",
-          "entry.310989930"
+          "entry.1566665002",
+          "entry.1220144583"
         ]
       }
     }
@@ -62,39 +62,37 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Infinity! Our Wings!! (Party Challenge & Endless Futures MVP)",
+        "mvpName": "Wonderful Rush (Party Challenge & Wonderful Stage MVP)",
         "recognition": [
-          "Infinity! Our Wings!!"
+          "Wonderful Rush"
         ],
         "readOther": false
       },
       {
-        "mvpName": "DIVE! (Party Challenge & My Own Light MVP)",
+        "mvpName": "Wonder zone (Party Challenge & Wonderous Feeling MVP)",
         "recognition": [
-          "DIVE!"
+          "Wonder zone"
         ],
-        "readOther": true
+        "readOther": false
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "My Own Light MVP",
-      "label": "Vo+ Voltage",
-      "modalPrompt": "Vo+ Voltage",
+      "mvpName": "Wonderous Feeling MVP",
+      "label": "Voltage",
+      "modalPrompt": "Voltage",
       "autoFillFunction": null,
-      "requiresThirdImage": true
+      "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLScaMXeMusXNleBfTYDVHgtznbsYWoxMl2wlgjj2bTWR8v0SLw",
+      "id": "1FAIpQLSdytq8eJbjpgsIzLMkWFNvRju_-AF7UzbJM7X1c_Ftnlp0eqQ",
       "fields": {
-        "userTag": "entry.1145011786",
-        "mvp": "entry.748347323",
-        "score": "entry.1911432985",
-        "other": "entry.47876817",
+        "userTag": "entry.679219248",
+        "mvp": "entry.1329999552",
+        "score": "entry.1664918378",
         "images": [
-          "entry.43804439",
-          "entry.1857304698",
-          "entry.547687429"
+          "entry.1592116509",
+          "entry.2044953824"
         ]
       }
     }

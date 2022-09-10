@@ -6,8 +6,8 @@ const log = require("../../logger");
 
 let frontSheet = undefined;
 const winnerCellAddrList = ["G12", "B12", "L12"]; // SIF, SIFAS, OOG
+const documentUrlCellAddr = "D14";
 let settingsSheet = undefined;
-const formsCloseCellAddr = "J18";
 const mvpNameCellAddrList = ["J3", "B9", "J6", "B12"]; // SIF A, SIF B, SIFAS A, SIFAS B
 let rankingsSheet = undefined;
 const topCellAddrList = ["A7:D16", "F7:I16", "K7:N16", "P7:S16"]; // SIF A, SIF B, SIFAS A, SIFAS B
@@ -30,6 +30,14 @@ function startParty() {
         rankingsSheet = doc.sheetsByTitle["Public View Data Transmission"];
         knownRoleHavers.clear();
     });
+}
+
+async function getDocumentId() {
+    frontSheet.resetLocalCache(true);
+    await frontSheet.loadCells(documentUrlCellAddr);
+    const url = frontSheet.getCellByA1(documentUrlCellAddr).value;
+    if (url === null) return null;
+    return url.substring(url.indexOf("/document/d/") + 12, url.indexOf("/edit"));
 }
 
 async function endParty(controllerChannel) {
@@ -181,4 +189,4 @@ async function findMemberByTag(guild, tag) {
     return members.find(m => m.user.tag === tag);
 }
 
-module.exports = {startParty, endParty, giveRewardRole, checkRoles};
+module.exports = {startParty, getDocumentId, endParty, giveRewardRole, checkRoles};

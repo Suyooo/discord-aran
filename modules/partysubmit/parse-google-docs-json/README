@@ -1,0 +1,5 @@
+This is a modified version of the npm module of the same name: https://www.npmjs.com/package/parse-google-docs-json
+
+The "markdown-ification" has been removed (so text is extracted as-is without checking the text formatting).
+
+The original module is licensed under the MIT License, and the LICENSE file is retained as-is.

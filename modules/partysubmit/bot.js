@@ -14,7 +14,8 @@ const Discord = require("discord.js");
 const imageHandler = require("./ocr/imageHandler");
 const layout = require("./ocr/layout");
 const reader = require("./ocr/reader");
-const roleHandler = require("./role-handler");
+const sheetHandler = require("./sheet-handler");
+const docHandler = require("./doc-handler");
 const config = require("../../config");
 const log = require("../../logger");
 const partyConfig = require("./config");
@@ -348,7 +349,7 @@ class Submission {
             if (err === null && res.statusCode === 200) {
                 this.submissionStatus = SubmissionState.SUBMITTED;
                 this.destroy(interaction);
-                roleHandler.giveRewardRole(interaction.member);
+                sheetHandler.giveRewardRole(interaction.member);
             } else {
                 log.error("PARTYSUBMIT", "ERROR submitting form: Status Code " + res.statusCode + " " + res.statusMessage);
                 interaction.reply({
@@ -494,15 +495,37 @@ for (const mvpIndex in partyConfig.SIFAS.mvps) {
     }
 }
 
-function startParty(bot) {
+function startParty(bot, post) {
     // TODO: when databasing, load correct party config (in role-handler too)
     // TODO: possible to load seperate test config?
-    log.info("PARTYSUBMIT", "Party goes live!");
-
     Object.keys(activeSubmissions).forEach(userId => delete activeSubmissions[userId]);
     partyTimeout = setTimeout(() => endParty(bot), partyConfig.partyStart + 86580000 - Date.now()); // + 24 hours run time + 3 minute grace period
-    roleHandler.startParty().then(() => checkRoles(bot));
+    sheetHandler.startParty().then(() => {
+        checkRoles(bot);
+        if (post) {
+            docHandler.postAndOpen().then(({sifPosts, sifasPosts}) => Promise.all([
+                sendChallengePosts(bot, bot.channels.resolve(partyConfig.SIF.partyChannel), sifPosts, "unlockSIFParty"),
+                sendChallengePosts(bot, bot.channels.resolve(partyConfig.SIFAS.partyChannel), sifasPosts, "unlockSIFASParty")
+            ])).catch(e => {
+                bot.channels.resolve(partyConfig.controllerChannelId)
+                    .send("**UNABLE TO AUTOMATICALLY SEND PARTY CHALLENGE POSTS!** " +
+                        "Someone please manually copypaste them from the doc and open the Party channels ASAP!\n\n" +
+                        "The problem reported was:\n" + e.message);
+            });
+        }
+    });
     playSIF(bot);
+}
+
+async function sendChallengePosts(bot, channel, posts, unlockMethod) {
+    const messages = [];
+    for (const post of posts) {
+        messages.push(await channel.send(post));
+    }
+    await bot.modules.channelopen[unlockMethod](bot, bot.user);
+    for (let i = messages.length - 1; i >= 0; i--) {
+        await messages[i].pin();
+    }
 }
 
 function endParty(bot) {
@@ -517,11 +540,11 @@ function endParty(bot) {
 
     new Promise(resolve => {
         setTimeout(resolve, 120000); // 2 minute grace period for clicking submit
-    }).then(() => roleHandler.endParty(bot.channels.resolve(partyConfig.controllerChannelId)));
+    }).then(() => sheetHandler.endParty(bot.channels.resolve(partyConfig.controllerChannelId)));
 }
 
 function checkRoles(bot) {
-    roleHandler.checkRoles(bot).finally(() => {
+    sheetHandler.checkRoles(bot).finally(() => {
         if (partyTimeout !== undefined) {
             partyRoleCheckTimeout = setTimeout(() => checkRoles(bot), 60000); // 1 minute
         }
@@ -542,15 +565,19 @@ function playSIFAS(bot) {
 
 module.exports = (bot, db) => {
     bot.on("ready", () => {
-        /*roleHandler.startParty()
-            .then(() => roleHandler.checkRoles(bot))
-            .then(() => roleHandler.endParty(bot.channels.resolve(config.sifcordGuildId)))
+        /*sheetHandler.startParty()
+            .then(() => sheetHandler.checkRoles(bot))
+            .then(() => sheetHandler.endParty(bot.channels.resolve(config.sifcordGuildId)))
             .then(() => process.exit(0));*/
         if (partyConfig.partyStart + 86580000 >= Date.now()) { // planned party not over yet (+ 24 hours run time + 3 minute grace period)
             if (partyConfig.partyStart <= Date.now()) { // start immediately if at least 3 minutes before party start time
-                startParty(bot);
+                log.info("PARTYSUBMIT", "Party is already running");
+                startParty(bot, false);
             } else {
-                setTimeout(() => startParty(bot), partyConfig.partyStart - Date.now());
+                setTimeout(() => {
+                    log.info("PARTYSUBMIT", "Party goes live!");
+                    startParty(bot, true);
+                }, partyConfig.partyStart - Date.now());
             }
         }
     });

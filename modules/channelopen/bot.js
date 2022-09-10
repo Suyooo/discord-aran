@@ -119,7 +119,7 @@ async function handleCM(bot, open, user) {
 
 const SIF_PARTY_CHANNEL_ID = "832628579728752680";
 
-async function handleSIFParty(bot, open, user) {
+async function handleSIFParty(bot, open, user = undefined) {
     const guild = await bot.guilds.fetch(config.sifcordGuildId);
     const party = await guild.channels.fetch(SIF_PARTY_CHANNEL_ID);
     if ((party.parentId === SIF_MAIN_CATEGORY_ID) === open) return;
@@ -445,6 +445,7 @@ module.exports = (bot, db) => {
     });
 
     return {
+        unlockSIFParty, unlockSIFASParty,
         async textCommand(message, args) {
             try {
                 if (args[0] === "poststaffcontrolpanel") {
