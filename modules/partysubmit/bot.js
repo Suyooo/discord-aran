@@ -508,9 +508,12 @@ function startParty(bot, post) {
                 sendChallengePosts(bot, bot.channels.resolve(partyConfig.SIFAS.partyChannel), sifasPosts, "unlockSIFASParty")
             ])).catch(e => {
                 bot.channels.resolve(partyConfig.controllerChannelId)
-                    .send("**UNABLE TO AUTOMATICALLY SEND PARTY CHALLENGE POSTS!** " +
-                        "Someone please manually copypaste them from the doc and open the Party channels ASAP!\n\n" +
-                        "The problem reported was:\n" + e.message);
+                    .send({
+                        content: "**UNABLE TO AUTOMATICALLY SEND PARTY CHALLENGE POSTS!** " +
+                            "Someone please manually copypaste them from the doc and open the Party channels ASAP! <@&207972968901509120> <@&982180324651982859>\n\n" +
+                            "The problem reported was:\n" + e.message,
+                        allowedMentions: {parse: ['users', 'roles']}
+                    });
             });
         }
     });
