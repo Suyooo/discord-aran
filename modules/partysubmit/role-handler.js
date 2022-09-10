@@ -44,7 +44,7 @@ async function endParty(controllerChannel) {
     ]);
     const guild = controllerChannel.guild;
     // send finish message
-    let msg = "Party has ended, **please close the forms** by going to the sheet and using the SIFcord Party => Close Forms menu option!\nAfter you posted the results, please also finish the Party by going to the sheet and using the SIFcord Party => Finish Party menu option!\n\nHere's some stuff to copypaste into the writing doc!\n\n";
+    let msg = "Party has ended, forms are being closed automatically now.\nAfter you posted the results, please also finish the Party by going to the sheet and using the SIFcord Party => Finish Party menu option!\n\nHere's some stuff to copypaste into the writing doc!\n\n";
     msg += "SIF Clears\n```";
     msg += await makeMentionList(guild, winnerCellAddrList[0]);
     msg += "```\n\nSIFAS Clears\n```";
