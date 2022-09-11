@@ -1,5 +1,5 @@
 {
-  "partyStart": 1659884400000,
+  "partyStart": 1662901200000,
   "spreadsheetId": "1ynCQl2DWxJNfuozo5Ke56bz3A-CAN0AaXd2JDn0Yv50",
   "embedColor": "#CEBFBF",
   "clearRewardRoleId": "985434752196702248",
@@ -15,23 +15,23 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Wonderful Rush (Party Challenge & Straight Into The Future MVP)",
+        "mvpName": "Wonderful Rush (Party Challenge & Take Off Together MVP)",
         "recognition": [
           "1000000000110100010001001000000011001000011000000010000100000000"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Spicaterrible (Party Challenge & My Heart's Future MVP)",
+        "mvpName": "Puwa Puwa-O! (Party Challenge & In The Vast Sky MVP)",
         "recognition": [
-          "1001011001100000110100001000000001100000010000001000010001000000"
+          "1101100010101010000000100000000001010010000100000110010000010100"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "My Heart's Future MVP",
+      "mvpName": "In The Vast Sky MVP",
       "label": "Hearts",
       "modalPrompt": "Your Hearts",
       "autoFillFunction": null,

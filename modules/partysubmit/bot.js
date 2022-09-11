@@ -509,8 +509,8 @@ function startParty(bot, post) {
             ])).catch(e => {
                 bot.channels.resolve(partyConfig.controllerChannelId)
                     .send({
-                        content: "**UNABLE TO AUTOMATICALLY SEND PARTY CHALLENGE POSTS!** " +
-                            "Someone please manually copypaste them from the doc and open the Party channels ASAP! <@&207972968901509120> <@&982180324651982859>\n\n" +
+                        content: "**Unable to automatically send challenge posts** - " +
+                            "someone please manually copypaste them from the doc in the pinned sheet and open the Party channels! <@&207972968901509120> <@&982180324651982859>\n\n" +
                             "The problem reported was:\n" + e.message,
                         allowedMentions: {parse: ['users', 'roles']}
                     });
