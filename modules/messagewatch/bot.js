@@ -1,0 +1,84 @@
+const {ChannelType, EmbedBuilder} = require("discord.js");
+const config = require("../../config");
+
+const REPORT_CHANNEL_ID = "208474259583008768";
+
+module.exports = (bot, db) => {
+    bot.on("messageDelete", async message => {
+        if (message.author.bot) return;
+        if (message.guildId !== config.sifcordGuildId) return;
+
+        const e = new EmbedBuilder()
+            .setColor("#FF0000")
+            .setTitle("Deleted")
+            .setURL((await message.channel.messages.fetch({before: message.id, limit: 1}))?.first()?.url)
+            .setDescription(message.content)
+            .addFields(
+                {
+                    name: "Author",
+                    value: message.author.tag + " " + message.author.toString(),
+                    inline: true
+                },
+                {
+                    name: "Channel",
+                    value: message.channel.toString(),
+                    inline: true
+                },
+                {
+                    name: "Posted at",
+                    value: "<t:" + Math.floor(message.createdTimestamp / 1000) + ":f>",
+                    inline: true
+                }
+            );
+        if (message.attachments.some(a => !a.contentType.startsWith("image/"))) {
+            e.addFields({
+                name: "Unrecoverable Attachments",
+                value: message.attachments.filter(a => !a.contentType.startsWith("image/"))
+                    .map((a, i) => a.name || "(unnamed " + a.contentType + " attachment)").join(", "),
+                inline: false
+            });
+        }
+
+        bot.channels.resolve(REPORT_CHANNEL_ID).send({
+            embeds: [e],
+            files: message.attachments ? message.attachments.filter(a => a.contentType.startsWith("image/")).map((a, i) => ({
+                attachment: a.proxyURL,
+                name: a.name || ("attachment" + i)
+            })) : undefined,
+            allowedMentions: {parse: [], repliedUser: false}
+        })
+    });
+    bot.on("messageUpdate", async (oldMessage, newMessage) => {
+        if (oldMessage.author.bot) return;
+        if (oldMessage.guildId !== config.sifcordGuildId) return;
+        if (oldMessage.content === newMessage.content) return;
+        bot.channels.resolve(REPORT_CHANNEL_ID).send({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor("#FFFF00")
+                    .setTitle("Edited (old content shown below)")
+                    .setURL(newMessage.url)
+                    .setDescription(oldMessage.content)
+                    .addFields(
+                        {
+                            name: "Author",
+                            value: oldMessage.author.tag + " " + oldMessage.author.toString(),
+                            inline: true
+                        },
+                        {
+                            name: "Channel",
+                            value: oldMessage.channel.toString(),
+                            inline: true
+                        },
+                        {
+                            name: "Posted at",
+                            value: "<t:" + Math.floor(oldMessage.createdTimestamp / 1000) + ":f>",
+                            inline: true
+                        }
+                    )
+            ],
+            allowedMentions: {parse: [], repliedUser: false}
+        })
+    });
+    return {};
+};
