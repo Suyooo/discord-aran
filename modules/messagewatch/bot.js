@@ -1,7 +1,13 @@
 const {ChannelType, EmbedBuilder} = require("discord.js");
 const config = require("../../config");
+const diff = new (require("text-diff"))();
 
 const REPORT_CHANNEL_ID = "208474259583008768";
+
+// https://stackoverflow.com/a/39543625
+function escapeMarkdown(text) {
+    return text.replace(/\\([*_`~\\])/g, '$1').replace(/([*_`~\\])/g, '\\$1');
+}
 
 module.exports = (bot, db) => {
     bot.on("messageDelete", async message => {
@@ -52,13 +58,25 @@ module.exports = (bot, db) => {
         if (oldMessage.author.bot) return;
         if (oldMessage.guildId !== config.sifcordGuildId) return;
         if (oldMessage.content === newMessage.content) return;
+
+        const d = diff.main(escapeMarkdown(oldMessage.content), escapeMarkdown(newMessage.content));
+        let diffedMessage = "";
+        diff.cleanupSemantic(d);
+        for (const dd of d) {
+            const format = dd[0] === -1 ? "~~" : (dd[0] === 1 ? "__" : "");
+            diffedMessage += format + dd[1] + format;
+        }
+        // For some reason ~~a~~__b__ will only display the underline but break the strikethrough
+        // So insert a zero width space (the other way around it's perfectly fine without the zero width space???)
+        diffedMessage = diffedMessage.replace(/~_/g,"~​_");
+
         bot.channels.resolve(REPORT_CHANNEL_ID).send({
             embeds: [
                 new EmbedBuilder()
                     .setColor("#FFFF00")
-                    .setTitle("Edited (old content shown below)")
+                    .setTitle("Edited")
                     .setURL(newMessage.url)
-                    .setDescription(oldMessage.content)
+                    .setDescription(diffedMessage.length > 4096 ? diffedMessage.substring(0,4093) + "..." : diffedMessage)
                     .addFields(
                         {
                             name: "Author",
