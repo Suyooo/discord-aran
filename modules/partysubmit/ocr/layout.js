@@ -11,7 +11,7 @@ async function getLayoutSIFResult(originalImage) {
         let currentStreakLength = 0, currentStreakStart = 0;
         for (let x = 0; x < image.bitmap.width; x++) {
             let idx = image.getPixelIndex(x, y);
-            if (image.bitmap.data[idx] > 235) {
+            if (image.bitmap.data[idx] > 241) {
                 currentStreakLength++;
                 if (currentStreakLength > longestStreakLength) {
                     longestStreakLength = currentStreakLength;
@@ -106,9 +106,9 @@ async function getLayoutSIFASResult(originalImage) {
         for (let y = 0; y < image.bitmap.height; y++) {
             let idx = image.getPixelIndex(x, y);
             if (image.bitmap.data[idx] > 175) {
-                image.bitmap.data[idx] = 255;
+                /*image.bitmap.data[idx] = 255;
                 image.bitmap.data[idx + 1] = 0;
-                image.bitmap.data[idx + 2] = 0;
+                image.bitmap.data[idx + 2] = 0;*/
                 anyFound = true;
                 currentStreakLength++;
                 if (currentStreakLength > colLongestStreakLength) {
