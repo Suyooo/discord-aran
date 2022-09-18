@@ -1,7 +1,7 @@
 {
-  "partyStart": 1662908400000,
-  "spreadsheetId": "1ynCQl2DWxJNfuozo5Ke56bz3A-CAN0AaXd2JDn0Yv50",
-  "embedColor": "#CEBFBF",
+  "partyStart": 1663513200000,
+  "spreadsheetId": "1fAs2PNc6_5XT1OUKIkB2pbrQVg1hjk86keC17WzhuGU",
+  "embedColor": "#FF9EAC",
   "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
@@ -15,38 +15,39 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Wonderful Rush (Party Challenge & Take Off Together MVP)",
+        "mvpName": "Omoi yo Hitotsu ni Nare (Party Challenge & No Matter Where We Are MVP)",
         "recognition": [
-          "1000000000110100010001001000000011001000011000000010000100000000"
+          "1000001100111001010000010110000000111001000001000010100100100001"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Puwa Puwa-O! (Party Challenge & In The Vast Sky MVP)",
+        "mvpName": "New Romantic Sailors (Party Challenge & More Adventures MVP)",
         "recognition": [
-          "1101100010101010000000100000000001010010000100000110010000010100"
+          "1100011000010000000110110000000000111111100001011010010000110010"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "In The Vast Sky MVP",
-      "label": "Hearts",
-      "modalPrompt": "Your Hearts",
-      "autoFillFunction": null,
-      "requiresThirdImage": false
+      "mvpName": "More Adventures MVP",
+      "label": "Max Combo",
+      "modalPrompt": "Your Max Combo",
+      "autoFillFunction": "combo",
+      "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSdtPNSVJTgmdCsZGrtqRGhJxIi_Mr6eRb4rtQSQkBcJyEbXRA",
+      "id": "1FAIpQLSezTkLIhdbeUy2tIOK9SJG7V1wo6NfaFKK8v4MgEFQuZWf91w",
       "fields": {
-        "userTag": "entry.568386523",
-        "mvp": "entry.754943301",
-        "score": "entry.1376268821",
-        "other": "entry.1327045712",
+        "userTag": "entry.2046286577",
+        "mvp": "entry.980588210",
+        "score": "entry.1998987034",
+        "other": "entry.863888887",
         "images": [
-          "entry.1566665002",
-          "entry.1220144583"
+          "entry.1874421627",
+          "entry.954926359",
+          "entry.1059737635"
         ]
       }
     }
@@ -62,37 +63,39 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Wonderful Rush (Party Challenge & Wonderful Stage MVP)",
+        "mvpName": "Wake Up, Challenger!! (Party Challenge & A Challenger's Smile MVP)",
         "recognition": [
-          "Wonderful Rush"
+          "Wake Up, Challenger!!"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Wonder zone (Party Challenge & Wonderous Feeling MVP)",
+        "mvpName": "Strawberry Trapper (Party Challenge & My Target MVP)",
         "recognition": [
-          "Wonder zone"
+          "Strawberry Trapper"
         ],
-        "readOther": false
+        "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Wonderous Feeling MVP",
-      "label": "Voltage",
-      "modalPrompt": "Voltage",
+      "mvpName": "My Target MVP",
+      "label": "SP Voltage",
+      "modalPrompt": "SP Voltage",
       "autoFillFunction": null,
-      "requiresThirdImage": false
+      "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSdytq8eJbjpgsIzLMkWFNvRju_-AF7UzbJM7X1c_Ftnlp0eqQ",
+      "id": "1FAIpQLSfXvdWzqPW9lGQG1nKlaVxD5g7nZgFhc9liNeq4mhIzASKQZg",
       "fields": {
-        "userTag": "entry.679219248",
-        "mvp": "entry.1329999552",
-        "score": "entry.1664918378",
+        "userTag": "entry.480295152",
+        "mvp": "entry.1588399428",
+        "score": "entry.1093837116",
+        "other": "entry.1818509687",
         "images": [
-          "entry.1592116509",
-          "entry.2044953824"
+          "entry.1177537719",
+          "entry.680901107",
+          "entry.1818862416"
         ]
       }
     }
