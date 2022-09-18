@@ -6,7 +6,7 @@ const REPORT_CHANNEL_ID = "208474259583008768";
 
 // https://stackoverflow.com/a/39543625
 function escapeMarkdown(text) {
-    return text.replace(/\\([*_`~\\])/g, '$1').replace(/([*_`~\\])/g, '\\$1');
+    return text.replace(/\\([*_|`~\\])/g, '$1').replace(/([*_|`~\\])/g, '\\$1');
 }
 
 module.exports = (bot, db) => {
