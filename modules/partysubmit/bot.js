@@ -214,7 +214,7 @@ class Submission {
         fields[this.partyInfo.form.fields.userTag] = this.commandMessage.author.tag;
         if (this.mvpIndex !== undefined) fields[this.partyInfo.form.fields.mvp] = this.partyInfo.mvps[this.mvpIndex].mvpName;
         if (this.score !== undefined) fields[this.partyInfo.form.fields.score] = this.score;
-        if (this.other !== undefined && this.other !== "") fields[this.partyInfo.form.fields.other] = this.other;
+        if (this.showOther && this.other !== undefined && this.other !== "") fields[this.partyInfo.form.fields.other] = this.other;
 
         if (this.readImageIndex !== undefined) fields[this.partyInfo.form.fields.images[0]] = this.imageList[this.readImageIndex];
         let j = 0;
