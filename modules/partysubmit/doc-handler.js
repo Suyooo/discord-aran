@@ -2,7 +2,7 @@ const parseGoogleDocsJson = require("./parse-google-docs-json");
 const creds = require("./google-credentials.json");
 const sheetHandler = require("./sheet-handler");
 
-async function postAndOpen() {
+async function getPosts() {
     const documentId = await sheetHandler.getDocumentId();
     if (documentId === null) throw new Error("The forms and writing document were never created!");
 
@@ -47,4 +47,4 @@ async function postAndOpen() {
     return {sifPosts, sifasPosts};
 }
 
-module.exports = {postAndOpen};
+module.exports = {getPosts};

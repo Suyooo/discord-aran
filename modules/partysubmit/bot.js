@@ -503,7 +503,7 @@ function startParty(bot, post) {
     sheetHandler.startParty().then(() => {
         checkRoles(bot);
         if (post) {
-            docHandler.postAndOpen().then(({sifPosts, sifasPosts}) => Promise.all([
+            docHandler.getPosts().then(({sifPosts, sifasPosts}) => Promise.all([
                 sendChallengePosts(bot, bot.channels.resolve(partyConfig.SIF.partyChannel), sifPosts, "unlockSIFParty"),
                 sendChallengePosts(bot, bot.channels.resolve(partyConfig.SIFAS.partyChannel), sifasPosts, "unlockSIFASParty")
             ])).catch(e => {
@@ -573,7 +573,7 @@ module.exports = (bot, db) => {
             .then(() => sheetHandler.endParty(bot.channels.resolve(config.sifcordGuildId)))
             .then(() => process.exit(0));*/
         if (partyConfig.partyStart + 86580000 >= Date.now()) { // planned party not over yet (+ 24 hours run time + 3 minute grace period)
-            if (partyConfig.partyStart <= Date.now()) { // start immediately if at least 3 minutes before party start time
+            if (partyConfig.partyStart - 60000 <= Date.now()) { // start immediately if at least 1 minute before party start time
                 log.info("PARTYSUBMIT", "Party is already running");
                 startParty(bot, false);
             } else {
@@ -581,6 +581,20 @@ module.exports = (bot, db) => {
                     log.info("PARTYSUBMIT", "Party goes live!");
                     startParty(bot, true);
                 }, partyConfig.partyStart - Date.now());
+                if (partyConfig.partyStart - 1800000 >= Date.now()) { // 30 minutes before start, dry-run challenge posts
+                    setTimeout(() => {
+                        log.info("PARTYSUBMIT", "Testing challenge posts");
+                        docHandler.getPosts().then(({sifPosts, sifasPosts}) =>
+                            bot.channels.resolve(partyConfig.controllerChannelId).send({
+                                content: "Challenge Posts have been checked, seems good and ready to go <:ChikaThumbsUp:823272752277356595>"
+                            })).catch(e => {
+                            bot.channels.resolve(partyConfig.controllerChannelId).send({
+                                content: "There are still problems with the Challenge Posts. If you want the posts to be automatic, please fix them in the next 30 minutes! (Or I'll ping everyone)\n\n" +
+                                    "The problem reported was:\n" + e.message
+                            });
+                        });
+                    }, partyConfig.partyStart - 1800000 - Date.now());
+                }
             }
         }
     });
