@@ -1,8 +1,8 @@
 {
-  "partyStart": 1663513200000,
-  "spreadsheetId": "1fAs2PNc6_5XT1OUKIkB2pbrQVg1hjk86keC17WzhuGU",
-  "embedColor": "#FF9EAC",
-  "clearRewardRoleId": "985434752196702248",
+  "partyStart": 1663686000000,
+  "spreadsheetId": "1BBApDgjLp6_k1qivVHgFM7Ka4BuUYrODNKlaCB87jyU",
+  "embedColor": "#FF6FBE",
+  "clearRewardRoleId": "891221604233773077",
   "controllerChannelId": "381590906475773953",
   "SIF": {
     "partyChannel": "832628579728752680",
@@ -15,39 +15,39 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Omoi yo Hitotsu ni Nare (Party Challenge & No Matter Where We Are MVP)",
+        "mvpName": "Awaken the power (Party Challenge & New Power MVP)",
         "recognition": [
-          "1000001100111001010000010110000000111001000001000010100100100001"
+          "1010010001110110011000001100110000110000010011011000010000111100"
         ],
         "readOther": false
       },
       {
-        "mvpName": "New Romantic Sailors (Party Challenge & More Adventures MVP)",
+        "mvpName": "Sakura Bye Bye (Party Challenge & Graduation Goodbyes MVP)",
         "recognition": [
-          "1100011000010000000110110000000000111111100001011010010000110010"
+          "1001001001000000101001001110010101110001001010010101001011000000"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "More Adventures MVP",
-      "label": "Max Combo",
-      "modalPrompt": "Your Max Combo",
-      "autoFillFunction": "combo",
+      "mvpName": "Graduation Goodbyes MVP",
+      "label": "Perfects",
+      "modalPrompt": "Your Perfects",
+      "autoFillFunction": "perfects",
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSezTkLIhdbeUy2tIOK9SJG7V1wo6NfaFKK8v4MgEFQuZWf91w",
+      "id": "1FAIpQLScDfwDvC0oM1CaNwoFy7T-Yrvx_Q5Q7POCi4lOEjxHAAvmEDw",
       "fields": {
-        "userTag": "entry.2046286577",
-        "mvp": "entry.980588210",
-        "score": "entry.1998987034",
-        "other": "entry.863888887",
+        "userTag": "entry.1076118853",
+        "mvp": "entry.1403951171",
+        "score": "entry.2084855301",
+        "other": "entry.446137414",
         "images": [
-          "entry.1874421627",
-          "entry.954926359",
-          "entry.1059737635"
+          "entry.1561109359",
+          "entry.973587933",
+          "entry.2096337334"
         ]
       }
     }
@@ -63,39 +63,39 @@
     "sameSongForMVPs": false,
     "mvps": [
       {
-        "mvpName": "Wake Up, Challenger!! (Party Challenge & A Challenger's Smile MVP)",
+        "mvpName": "Cotton Candy Ei-Ei-Oh! (Party Challenge & Festival for Everyone MVP)",
         "recognition": [
-          "Wake Up, Challenger!!"
+          "コットンキャンディえいえいおー！",
+          "Cotton Candy E-I-E-I-O-!"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Strawberry Trapper (Party Challenge & My Target MVP)",
+        "mvpName": "SKY JOURNEY (Party Challenge & Sky High MVP)",
         "recognition": [
-          "Strawberry Trapper"
+          "SKY JOURNEY"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "My Target MVP",
-      "label": "SP Voltage",
-      "modalPrompt": "SP Voltage",
-      "autoFillFunction": null,
-      "requiresThirdImage": true
+      "mvpName": "Sky High MVP",
+      "label": "Skill Activations",
+      "modalPrompt": "Your Skill Activations",
+      "autoFillFunction": "skills",
+      "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLSfXvdWzqPW9lGQG1nKlaVxD5g7nZgFhc9liNeq4mhIzASKQZg",
+      "id": "1FAIpQLSeGGdb3B0m_REO0aUSqRMHyJKRvvz9RJsm4PXWggfE360cEtg",
       "fields": {
-        "userTag": "entry.480295152",
-        "mvp": "entry.1588399428",
-        "score": "entry.1093837116",
-        "other": "entry.1818509687",
+        "userTag": "entry.1303143652",
+        "mvp": "entry.133249735",
+        "score": "entry.1326843329",
+        "other": "entry.695198283",
         "images": [
-          "entry.1177537719",
-          "entry.680901107",
-          "entry.1818862416"
+          "entry.770360110",
+          "entry.357398835"
         ]
       }
     }
