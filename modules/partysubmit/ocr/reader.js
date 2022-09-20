@@ -103,7 +103,7 @@ const SIFAS = {
         return await readStringWithOptions(image, options, layouts.song, -200);
     },
     async skills(image, layouts) {
-        return await readNumber(image, layouts.skills, 150);
+        return await readNumber(image, layouts.skills, 165);
     }
 }
 
