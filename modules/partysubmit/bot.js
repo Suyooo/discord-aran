@@ -582,7 +582,8 @@ module.exports = (bot, db) => {
                     startParty(bot, true);
                 }, partyConfig.partyStart - Date.now());
                 if (partyConfig.partyStart - 1800000 >= Date.now()) { // 30 minutes before start, dry-run challenge posts
-                    setTimeout(() => {
+                    setTimeout(async () => {
+                        await sheetHandler.startParty();
                         log.info("PARTYSUBMIT", "Testing challenge posts");
                         docHandler.getPosts().then(({sifPosts, sifasPosts}) =>
                             bot.channels.resolve(partyConfig.controllerChannelId).send({
