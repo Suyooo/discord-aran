@@ -521,11 +521,22 @@ function startParty(bot, post) {
 }
 
 async function sendChallengePosts(bot, channel, posts, unlockMethod) {
+    // Open first to make sure ping goes through
+    await bot.modules.channelopen[unlockMethod](bot, bot.user);
+
     const messages = [];
     for (const post of posts) {
         messages.push(await channel.send({content: post, allowedMentions: {parse: ['users', 'roles']}}));
     }
-    await bot.modules.channelopen[unlockMethod](bot, bot.user);
+
+    // Make sure there is enough pin space
+    const pins = (await channel.messages.fetchPinned());
+    if (pins.size + messages.length > 50) {
+        await Promise.all([...pins.values()]
+            .sort((a,b) => a.createdTimestamp - b.createdTimestamp)
+            .slice(0, pins.size + messages.length - 50)
+            .map(m => m.unpin("Making space for new Party challenge posts")));
+    }
     for (let i = messages.length - 1; i >= 0; i--) {
         await messages[i].pin();
     }
