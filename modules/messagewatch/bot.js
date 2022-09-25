@@ -1,5 +1,6 @@
 const {ChannelType, EmbedBuilder} = require("discord.js");
 const config = require("../../config");
+const log = require("../../logger");
 const diff = new (require("text-diff"))();
 
 const REPORT_CHANNEL_ID = "208474259583008768";
@@ -45,14 +46,30 @@ module.exports = (bot, db) => {
             });
         }
 
-        bot.channels.resolve(REPORT_CHANNEL_ID).send({
+        const ch = bot.channels.resolve(REPORT_CHANNEL_ID);
+        ch.send({
             embeds: [e],
             files: message.attachments ? message.attachments.filter(a => a.contentType.startsWith("image/")).map((a, i) => ({
                 attachment: a.proxyURL,
                 name: a.name || ("attachment" + i)
             })) : undefined,
             allowedMentions: {parse: [], repliedUser: false}
-        })
+        }).catch(e => {
+            ch.send({
+                embeds: [e],
+                allowedMentions: {parse: [], repliedUser: false}
+            }).then(() => {
+                if (message.attachments) {
+                    ch.send("Failed to upload the following images from the deleted message:\n"
+                        + message.attachments.filter(a => a.contentType.startsWith("image/")).map((a, i) => a.proxyURL).join("\n"))
+                        .catch(e => {
+                            log.error("MESSAGEWATCH", "Failed to send images message for message #" + message.id + ": " + e + "\n" + e.stack);
+                        });
+                }
+            }).catch(e => {
+                log.error("MESSAGEWATCH", "Failed to send deletion message for message #" + message.id + ": " + e + "\n" + e.stack);
+            });
+        });
     });
     bot.on("messageUpdate", async (oldMessage, newMessage) => {
         if (oldMessage.author.bot) return;
@@ -68,7 +85,7 @@ module.exports = (bot, db) => {
         }
         // For some reason ~~a~~__b__ will only display the underline but break the strikethrough
         // So insert a zero width space (the other way around it's perfectly fine without the zero width space???)
-        diffedMessage = diffedMessage.replace(/~_/g,"~​_");
+        diffedMessage = diffedMessage.replace(/~_/g, "~​_");
 
         bot.channels.resolve(REPORT_CHANNEL_ID).send({
             embeds: [
@@ -76,7 +93,7 @@ module.exports = (bot, db) => {
                     .setColor("#FFFF00")
                     .setTitle("Edited")
                     .setURL(newMessage.url)
-                    .setDescription(diffedMessage.length > 4096 ? diffedMessage.substring(0,4093) + "..." : diffedMessage)
+                    .setDescription(diffedMessage.length > 4096 ? diffedMessage.substring(0, 4093) + "..." : diffedMessage)
                     .addFields(
                         {
                             name: "Author",
@@ -96,7 +113,9 @@ module.exports = (bot, db) => {
                     )
             ],
             allowedMentions: {parse: [], repliedUser: false}
-        })
+        }).catch(e => {
+            log.error("MESSAGEWATCH", "Failed to send editing message for message #" + newMessage.id + ": " + e + "\n" + e.stack);
+        });
     });
     return {};
 };
