@@ -1,0 +1,4 @@
+{
+  "description": "Offers commands for RC and SBL lobby hosts to ping interested players.",
+  "textCommands": ["rcping","sblping"]
+}
