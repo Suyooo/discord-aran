@@ -8,7 +8,9 @@ const {
     TextInputBuilder,
     TextInputStyle,
     ButtonStyle,
-    AttachmentBuilder
+    AttachmentBuilder,
+    SelectMenuBuilder,
+    SelectMenuOptionBuilder
 } = require("discord.js");
 const Discord = require("discord.js");
 const imageHandler = require("./ocr/imageHandler");
@@ -153,19 +155,23 @@ class Submission {
                     continue;
                 }
 
-                if (this.partyInfo.sameSongForMVPs) {
-                    if (this.partyInfo.other?.requiresThirdImage) {
-                        this.mvpIndex = this.imageList.length > 2 ? 0 : 1;
-                    } else {
-                        this.mvpIndex = 0;
-                    }
+                if (this.partyInfo.manualChallengeSelect) {
+                    this.mvpIndex = undefined;
                 } else {
-                    const lookup =
-                        await ocrHandler.mvp(image, layouts, Object.keys(this.partyInfo.lookupMVPIndexByRecognitionCriteria));
-                    this.mvpIndex = this.partyInfo.lookupMVPIndexByRecognitionCriteria[lookup];
-                }
-                if (this.partyInfo.mvps[this.mvpIndex].readOther && this.partyInfo.other?.autoFillFunction) {
-                    this.other = await ocrHandler[this.partyInfo.other?.autoFillFunction](image, layouts);
+                    if (this.partyInfo.sameSongForMVPs) {
+                        if (this.partyInfo.other?.requiresThirdImage) {
+                            this.mvpIndex = this.imageList.length > 2 ? 0 : 1;
+                        } else {
+                            this.mvpIndex = 0;
+                        }
+                    } else {
+                        const lookup =
+                            await ocrHandler.mvp(image, layouts, Object.keys(this.partyInfo.lookupMVPIndexByRecognitionCriteria));
+                        this.mvpIndex = this.partyInfo.lookupMVPIndexByRecognitionCriteria[lookup];
+                    }
+                    if (this.partyInfo.mvps[this.mvpIndex].readOther && this.partyInfo.other?.autoFillFunction) {
+                        this.other = await ocrHandler[this.partyInfo.other?.autoFillFunction](image, layouts);
+                    }
                 }
 
                 this.readImageIndex = i;
@@ -199,7 +205,7 @@ class Submission {
             }
 
             // Only show Other Value field if we have recognized 2nd MVP, and a third image exists if it is required
-            this.showOther = this.partyInfo.mvps[this.mvpIndex].readOther &&
+            this.showOther = this.partyInfo.mvps[this.mvpIndex || 0].readOther &&
                 (!this.partyInfo.other.requiresThirdImage || this.imageList.length > 2);
 
             await this.updateEmbed();
@@ -236,15 +242,19 @@ class Submission {
 
     async updateEmbed(interaction) {
         log.debug("PARTYSUBMIT", "Posting embed");
-        let buttons = undefined;
+        const componentArray = [];
 
         const embed = new EmbedBuilder()
             .setColor(partyConfig.embedColor)
             .setThumbnail(this.imageList[this.readImageIndex])
             .addFields(
                 {
-                    name: this.partyInfo.sameSongForMVPs ? "Participating in " + this.partyInfo.other.mvpName : "Song / MVP",
-                    value: this.partyInfo.mvps[this.mvpIndex].mvpName,
+                    name: this.partyInfo.manualChallengeSelect
+                        ? "Challenge"
+                        : (this.partyInfo.sameSongForMVPs
+                            ? "Participating in " + this.partyInfo.other.mvpName
+                            : "Song / MVP"),
+                    value: this.partyInfo.mvps[this.mvpIndex]?.mvpName || "**Please select!**",
                     inline: false
                 },
                 {
@@ -274,12 +284,27 @@ class Submission {
                 embed.setDescription("Please double-check the values I've read! (Your submission doesn't count until you hit Confirm!)")
             }
 
-            buttons = new ActionRowBuilder();
+            if (this.mvpIndex === undefined) {
+                const selector = new ActionRowBuilder();
+                selector.addComponents(new SelectMenuBuilder()
+                    .setCustomId("partysubmit-mvp-" + this.commandMessage.author.id)
+                    .setPlaceholder("Select Challenge")
+                    .setOptions(
+                        [...this.partyInfo.mvps.map((mvp,i) => new SelectMenuOptionBuilder()
+                            .setLabel(mvp.selectTitle)
+                            .setDescription(mvp.selectDescription)
+                            .setValue(i.toString()))]
+                    )
+                );
+                componentArray.push(selector);
+            }
+
+            const buttons = new ActionRowBuilder();
             buttons.addComponents(
                 new ButtonBuilder()
                     .setCustomId("partysubmit-submit-" + this.commandMessage.author.id)
                     .setLabel("Confirm")
-                    .setDisabled(this.other === undefined && this.showOther)
+                    .setDisabled(this.mvpIndex === undefined || (this.other === undefined && this.showOther))
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
                     .setCustomId("partysubmit-score-" + this.commandMessage.author.id)
@@ -304,6 +329,7 @@ class Submission {
                     .setLabel("Submit via Form")
                     .setStyle(ButtonStyle.Secondary)
             );
+            componentArray.push(buttons);
         } else if (this.submissionStatus === SubmissionState.SUBMITTED) {
             embed.setFooter({text: "Submission successful!"});
         } else {
@@ -316,15 +342,15 @@ class Submission {
 
         if (interaction !== undefined) {
             await interaction.update({
-                embeds: [embed], components: buttons ? [buttons] : []
+                embeds: [embed], components: componentArray
             });
         } else if (this.submissionMessage !== undefined) {
             await this.submissionMessage.edit({
-                embeds: [embed], components: buttons ? [buttons] : []
+                embeds: [embed], components: componentArray
             });
         } else {
             this.submissionMessage = await this.commandMessage.reply({
-                embeds: [embed], components: buttons ? [buttons] : []
+                embeds: [embed], components: componentArray
             });
         }
     }
@@ -359,6 +385,21 @@ class Submission {
                 this.updateEmbed();
             }
         }.bind(this));
+    }
+
+    async editMvp(interaction) {
+        const valueString = interaction.values[0];
+        log.debug("PARTYSUBMIT", interaction.user.tag + " editing their MVP, submitted " + valueString);
+        const value = parseInt(valueString, 10);
+        if (Number.isNaN(value) || value < 0 || value >= this.partyInfo.mvps.length) {
+            await interaction.reply({
+                content: "You made an invalid selection. (huh!?!?!?)",
+                ephemeral: true
+            });
+        } else {
+            this.mvpIndex = value;
+            await this.updateEmbed(interaction);
+        }
     }
 
     async openScoreModal(interaction) {
@@ -402,10 +443,10 @@ class Submission {
 
         const valueInput = new TextInputBuilder()
             .setCustomId("value")
-            .setLabel("Optional - you can leave it empty and submit!")
+            .setLabel(this.partyInfo.other.required ? this.partyInfo.other.modalPrompt : "Optional - you can leave it empty and submit!")
             .setStyle(TextInputStyle.Short)
             .setRequired(false)
-            .setPlaceholder("Not participating");
+            .setPlaceholder(this.partyInfo.other.required ? "Please enter" : "Not participating");
 
         if (this.other !== undefined && this.other !== "") {
             valueInput.setValue("" + this.other);
@@ -418,7 +459,7 @@ class Submission {
     async editOther(interaction) {
         const valueString = interaction.fields.getTextInputValue("value");
         log.debug("PARTYSUBMIT", interaction.user.tag + " editing their other value, submitted " + valueString);
-        if (valueString === "") {
+        if (valueString === "" && !this.partyInfo.other.required) {
             this.other = "";
             await this.updateEmbed(interaction);
             return;
@@ -428,6 +469,11 @@ class Submission {
         if (Number.isNaN(value) || value < 0) {
             await interaction.reply({
                 content: "Please enter a valid number (integers ≥0 only) or leave the field empty.",
+                ephemeral: true
+            });
+        } else if (value % 10 !== 0) { // TODO: TEMPORARY FOR SUMIRE PARTY, REMOVE
+            await interaction.reply({
+                content: "Please make sure to enter **the song's Recommended Live Power**, not your Formation's total Live Power! (Live Power should always end with a 0.)",
                 ephemeral: true
             });
         } else {
@@ -533,7 +579,7 @@ async function sendChallengePosts(bot, channel, posts, unlockMethod) {
     const pins = (await channel.messages.fetchPinned());
     if (pins.size + messages.length > 50) {
         await Promise.all([...pins.values()]
-            .sort((a,b) => a.createdTimestamp - b.createdTimestamp)
+            .sort((a, b) => a.createdTimestamp - b.createdTimestamp)
             .slice(0, pins.size + messages.length - 50)
             .map(m => m.unpin("Making space for new Party challenge posts")));
     }
@@ -666,6 +712,27 @@ module.exports = (bot, db) => {
                 await submission.sendFormLink(interaction);
             } else if (args[1] === "cancel") {
                 await submission.cancel(interaction);
+            }
+        },
+        async selection(interaction, args) {
+            if (args[2] !== interaction.user.id) {
+                interaction.reply({
+                    content: "This is not your submission.",
+                    ephemeral: true
+                });
+                return;
+            }
+            const submission = activeSubmissions[interaction.user.id];
+            if (submission === undefined) {
+                interaction.reply({
+                    content: "This submission has timed out.",
+                    ephemeral: true
+                });
+                return;
+            }
+
+            if (args[1] === "mvp") {
+                await submission.editMvp(interaction);
             }
         },
         async modal(interaction, args) {

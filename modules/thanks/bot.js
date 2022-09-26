@@ -10,14 +10,16 @@ const EMOJI = ["<:Yousoro:715479194888437811>", "<:ChikaThumbsUp:823272752277356
 module.exports = (bot, db) => {
     bot.on("messageCreate", async message => {
         if (message.author.bot) return;
+        const c = message.content.toLowerCase();
+        if (!(c.startsWith("thanks aran") || c.startsWith("thank you aran"))) return;
+
         if (message.channel.type === ChannelType.DM || message.channel.type === ChannelType.GroupDM ||
             (!lastThankTimeByChannel.hasOwnProperty(message.channel.id) || Date.now() > lastThankTimeByChannel[message.channel.id] + CHANNEL_COOLDOWN)) {
+            log.info("THANKS", message.author.tag + " thanked the bus driver");
             if (message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GroupDM) {
                 lastThankTimeByChannel[message.channel.id] = lastThankTimeByChannel[message.author.id] = Date.now();
             }
 
-            const c = message.content.toLowerCase();
-            if (!(c.startsWith("thanks aran") || c.startsWith("thank you aran"))) return;
             const a = Math.floor(Math.random() * 3);
             const b = Math.floor(Math.random() * 3);
 

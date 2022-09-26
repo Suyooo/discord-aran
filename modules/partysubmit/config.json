@@ -1,8 +1,8 @@
 {
-  "partyStart": 1663686000000,
-  "spreadsheetId": "1BBApDgjLp6_k1qivVHgFM7Ka4BuUYrODNKlaCB87jyU",
-  "embedColor": "#FF6FBE",
-  "clearRewardRoleId": "891221604233773077",
+  "partyStart": 1664290800000,
+  "spreadsheetId": "1l03I0Hd5v9CNlT4yuAHffnQ2WB2KIXVZVmnVQTgOA-g",
+  "embedColor": "#74F466",
+  "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
     "partyChannel": "832628579728752680",
@@ -13,41 +13,45 @@
     "ocrHandler": 0,
     "scoreLabel": "Score",
     "sameSongForMVPs": false,
+    "manualChallengeSelect": true,
     "mvps": [
       {
-        "mvpName": "Awaken the power (Party Challenge & New Power MVP)",
+        "mvpName": "Party Challenge - Sumire only, Nonfiction!! (Fantastic! Amazing! MVP)",
+        "selectTitle": "Party Challenge",
+        "selectDescription": "Sumire only, Nonfiction!! (Fantastic! Amazing! MVP)",
         "recognition": [
           "1010010001110110011000001100110000110000010011011000010000111100"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Sakura Bye Bye (Party Challenge & Graduation Goodbyes MVP)",
+        "mvpName": "Talent Scouting Challenge - Level 1 idols only, any Liella! song (Rising Stars MVP)",
+        "selectTitle": "Talent Scouting Challenge",
+        "selectDescription": "Level 1 idols only, any Liella! song (Rising Stars MVP)",
         "recognition": [
           "1001001001000000101001001110010101110001001010010101001011000000"
         ],
-        "readOther": true
+        "readOther": false
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Graduation Goodbyes MVP",
+      "mvpName": "Rising Stars MVP",
       "label": "Perfects",
       "modalPrompt": "Your Perfects",
       "autoFillFunction": "perfects",
+      "required": false,
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLScDfwDvC0oM1CaNwoFy7T-Yrvx_Q5Q7POCi4lOEjxHAAvmEDw",
+      "id": "1FAIpQLSdDvGhyEeU8bv9h_dCWOdD8uWFcw9f7ERuLUSf1o6uOeBS6cA",
       "fields": {
-        "userTag": "entry.1076118853",
-        "mvp": "entry.1403951171",
-        "score": "entry.2084855301",
-        "other": "entry.446137414",
+        "userTag": "entry.150593890",
+        "mvp": "entry.1405099349",
+        "score": "entry.1238290023",
         "images": [
-          "entry.1561109359",
-          "entry.973587933",
-          "entry.2096337334"
+          "entry.2043572470",
+          "entry.2010825667"
         ]
       }
     }
@@ -61,17 +65,22 @@
     "ocrHandler": 1,
     "scoreLabel": "Voltage",
     "sameSongForMVPs": false,
+    "manualChallengeSelect": true,
     "mvps": [
       {
-        "mvpName": "Cotton Candy Ei-Ei-Oh! (Party Challenge & Festival for Everyone MVP)",
+        "mvpName": "Talent Scouting Challenge - Low-tile idols only (Rising Stars MVP)",
+        "selectTitle": "Talent Scouting Challenge",
+        "selectDescription": "Low-tile idols only (Rising Stars MVP)",
         "recognition": [
           "コットンキャンディえいえいおー！",
           "Cotton Candy E-I-E-I-O-!"
         ],
-        "readOther": false
+        "readOther": true
       },
       {
-        "mvpName": "SKY JOURNEY (Party Challenge & Sky High MVP)",
+        "mvpName": "Hidden Talent Challenge - R-rarity idols only (Show Business MVP)",
+        "selectTitle": "Hidden Talent Challenge",
+        "selectDescription": "R-rarity idols only (Show Business MVP)",
         "recognition": [
           "SKY JOURNEY"
         ],
@@ -81,21 +90,22 @@
     "minImages": 2,
     "other": {
       "mvpName": "Sky High MVP",
-      "label": "Skill Activations",
-      "modalPrompt": "Your Skill Activations",
-      "autoFillFunction": "skills",
+      "label": "Live Power",
+      "modalPrompt": "The song's Recommended Live Power",
+      "autoFillFunction": null,
+      "required": true,
       "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLSeGGdb3B0m_REO0aUSqRMHyJKRvvz9RJsm4PXWggfE360cEtg",
+      "id": "1FAIpQLSejCj8qfnqkTXOrq8e8Om4t0o0MFHxXMRPRiTqzqwu4GCK9cw",
       "fields": {
-        "userTag": "entry.1303143652",
-        "mvp": "entry.133249735",
-        "score": "entry.1326843329",
-        "other": "entry.695198283",
+        "userTag": "entry.1995402967",
+        "mvp": "entry.1462980624",
+        "score": "entry.1476289435",
+        "other": "entry.864533791",
         "images": [
-          "entry.770360110",
-          "entry.357398835"
+          "entry.1727066690",
+          "entry.952802324"
         ]
       }
     }
