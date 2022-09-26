@@ -19,7 +19,6 @@ module.exports = (bot, db) => {
             const targetRoleId = args[0] === "rcping" ? RC_ROLE_ID : SBL_ROLE_ID;
 
             if (message.channelId !== targetChannelId) {
-                log.debug("LOBBYPING", message.author.tag + " tried " + args[0] + " in " + message.channel.name);
                 message.author.send("You're not in the correct channel for this command.").catch(e => {
                     log.error("LOBBYPING", "Failed to notify" + message.author.tag + " that " + message.channel.name + " is not the right channel for " + args[0] + ": " + e + "\n" + e.stack);
                 });
@@ -31,7 +30,6 @@ module.exports = (bot, db) => {
                 force: true
             });
             if (member.roles.cache.every(role => role.id !== targetRoleId)) {
-                log.debug("LOBBYPING", message.author.tag + " doesn't have role for " + args[0]);
                 message.author.send("You don't have the role you're trying to ping.").catch(e => {
                     log.error("LOBBYPING", "Failed to notify" + message.author.tag + " that they don't have the correct role for " + args[0] + ": " + e + "\n" + e.stack);
                 });
@@ -44,7 +42,9 @@ module.exports = (bot, db) => {
                     allowedMentions: {parse: [], roles: [targetRoleId], repliedUser: false}
                 }),
                 message.delete()
-            ]);
+            ]).catch(e => {
+                log.error("LOBBYPING", "Something went wrong doing the ping: " + e + "\n" + e.stack);
+            });
         }
     }
 };
