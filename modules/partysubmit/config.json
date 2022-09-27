@@ -90,8 +90,8 @@
     "minImages": 2,
     "other": {
       "mvpName": "Sky High MVP",
-      "label": "Live Power",
-      "modalPrompt": "The song's Recommended Live Power",
+      "label": "Show Power",
+      "modalPrompt": "The song's Suggested Show Power",
       "autoFillFunction": null,
       "required": true,
       "requiresThirdImage": false

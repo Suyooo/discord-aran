@@ -473,7 +473,7 @@ class Submission {
             });
         } else if (value % 10 !== 0) { // TODO: TEMPORARY FOR SUMIRE PARTY, REMOVE
             await interaction.reply({
-                content: "Please make sure to enter **the song's Recommended Live Power**, not your Formation's total Live Power! (Live Power should always end with a 0.)",
+                content: "Please make sure to enter **the song's Suggested Show Power**, not your Formation's Total Show Power! (Show Power should always end with a 0.)",
                 ephemeral: true
             });
         } else {
