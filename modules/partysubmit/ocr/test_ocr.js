@@ -4,7 +4,7 @@ const reader = require("./reader");
 const Jimp = require("jimp");
 
 (async () => {
-    let img = await imageHandler.loadImage("https://media.discordapp.net/attachments/832628579728752680/1024627105251729528/IMG_8826.png?width=1280&height=960");
+    let img = await imageHandler.loadImage("https://media.discordapp.net/attachments/832628579728752680/1024654473966125076/Screenshot_20220928-190936_Lovelive_071024.png?width=1280&height=590");
     let lay = await layout.getLayoutSIFResult(img);
     await reader.SIF.score(img, lay);
     Object.keys(lay).forEach(k => drawRect(img, lay[k]));

@@ -80,7 +80,8 @@ async function makeMentionList(guild, cellAddr) {
         const tag = clearer.trim();
         if (tag === "") continue;
         const member = await findMemberByTag(guild, tag);
-        clearers.push(member.toString());
+        if (member) clearers.push(member.toString());
+        else clearers.push("@" + tag);
     }
     return clearers.join(", ");
 }

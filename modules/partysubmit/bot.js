@@ -627,7 +627,7 @@ module.exports = (bot, db) => {
     bot.on("ready", () => {
         /*sheetHandler.startParty()
             .then(() => sheetHandler.checkRoles(bot))
-            .then(() => sheetHandler.endParty(bot.channels.resolve(config.sifcordGuildId)))
+            .then(() => sheetHandler.endParty(bot.channels.resolve(partyConfig.controllerChannelId)))
             .then(() => process.exit(0));*/
         if (partyConfig.partyStart + 86580000 >= Date.now()) { // planned party not over yet (+ 24 hours run time + 3 minute grace period)
             if (partyConfig.partyStart - 60000 <= Date.now()) { // start immediately if at least 1 minute before party start time
