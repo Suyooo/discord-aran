@@ -42,6 +42,12 @@ async function getLayoutSIFResult(originalImage) {
             w: bbox.w * 0.5,
             h: bbox.h * 0.175
         },
+        score_setlist: {
+            x: bbox.x + bbox.w * 0.45,
+            y: bbox.y - bbox.h * 0.31,
+            w: bbox.w * 0.5,
+            h: bbox.h * 0.175
+        },
         combo: {
             x: bbox.x + bbox.w * 0.7,
             y: bbox.y + bbox.h * 0.02,

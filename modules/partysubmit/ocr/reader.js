@@ -67,7 +67,9 @@ async function getClosestPHashMatch(originalImage, options, bbox) {
 
 const SIF = {
     async score(image, layouts) {
-        return await readNumber(image, layouts.score, 200);
+        const num = await readNumber(image, layouts.score, 200);
+        if (num > 0) return num;
+        else return await readNumber(image, layouts.score_setlist, 200);
     },
     async mvp(image, layouts, options) {
         return await getClosestPHashMatch(image, options, layouts.song);

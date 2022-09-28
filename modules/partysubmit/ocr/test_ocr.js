@@ -4,9 +4,9 @@ const reader = require("./reader");
 const Jimp = require("jimp");
 
 (async () => {
-    let img = await imageHandler.loadImage("https://media.discordapp.net/attachments/827558022078267462/1021811732034879549/Screenshot_20220920-235408.jpg?width=1280&height=606");
-    let lay = await layout.getLayoutSIFASResult(img);
-    await reader.SIFAS.skills(img, lay);
+    let img = await imageHandler.loadImage("https://media.discordapp.net/attachments/832628579728752680/1024627105251729528/IMG_8826.png?width=1280&height=960");
+    let lay = await layout.getLayoutSIFResult(img);
+    await reader.SIF.score(img, lay);
     Object.keys(lay).forEach(k => drawRect(img, lay[k]));
     await img.write("test.png");
 })();
