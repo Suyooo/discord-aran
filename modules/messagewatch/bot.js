@@ -19,7 +19,7 @@ module.exports = (bot, db) => {
             .setColor("#FF0000")
             .setTitle("Deleted")
             .setURL((await message.channel.messages.fetch({before: message.id, limit: 1}))?.first()?.url)
-            .setDescription(message.content)
+            .setDescription(message.content || "*no content*")
             .addFields(
                 {
                     name: "Author",
@@ -76,7 +76,7 @@ module.exports = (bot, db) => {
         if (oldMessage.guildId !== config.sifcordGuildId) return;
         if (oldMessage.content === newMessage.content) return;
 
-        const d = diff.main(escapeMarkdown(oldMessage.content), escapeMarkdown(newMessage.content));
+        const d = diff.main(escapeMarkdown(oldMessage.content || ""), escapeMarkdown(newMessage.content || ""));
         let diffedMessage = "";
         diff.cleanupSemantic(d);
         for (const dd of d) {
@@ -86,6 +86,7 @@ module.exports = (bot, db) => {
         // For some reason ~~a~~__b__ will only display the underline but break the strikethrough
         // So insert a zero width space (the other way around it's perfectly fine without the zero width space???)
         diffedMessage = diffedMessage.replace(/~_/g, "~​_");
+        if (diffedMessage === "") diffedMessage = "*no content*";
 
         bot.channels.resolve(REPORT_CHANNEL_ID).send({
             embeds: [
