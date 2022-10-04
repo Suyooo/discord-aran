@@ -26,26 +26,22 @@ async function getPosts() {
         }
     }
 
-    const sifPosts = sifLines.map(l => l[Object.keys(l)[0]]).join("\n").trim().split("\n\n\n\n").map(p => p.trim());
-    const sifasPosts = sifasLines.map(l => l[Object.keys(l)[0]]).join("\n").trim().split("\n\n\n\n").map(p => p.trim());
+    const sifPosts = sifLines.map(l => l[Object.keys(l)[0]]).join("\n").trim().split("\n\n\n\n").map(p => p.trim()).filter(p => p);
+    const sifasPosts = sifasLines.map(l => l[Object.keys(l)[0]]).join("\n").trim().split("\n\n\n\n").map(p => p.trim()).filter(p => p);
 
     const errors = [];
     sifPosts.forEach((post, i) => {
         if (post.length > 2000) {
             errors.push("Part " + (i + 1) + " (of " + sifPosts.length + ") of the SIF Challenge Post is too long (" + post.length + " characters out of 2000)");
         }
-    });
-    sifasPosts.forEach((post, i) => {
-        if (post.length > 2000) {
-            errors.push("Part " + (i + 1) + " (of " + sifasPosts.length + ") of the SIFAS Challenge Post is too long (" + post.length + " characters out of 2000)");
-        }
-    });
-    sifPosts.forEach((post, i) => {
         if (post.indexOf("{%%") !== -1) {
             errors.push("Part " + (i + 1) + " (of " + sifPosts.length + ") of the SIF Challenge Post has unfinished to-dos (Ctrl+F and search for `{%%`)");
         }
     });
     sifasPosts.forEach((post, i) => {
+        if (post.length > 2000) {
+            errors.push("Part " + (i + 1) + " (of " + sifasPosts.length + ") of the SIFAS Challenge Post is too long (" + post.length + " characters out of 2000)");
+        }
         if (post.indexOf("{%%") !== -1) {
             errors.push("Part " + (i + 1) + " (of " + sifasPosts.length + ") of the SIFAS Challenge Post has unfinished to-dos (Ctrl+F and search for `{%%`)");
         }
