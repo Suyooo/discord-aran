@@ -1,7 +1,7 @@
 {
-  "partyStart": 1664290800000,
-  "spreadsheetId": "1l03I0Hd5v9CNlT4yuAHffnQ2WB2KIXVZVmnVQTgOA-g",
-  "embedColor": "#74F466",
+  "partyStart": 1664895600000,
+  "spreadsheetId": "1p04JAeYq9983_brbHxVMEZymqRjpLTDmRBYBJsCYX3s",
+  "embedColor": "#24BD8B",
   "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
@@ -13,45 +13,47 @@
     "ocrHandler": 0,
     "scoreLabel": "Score",
     "sameSongForMVPs": false,
-    "manualChallengeSelect": true,
+    "manualChallengeSelect": false,
     "mvps": [
       {
-        "mvpName": "Party Challenge - Sumire only, Nonfiction!! (Fantastic! Amazing! MVP)",
-        "selectTitle": "Party Challenge",
-        "selectDescription": "Sumire only, Nonfiction!! (Fantastic! Amazing! MVP)",
+        "mvpName": "Just Believe!!! (Party Challenge & Beyond the Light MVP)",
+        "selectTitle": "",
+        "selectDescription": "",
         "recognition": [
-          "1010010001110110011000001100110000110000010011011000010000111100"
+          "1100000000110010110001010000000111100100100010100000001000000010"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Talent Scouting Challenge - Level 1 idols only, any Liella! song (Rising Stars MVP)",
-        "selectTitle": "Talent Scouting Challenge",
-        "selectDescription": "Level 1 idols only, any Liella! song (Rising Stars MVP)",
+        "mvpName": "L!L!L! (Love the Life We Live) (Party Challenge & L + Ratio MVP)",
+        "selectTitle": "",
+        "selectDescription": "",
         "recognition": [
-          "1001001001000000101001001110010101110001001010010101001011000000"
+          "1101000000001100111010001000000010000010000000000000001000001000"
         ],
-        "readOther": false
+        "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Rising Stars MVP",
-      "label": "Perfects",
-      "modalPrompt": "Your Perfects",
-      "autoFillFunction": "perfects",
+      "mvpName": "L + Ratio MVP",
+      "label": "Difference Between Highest and Lowest Ratios",
+      "modalPrompt": "Difference (in Percent Points)",
+      "autoFillFunction": null,
       "required": false,
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSdDvGhyEeU8bv9h_dCWOdD8uWFcw9f7ERuLUSf1o6uOeBS6cA",
+      "id": "1FAIpQLSf73xyioO4lv4jilYDhgYZVpaNTZEyBRdxDgvJFNvoh53OUPA",
       "fields": {
-        "userTag": "entry.150593890",
-        "mvp": "entry.1405099349",
-        "score": "entry.1238290023",
+        "userTag": "entry.1898705394",
+        "mvp": "entry.965042306",
+        "score": "entry.593335746",
+        "other": "entry.1261362757",
         "images": [
-          "entry.2043572470",
-          "entry.2010825667"
+          "entry.1811548637",
+          "entry.1451337960",
+          "entry.1229655104"
         ]
       }
     }
@@ -65,47 +67,48 @@
     "ocrHandler": 1,
     "scoreLabel": "Voltage",
     "sameSongForMVPs": false,
-    "manualChallengeSelect": true,
+    "manualChallengeSelect": false,
     "mvps": [
       {
-        "mvpName": "Talent Scouting Challenge - Low-tile idols only (Rising Stars MVP)",
-        "selectTitle": "Talent Scouting Challenge",
-        "selectDescription": "Low-tile idols only (Rising Stars MVP)",
+        "mvpName": "EMOTION (Party Challenge & Memory of Dreams MVP)",
+        "selectTitle": "",
+        "selectDescription": "",
         "recognition": [
-          "コットンキャンディえいえいおー！",
-          "Cotton Candy E-I-E-I-O-!"
+          "EMOTION"
         ],
-        "readOther": true
+        "readOther": false
       },
       {
-        "mvpName": "Hidden Talent Challenge - R-rarity idols only (Show Business MVP)",
-        "selectTitle": "Hidden Talent Challenge",
-        "selectDescription": "R-rarity idols only (Show Business MVP)",
+        "mvpName": "Concentrate! (Party Challenge & 3.1415926535897 MVP)",
+        "selectTitle": "",
+        "selectDescription": "",
         "recognition": [
-          "SKY JOURNEY"
+          "Concentrate!",
+          "コンセントレイト！"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "Sky High MVP",
-      "label": "Show Power",
-      "modalPrompt": "The song's Suggested Show Power",
+      "mvpName": "3.1415926535897 MVP",
+      "label": "Digit Sum",
+      "modalPrompt": "Sum of All Digits on Your Screenshot",
       "autoFillFunction": null,
-      "required": true,
-      "requiresThirdImage": false
+      "required": false,
+      "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSejCj8qfnqkTXOrq8e8Om4t0o0MFHxXMRPRiTqzqwu4GCK9cw",
+      "id": "1FAIpQLSf2f3vLHFzU0EbvVMu5DL8_7eT-NLg_BUwV9KGfWKZsnuJHig",
       "fields": {
-        "userTag": "entry.1995402967",
-        "mvp": "entry.1462980624",
-        "score": "entry.1476289435",
-        "other": "entry.864533791",
+        "userTag": "entry.1543156367",
+        "mvp": "entry.1573294215",
+        "score": "entry.1806442501",
+        "other": "entry.2140873410",
         "images": [
-          "entry.1727066690",
-          "entry.952802324"
+          "entry.1677084532",
+          "entry.1292202809",
+          "entry.1998955133"
         ]
       }
     }
