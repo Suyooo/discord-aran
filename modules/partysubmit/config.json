@@ -1,7 +1,7 @@
 {
-  "partyStart": 1664895600000,
-  "spreadsheetId": "1p04JAeYq9983_brbHxVMEZymqRjpLTDmRBYBJsCYX3s",
-  "embedColor": "#24BD8B",
+  "partyStart": 1666278000000,
+  "spreadsheetId": "1-CO-Cua2mZ3oSj3mTf-CH4FlNC4rG2DulNps6cPX5HU",
+  "embedColor": "#7AEEFF",
   "clearRewardRoleId": "985434752196702248",
   "controllerChannelId": "381590906475773953",
   "SIF": {
@@ -16,44 +16,43 @@
     "manualChallengeSelect": false,
     "mvps": [
       {
-        "mvpName": "Just Believe!!! (Party Challenge & Beyond the Light MVP)",
+        "mvpName": "LONELIEST BABY (Party Challenge & Call Me, Call Me MVP)",
         "selectTitle": "",
         "selectDescription": "",
         "recognition": [
-          "1100000000110010110001010000000111100100100010100000001000000010"
+          "1000000100001000000110010000100110010001011000110010010000011000"
         ],
         "readOther": false
       },
       {
-        "mvpName": "L!L!L! (Love the Life We Live) (Party Challenge & L + Ratio MVP)",
+        "mvpName": "Angelic Angel (Party Challenge & Call My Angel MVP)",
         "selectTitle": "",
         "selectDescription": "",
         "recognition": [
-          "1101000000001100111010001000000010000010000000000000001000001000"
+          "1000101011011001100000000001001011011000000010100010010000010001"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "L + Ratio MVP",
-      "label": "Difference Between Highest and Lowest Ratios",
-      "modalPrompt": "Difference (in Percent Points)",
+      "mvpName": "Call My Angel MVP",
+      "label": "Perfects",
+      "modalPrompt": "Your Perfects",
       "autoFillFunction": null,
       "required": false,
-      "requiresThirdImage": true
+      "requiresThirdImage": false
     },
     "form": {
-      "id": "1FAIpQLSf73xyioO4lv4jilYDhgYZVpaNTZEyBRdxDgvJFNvoh53OUPA",
+      "id": "1FAIpQLSe3JX2tbIioOCKJ_Bf5gBioDXJvxjmGsHTd90_B6nyWOf30Qw",
       "fields": {
-        "userTag": "entry.1898705394",
-        "mvp": "entry.965042306",
-        "score": "entry.593335746",
-        "other": "entry.1261362757",
+        "userTag": "entry.192541028",
+        "mvp": "entry.464402435",
+        "score": "entry.1170045312",
+        "other": "entry.921696872",
         "images": [
-          "entry.1811548637",
-          "entry.1451337960",
-          "entry.1229655104"
+          "entry.1665556750",
+          "entry.1911213847"
         ]
       }
     }
@@ -70,45 +69,44 @@
     "manualChallengeSelect": false,
     "mvps": [
       {
-        "mvpName": "EMOTION (Party Challenge & Memory of Dreams MVP)",
+        "mvpName": "Angelic Angel (Party Challenge & No More Brakes MVP)",
         "selectTitle": "",
         "selectDescription": "",
         "recognition": [
-          "EMOTION"
+          "Angelic Angel"
         ],
         "readOther": false
       },
       {
-        "mvpName": "Concentrate! (Party Challenge & 3.1415926535897 MVP)",
+        "mvpName": "LONELIEST BABY (Party Challenge & Хорошо́ MVP)",
         "selectTitle": "",
         "selectDescription": "",
         "recognition": [
-          "Concentrate!",
-          "コンセントレイト！"
+          "LONELIEST BABY"
         ],
         "readOther": true
       }
     ],
     "minImages": 2,
     "other": {
-      "mvpName": "3.1415926535897 MVP",
-      "label": "Digit Sum",
-      "modalPrompt": "Sum of All Digits on Your Screenshot",
+      "mvpName": "Хорошо́ MVP",
+      "label": "Nices + Switches",
+      "modalPrompt": "Your Sum of Nices + Switches",
       "autoFillFunction": null,
       "required": false,
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSf2f3vLHFzU0EbvVMu5DL8_7eT-NLg_BUwV9KGfWKZsnuJHig",
+      "id": "1FAIpQLSfcax02yiOOhrhEHnWaOPODNVYDPWtM-XJq-mIVPuKwQDY9Jw",
       "fields": {
-        "userTag": "entry.1543156367",
-        "mvp": "entry.1573294215",
-        "score": "entry.1806442501",
-        "other": "entry.2140873410",
+        "userTag": "entry.198432411",
+        "mvp": "entry.318498198",
+        "score": "entry.401877100",
+        "other": "entry.2077665606",
         "images": [
-          "entry.1677084532",
-          "entry.1292202809",
-          "entry.1998955133"
+          "entry.1299469708",
+          "entry.844723197",
+          "entry.384824870"
         ]
       }
     }
