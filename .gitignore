@@ -2,7 +2,7 @@ package-lock.json
 log
 *.iml
 .idea
-config.*.json
+config.secret.json
 node_modules
 *.db
 google-credentials.json

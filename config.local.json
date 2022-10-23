@@ -1,0 +1,7 @@
+{
+  "dashboardPort": 8944,
+  "database": {
+    "driver": "sqlite",
+    "filename": "config.db"
+  }
+}
