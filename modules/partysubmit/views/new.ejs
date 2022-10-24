@@ -1,0 +1,94 @@
+<%- include("../../../views/header", {title: "Party Auto-Submission"}); %>
+<h5>Set Up New Party</h5>
+
+<b>Here's some stuff to double-check and/or edit.</b> Most of this was taken straight from the sheet, but might need
+additional changes. Please read carefully!<br><br>
+
+<!-- I'm sorry for the <br> party in here but I can't be bothered to layout this properly lol -->
+
+<form method="POST" action="/partysubmit/create">
+    <input name="spreadsheetId" type="hidden" value="<%= spreadsheetId.replace(/"/g,"\\\"") %>">
+    <input name="sifForm" type="hidden" value="<%= sifForm.replace(/"/g,"\\\"") %>">
+    <input name="sifasForm" type="hidden" value="<%= sifasForm.replace(/"/g,"\\\"") %>">
+    <input name="sifReadOther" type="hidden" value="<%= sifReadOther %>">
+    <input name="sifasReadOther" type="hidden" value="<%= sifasReadOther %>">
+    <input name="sifThirdImage" type="hidden" value="<%= sifThirdImage %>">
+    <input name="sifasThirdImage" type="hidden" value="<%= sifasThirdImage %>">
+    <input name="sifSecondMvp" type="hidden" value="<%= sifSecondMvp.replace(/"/g,"\\\"") %>">
+    <input name="sifasSecondMvp" type="hidden" value="<%= sifasSecondMvp.replace(/"/g,"\\\"") %>">
+    <input name="sifFirstMvpOption" type="hidden" value="<%= sifFirstMvpOption.replace(/"/g,"\\\"") %>">
+    <input name="sifasFirstMvpOption" type="hidden" value="<%= sifasFirstMvpOption.replace(/"/g,"\\\"") %>">
+    <input name="sifSecondMvpOption" type="hidden" value="<%= sifSecondMvpOption.replace(/"/g,"\\\"") %>">
+    <input name="sifasSecondMvpOption" type="hidden" value="<%= sifasSecondMvpOption.replace(/"/g,"\\\"") %>">
+    <input name="sifasSongA" type="hidden" value="<%= sifasSongA.replace(/"/g,"\\\"") %>">
+    <input name="sifasSongB" type="hidden" value="<%= sifasSongB.replace(/"/g,"\\\"") %>">
+    <b>Party Start Time:</b><br>
+    Unix timestamp in milliseconds. In your timezone, this is <%= new Date(partyStart).toLocaleString() %>, and that is hopefully correct. (If not, it's probably easier to change this in the sheet itself, and then refresh this page.)<br>
+    <input name="partyStart" value="<%= partyStart %>"><br>
+    <br>
+    <b>Color:</b><br>
+    <input name="embedColor" value="<%= embedColor.replace(/"/g,"\\\"") %>"><br>
+    <br>
+    <b>Clear Role ID:</b><br>
+    In the role list, change the role icon of one of the Challenge Clear roles (top-ish) to the respective yay. Then, with Discord Developer Mode enabled, right-click the role in the list and "Copy ID". That's what goes in here.<br>
+    <input name="clearRewardRoleId" value=""><br>
+    <br>
+    <b>SIF "<%= sifSongA %>" Album Art:</b><br>
+    Head to <a href="https://card.llsif.moe/live">llsif.moe</a>, and search for the song. Below the song length, the left-most link (保存封面) will give you the album art. Put that link here! (It's used for the auto-recognition.)<br>
+    <input name="sifSongAUrl" value=""><br>
+    <br>
+    <b>SIF "<%= sifSongB %>" Album Art:</b><br>
+    <input name="sifSongBUrl" value=""><br>
+    <br>
+    <% if (sifReadOther) { %>
+        <b>SIF 2nd MVP Prompt Button:</b><br>
+        This will decide the name of the Edit button. (It'll show as "Edit XXX")<br>
+        <input name="sifModalLabel" value="<%= sifModalLabel.replace(/"/g,"\\\"") %>" maxlength="75"><br>
+        <br>
+        <b>SIF 2nd MVP Prompt Title:</b><br>
+        This will decide what the prompt of the Edit button shows, and should describe what the player should enter.<br>
+        <input name="sifModalPrompt" value="<%= sifModalPrompt.replace(/"/g,"\\\"") %>" maxlength="45"><br>
+        <br>
+        <b>SIF 2nd MVP Autofill:</b><br>
+        <select name="sifAutofill">
+            <option value="">Do not autofill</option>
+            <option value="score">Score</option>
+            <option value="combo">Combo</option>
+            <option value="perfects">Perfects</option>
+            <option value="greats">Greats</option>
+            <option value="goods">Goods</option>
+            <option value="bads">Bads</option>
+            <option value="misses">Misses</option>
+            <option value="hits">Hits (Perfects + Greats)</option>
+        </select><br>
+        <br>
+    <% } %>
+    <b>SIFAS "<%= sifasSongA %>" Japanese Name:</b><br>
+    If the Japanese name differs, put it here, otherwise just leave it empty. (Also used for auto-recognition.)<br>
+    <input name="sifasSongAJaName" value=""><br>
+    <br>
+    <b>SIFAS "<%= sifasSongB %>" Japanese Name:</b><br>
+    <input name="sifasSongBJaName" value=""><br>
+    <br>
+    <% if (sifasReadOther) { %>
+        <b>SIFAS 2nd MVP Prompt Button:</b><br>
+        This will decide the name of the Edit button. (It'll show as "Edit XXX")<br>
+        <input name="sifasModalLabel" value="<%= sifasModalLabel.replace(/"/g,"\\\"") %>" maxlength="75"><br>
+        <br>
+        <b>SIFAS 2nd MVP Prompt Title:</b><br>
+        This will decide what the prompt of the Edit button shows, and should describe what the player should enter.<br>
+        <input name="sifasModalPrompt" value="<%= sifasModalPrompt.replace(/"/g,"\\\"") %>" maxlength="45"><br>
+        <br>
+        <b>SIFAS 2nd MVP Autofill:</b><br>
+        <select name="sifasAutofill">
+            <option value="">Do not autofill</option>
+            <option value="score">Voltage</option>
+            <option value="skill">MVP's Skill Activations</option>
+        </select><br>
+        <br>
+    <% } %>
+    <br><br>
+    <input class="button-primary" type="submit" value="Create Config and Restart Aran">
+</form>
+
+<%- include("../../../views/footer"); -%>

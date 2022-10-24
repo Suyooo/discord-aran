@@ -1,0 +1,43 @@
+<%- include("../../../views/header", {title: "Party Auto-Submission"}); %>
+<style>li{margin-bottom: 0}</style>
+
+<h5>Current Configuration</h5>
+<form method="POST" action="/partysubmit/edit">
+    Currently set up Party: <a href="https://docs.google.com/spreadsheets/d/<%= JSON.parse(config).spreadsheetId %>/edit#gid=0">Link to spreadsheet</a><br>
+    <textarea name="json" style="width:100%;height:10em"><%= config %></textarea><br><br>
+    <input class="button-primary" type="submit" value="Save">
+</form>
+<br><br>
+<h5>Set Up New Party</h5>
+<b>Heads up:</b> Even though this has a dashboard now it's still relatively stinky lol<br>
+There can be only one active Party at a time, and that includes the post-Party submission grace period. If you set up a
+new Party, any Party currently running will end immediately, so don't do this until the results post appears in the
+#party-planning channel. (If it has been 15 minutes since the end and nothing has appeared, you can assume something
+went wrong and Aran gave up, so you can go ahead and set up the next Party.)<br><br>
+Also, for non-standard Parties (if you do something wacky for Liella! for example) I'd probably recommend not using the
+bot, since the configuration is pretty janky in that case - while you can directly added some extra stuff in the field
+above, maybe you can just fall back on regular form links, you can edit those however you want far easier than this...
+<br><br>
+
+<form method="POST" action="/partysubmit/new">
+    First, put the staff spreadsheet ID here. You can get that from the link to the sheet - it's the part between
+    <b>/d/</b> and <b>/edit</b>: <b>https://docs.google.com/spreadsheets/d/XXXXXXXXXXXXXX/edit#gid=0</b><br>
+    Spreadsheet ID: <input name="sheetId"><br><br>
+    Now for the forms. Head to the Edit Links of the SIF and SIFAS forms, click the three-dot menu in the top right, and
+    choose "Get prefilled link". Fill in the forms like this, make sure to type EXACTLY what it says:
+    <ul>
+        <li>Fill the Discord Tag field with <b>userTag</b></li>
+        <li>Click any option for the MVP choice (doesn't matter which, but you must select one of them)</li>
+        <li>Fill the Score/Voltage field with <b>score</b></li>
+        <li>If there is a field for a second value, fill it with <b>other</b></li>
+        <li>For all of the screenshot fields, fill them with <b>images</b></li>
+    </ul>
+    Ignore any errors that appear. Hit "Get Link" at the end of the form, then click "Copy Link" in the toast that
+    appears in the bottom left after the page refreshes. Paste those links here:<br>
+    SIF: <input name="sifFormPrefill"><br>
+    SIFAS: <input name="sifasFormPrefill">
+    <br><br>
+    <input class="button-primary" type="submit" value="Next Step">
+</form>
+
+<%- include("../../../views/footer"); -%>

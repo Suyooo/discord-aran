@@ -20,7 +20,7 @@ function ordinal(n) {
 }
 
 function startParty() {
-    let doc = new GoogleSpreadsheet(partyConfig.spreadsheetId);
+    const doc = new GoogleSpreadsheet(partyConfig.spreadsheetId);
     return doc.useServiceAccountAuth(creds).then(async () => {
         await doc.loadInfo();
     }).then(() => {

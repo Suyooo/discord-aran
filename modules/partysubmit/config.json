@@ -39,7 +39,7 @@
       "mvpName": "Call My Angel MVP",
       "label": "Perfects",
       "modalPrompt": "Your Perfects",
-      "autoFillFunction": null,
+      "autoFillFunction": "perfects",
       "required": false,
       "requiresThirdImage": false
     },
@@ -91,22 +91,21 @@
     "other": {
       "mvpName": "Хорошо́ MVP",
       "label": "Nices + Switches",
-      "modalPrompt": "Your Sum of Nices + Switches",
+      "modalPrompt": "Your Nices + Switches",
       "autoFillFunction": null,
       "required": false,
       "requiresThirdImage": true
     },
     "form": {
-      "id": "1FAIpQLSfcax02yiOOhrhEHnWaOPODNVYDPWtM-XJq-mIVPuKwQDY9Jw",
+      "id": "1FAIpQLSe3JX2tbIioOCKJ_Bf5gBioDXJvxjmGsHTd90_B6nyWOf30Qw",
       "fields": {
-        "userTag": "entry.198432411",
-        "mvp": "entry.318498198",
-        "score": "entry.401877100",
-        "other": "entry.2077665606",
+        "userTag": "entry.192541028",
+        "mvp": "entry.464402435",
+        "score": "entry.1170045312",
+        "other": "entry.921696872",
         "images": [
-          "entry.1299469708",
-          "entry.844723197",
-          "entry.384824870"
+          "entry.1665556750",
+          "entry.1911213847"
         ]
       }
     }

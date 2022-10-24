@@ -1,4 +1,5 @@
 {
   "description": "Submission helper for Party events.",
-  "textCommands": [ "submit" ]
+  "textCommands": [ "submit" ],
+  "dashboardTitle": "Party Auto-Submission"
 }
