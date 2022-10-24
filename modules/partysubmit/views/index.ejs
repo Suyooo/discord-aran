@@ -1,11 +1,11 @@
 <%- include("../../../views/header", {title: "Party Auto-Submission"}); %>
-<style>li{margin-bottom: 0}</style>
+<style>li{margin-bottom: 0} textarea{font-family: monospace}</style>
 
 <h5>Current Configuration</h5>
-<form method="POST" action="/partysubmit/edit">
+<form method="POST" action="edit">
     Currently set up Party: <a href="https://docs.google.com/spreadsheets/d/<%= JSON.parse(config).spreadsheetId %>/edit#gid=0">Link to spreadsheet</a><br>
     <textarea name="json" style="width:100%;height:10em"><%= config %></textarea><br><br>
-    <input class="button-primary" type="submit" value="Save">
+    <input class="button-primary" type="submit" value="Save and Restart Aran">
 </form>
 <br><br>
 <h5>Set Up New Party</h5>
@@ -19,7 +19,7 @@ bot, since the configuration is pretty janky in that case - while you can direct
 above, maybe you can just fall back on regular form links, you can edit those however you want far easier than this...
 <br><br>
 
-<form method="POST" action="/partysubmit/new">
+<form method="POST" action="new">
     First, put the staff spreadsheet ID here. You can get that from the link to the sheet - it's the part between
     <b>/d/</b> and <b>/edit</b>: <b>https://docs.google.com/spreadsheets/d/XXXXXXXXXXXXXX/edit#gid=0</b><br>
     Spreadsheet ID: <input name="sheetId"><br><br>

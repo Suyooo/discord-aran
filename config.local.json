@@ -1,5 +1,6 @@
 {
   "dashboardPort": 8944,
+  "moduleWhitelist": ["partysubmit"],
   "database": {
     "driver": "sqlite",
     "filename": "config.db"
