@@ -55,8 +55,6 @@ async function handleGeneric(channel, belowChannel, mainCategory, storageCategor
 
 const SIF_RC_CHANNEL_ID = "591254845621665793";
 
-// For future reference? Cron schedule for 5x EXP Periods - 0 12,17,22 * * 6,7
-
 async function handleRC(bot, open, user = undefined) {
     const guild = await bot.guilds.fetch(config.sifcordGuildId);
     await handleGeneric(await guild.channels.fetch(SIF_RC_CHANNEL_ID), await guild.channels.fetch(SIF_MAIN_CHANNEL_ID),
@@ -435,15 +433,6 @@ async function postPartyControlPanel(bot) {
 }
 
 module.exports = (bot, db) => {
-    bot.on("ready", async () => {
-        bot.cron("0 16 * * 5", async () => {
-            await handleRC(bot, true);
-        });
-        bot.cron("0 15 * * 1", async () => {
-            await handleRC(bot, false);
-        });
-    });
-
     return {
         unlockSIFParty, unlockSIFASParty,
         async textCommand(message, args) {
