@@ -73,7 +73,7 @@ module.exports = (moduleList, db) => {
             return;
         }
 
-        if (interaction.isSelectMenu()) {
+        if (interaction.isAnySelectMenu()) {
             log.info("BOT", "Recieved select menu interaction " + interaction.customId + " from " + interaction.user.tag);
             if (module.selection === undefined) {
                 log.error("BOT", "Got interaction for module " + args[0] + ", but it doesn't handle selections");
