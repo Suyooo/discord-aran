@@ -290,7 +290,7 @@ class Submission {
                     .setCustomId("partysubmit-mvp-" + this.commandMessage.author.id)
                     .setPlaceholder("Select Challenge")
                     .setOptions(
-                        [...this.partyInfo.mvps.map((mvp,i) => new SelectMenuOptionBuilder()
+                        [...this.partyInfo.mvps.map((mvp, i) => new SelectMenuOptionBuilder()
                             .setLabel(mvp.selectTitle)
                             .setDescription(mvp.selectDescription)
                             .setValue(i.toString()))]
@@ -654,6 +654,15 @@ module.exports = (bot, db) => {
 
     return {
         async textCommand(message, args) {
+            if (message.channel.id === partyConfig.oogPartyChannel) {
+                message.reply({
+                    embeds: [new EmbedBuilder()
+                        .setColor(partyConfig.embedColor)
+                        .setDescription("[Use this link to submit for the OOG Party!](" + partyConfig.oogFormLink + ")\nIf you want to submit your game score, head to the game's respective party channel - you can submit them there!")]
+                });
+                return;
+            }
+
             const partyInfo = partyConfig.lookupConfigByChannelId[message.channel.id];
             if (partyInfo !== undefined && (partyTimeout !== undefined || partyConfig.isTestChannel[message.channel.id])) {
                 if (activeSubmissions.hasOwnProperty(message.author.id)) {

@@ -42,6 +42,8 @@ module.exports = (bot, db) => {
         doc.useServiceAccountAuth(creds).then(async () => {
             await doc.loadInfo();
             log.info("PARTYSUBMIT", "Logged into a sheet for setting up config");
+            const front = doc.sheetsByTitle["Collection of Info and Stuff"];
+            await front.loadCells();
             const settings = doc.sheetsByTitle["Settings"];
             await settings.loadCells();
             log.info("PARTYSUBMIT", "Loaded cells for setting up config, preparing setup page");
@@ -53,6 +55,7 @@ module.exports = (bot, db) => {
                 partyStart,
                 spreadsheetId: req.body.sheetId,
                 embedColor: settings.getCellByA1("B18").value,
+                oogFormLink: front.getCellByA1("D5").value,
                 sifForm: JSON.stringify(sifForm, null, 4),
                 sifasForm: JSON.stringify(sifasForm, null, 4),
                 sifSongA: settings.getCellByA1("B6").value,
@@ -90,6 +93,8 @@ module.exports = (bot, db) => {
         "embedColor": "",
         "clearRewardRoleId": "",
         "controllerChannelId": "381590906475773953",
+        "oogPartyChannel": "878288301335920710",
+        "oogFormLink": "",
         "SIF": {
             "partyChannel": "832628579728752680",
             "testChannels": [
@@ -175,6 +180,8 @@ module.exports = (bot, db) => {
             config.spreadsheetId = req.body.spreadsheetId;
             config.embedColor = req.body.embedColor;
             config.clearRewardRoleId = req.body.clearRewardRoleId;
+
+            config.oogFormLink = req.body.oogFormLink;
 
             log.info("PARTYSUBMIT", "Setting SIF config");
             config.SIF.mvps[0].mvpName = req.body.sifFirstMvpOption;
